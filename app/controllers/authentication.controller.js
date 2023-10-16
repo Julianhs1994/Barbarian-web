@@ -2,7 +2,7 @@ import bcryptjs from "bcryptjs";
 //import { json } from "express";
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
-import { getConnection } from "../../../server/src/database/database.js";
+import { getConnection } from "../database/database.js";
 dotenv.config();
 
 export const usuarios = [

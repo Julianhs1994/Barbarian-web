@@ -20,6 +20,7 @@ console.log('Servidor corriendo en el puerto',app.get('port'));
 //Configuración
 app.use(express.static(__dirname+"/public/"));
 app.use(express.static(__dirname+"/pages/css"));
+app.use(express.static(__dirname+"/pages/img"));
 //
 app.use(express.json());
 app.use(cookieParser());
@@ -41,7 +42,7 @@ app.post("/api/login",authentication.login);
 
 
 
-//Ruta admin
+//Ruta solo admin
 app.get("/register",authorizations.soloAdmin,(req,res)=> {
     res.sendFile(__dirname+"/pages/admin/admin.html")
 })

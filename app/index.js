@@ -10,6 +10,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import { methods as authentication } from "./controllers/authentication.controller.js";
 //
 import { methods as authorizations } from "./middlewares/authorization.js";
+//EJS
+import expressEjsLayouts from "express-ejs-layouts";
+
 
 //Server
 const app = express();
@@ -24,16 +27,23 @@ app.use(express.static(__dirname+"/pages/img"));
 //
 app.use(express.json());
 app.use(cookieParser());
+//
+app.use(expressEjsLayouts)
+app.set("views", path.join(__dirname, "pages"));
+app.set("view engine", "ejs");
 
 //Rutas
 app.get("/",authorizations.soloPublico,(req,res)=> {
-    res.sendFile(__dirname+"/pages/main.html");
+    //res.sendFile(__dirname+"/pages/main.html");
+    res.render('main')
 });
 app.get("/login",(req,res)=> {
-    res.sendFile(__dirname+"/pages/login.html")
+    //.sendFile(__dirname+"/pages/login.html")
+    res.render('login')
 });
 app.get("/register",authorizations.soloPublico,(req,res)=> {
-    res.sendFile(__dirname+"/pages/register.html")
+    //res.sendFile(__dirname+"/pages/register.html")
+    res.render('register')
 });
 
 //Rutas con functiones

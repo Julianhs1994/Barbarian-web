@@ -11,7 +11,7 @@ html {
       background-size: cover;
   }
   
-  header {
+  /*header {
 
     
       background-color: #000000;
@@ -63,7 +63,7 @@ html {
       border-radius: 3px;
       padding: 5px 10px;
       cursor: pointer;
-  }
+  }*/
     .login a {
       text-decoration: none;
       color: #f1e5e5;

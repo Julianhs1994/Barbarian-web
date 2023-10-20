@@ -1,15 +1,13 @@
 {
-    
-    "builds" : [
-    {
-        "src" : "app/index.js",
-        "use" : "@vercel/node"
-    }
-    ],
+    "version": 2,
+    "builds": [{
+      "src": "app/index.js",
+      "use": "@vercel/node"
+    }],
     "routes": [
-        {
-            "src": "/feedback/((?!general).*)",
-            "dest": "/api/feedback/general"
-        }
+      {
+        "src": "/(.*)",
+        "dest": "/"
+      }
     ]
-}
+  }

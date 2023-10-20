@@ -11,8 +11,10 @@
     <div class="container">
       <div class="form-container">
           <h2>Registrese</h2>
-          <form action="" method="">
-              <div class="form-group">
+          <form id="register-form">
+            <!--<label for="nombre2">Nombre:</label>
+                  <input type="text" id="nombre2" name="nombre2" required>
+            --><div class="form-group">
                   <label for="nombre">Nombre:</label>
                   <input type="text" id="nombre" name="nombre" required>
               </div>
@@ -25,8 +27,8 @@
               <div class="form-group">
                   <label for="tipo_documento">Tipo de documento:</label>
                   <select id="tipo_documento" name="tipo_documento">
-                      <option value="cc">CC</option>
-                      <option value="it">IT</option>
+                      <option value=1>CC</option>
+                      <option value=2>IT</option>
                   </select>
               </div>
 
@@ -57,4 +59,5 @@
       </div>
   </div>
   </body>
+  <script src="register.js"></script>
 </html>

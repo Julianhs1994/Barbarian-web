@@ -119,7 +119,7 @@ body {
       color: white;
   }
   
-  input[type="text"],
+  form input[type="text"],
   input[type="password"] {
       width: 100%;
       padding: 10px;

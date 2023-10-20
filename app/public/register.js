@@ -8,7 +8,7 @@ document.getElementById('register-form').addEventListener('submit',async (e)=>{
     //console.log("Dato de prueba:",numeroDocumento);
     let email = (e.target.children[4].children[1].value);
     let contrasenia = (e.target.children[5].children[1].value);
-    const respuesta = await fetch("http://localhost:8080/api/register",{
+    const respuesta = await fetch("https://barbarian-web-koqc.vercel.app/api/register",{
         method: "post",
         headers:{
             "Content-type":"application/json"

@@ -33,6 +33,10 @@ app.set("views", path.join(__dirname, "pages"));
 app.set("view engine", "ejs");
 
 //Rutas
+app.get('/', (req, res) => {
+    res.render('index', { title: 'Mi página EJS' });
+  });
+  
 app.get("/",authorizations.soloPublico,(req,res)=> {
     //res.sendFile(__dirname+"/pages/main.html");
     res.render('main')

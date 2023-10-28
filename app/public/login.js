@@ -1,16 +1,18 @@
 document.getElementById('login-form').addEventListener('submit',async (e)=>{
     e.preventDefault();
-    const user = e.target.children.user.value;
-    const password = e.target.children.password.value;
-    const respuesta = await fetch('http://localhost:8080/api/login',{
+    const user = e.target.children[0].children.usr_email.value;
+    const password = e.target.children[1].children.usr_contrasenia.value;
+    //console.log(user||'negativo');
+    //console.log(password||'negativo');
+    const respuesta = await fetch('/api/login',{
         method:"POST",
         headers:
         {
             "Content-type":"application/json"
         },
         body:JSON.stringify({
-            user:user,
-            password:password
+            usr_email:user,
+            usr_contrasenia:password
         })
 
     });

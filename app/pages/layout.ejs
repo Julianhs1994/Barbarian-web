@@ -19,7 +19,17 @@
                 <button>Buscar</button>
             </div>
             <div class="login">
-                <a href="login">Iniciar Sesión</a>
+                <% if (isLoggedIn) { %>
+                <a id="LogOut" >
+                    Cerrar Sesión
+                </a>
+                <% } %>
+                <% if (!isLoggedIn) { %>
+                <a href="login">
+                    Iniciar Sesión
+                </a>    
+                <% } %>
+
             </div>
             <div class="cart">
                 <a href="#"><img src="carr.ico" alt="Carrito de Compras"></a>
@@ -34,4 +44,5 @@
     
     
 </body>
+    <script src="layout.js"></script>
 </html>

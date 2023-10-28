@@ -5,14 +5,16 @@ import dotenv from "dotenv";
 import { getConnection } from "../database/database.js";
 dotenv.config();
 
-export const usuarios = [
+/*export const usuarios = [
   {
     user: "aa",
     email: "aa",
     //user pass: aasd
     password: "$2a$05$fGacgfn9WJhn9974ScMEHubzxEFFH.N3XXwNuvAi1meg4PkwULP.m",
   },
-];
+];*/
+
+export const SetUsuario = [{str_user:"@@test@@pass"}]
 
 async function login(req, res) {
   try {
@@ -60,6 +62,18 @@ async function login(req, res) {
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES }
     );
+    
+    /*SetUsuario:{
+      usuario:usuarioArevisar.usr_email
+    }*/
+    //SetUsuario[0].usuario = usuarioArevisar.usr_email;
+    const usuarioRevisado = SetUsuario.find(
+      (usuario) => usuario.str_user === usuarioArevisar.usr_email
+    )
+    if (!usuarioRevisado) {
+      const indice = SetUsuario.length;
+      SetUsuario[indice] = { str_user: usuarioArevisar.usr_email} 
+    }
 
     const cookieOption = {
       expires: new Date(
@@ -144,7 +158,9 @@ async function register(req, res) {
   }
 }
 
+
 export const methods = {
   login,
   register,
+
 };

@@ -37,22 +37,26 @@ app.set("view engine", "ejs");
     res.render('index', { title: 'Mi página EJS' });
   });*/
 
-app.get("/",authorizations.soloPublico,(req,res)=> {
-    //res.sendFile(__dirname+"/pages/main.html");
-    res.render('main')
+app.get("/",authorizations.soloMain,(req,res)=> {
+    const isLoggedIn = req.session.usuario ? true : false;
+    res.render('main',{isLoggedIn});
+    console.log("loggedIn:",isLoggedIn);
 });
-app.get("/login",(req,res)=> {
-    //.sendFile(__dirname+"/pages/login.html")
-    res.render('login')
+app.get("/login",authorizations.soloPublico,(req,res)=> {
+    const isLoggedIn = req.session.usuario ? true : false;
+    console.log(isLoggedIn)
+    res.render('login', {isLoggedIn})
 });
 app.get("/register",authorizations.soloPublico,(req,res)=> {
-    //res.sendFile(__dirname+"/pages/register.html")
-    res.render('register')
+    const isLoggedIn = req.session.usuario ? true : false;
+    res.render('register', {isLoggedIn});
 });
 
-//Rutas con functiones
+//Rutas con functiones autenticacion
 app.post("/api/register",authentication.register);
 app.post("/api/login",authentication.login);
+//Rutas con funciones autorizacion
+app.post("/api/close",authorizations.close);
 
 
 

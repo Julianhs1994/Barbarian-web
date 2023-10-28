@@ -8,7 +8,7 @@ document.getElementById('register-form').addEventListener('submit',async (e)=>{
     //console.log("Dato de prueba:",numeroDocumento);
     let email = (e.target.children[4].children[1].value);
     let contrasenia = (e.target.children[5].children[1].value);
-    const respuesta = await fetch("https://barbarian-web-koqc.vercel.app/api/register",{
+    const respuesta = await fetch("/api/register"/*"https://barbarian-web-koqc.vercel.app/api/register"*/,{
         method: "post",
         headers:{
             "Content-type":"application/json"
@@ -26,8 +26,6 @@ document.getElementById('register-form').addEventListener('submit',async (e)=>{
         }),
 
     });
-    //console.log(respuesta.Ok);
-    //console.log(respuesta.status);
     if(respuesta.status != 201 && respuesta.status != 200){
         return
     }else{

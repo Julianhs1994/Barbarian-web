@@ -85,6 +85,10 @@ header {
     
 }
 
+nav div #LogOut{
+    cursor:pointer;
+}
+
 /*body {*/
     /*margin-top: 10px;
   width: 500px;

@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node app/index.js",
     "dev": "nodemon --exec node app/index.js",
-    "vercel":"vercel"
+    "vercel": "vercel"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,7 @@
     "express-ejs-layouts": "^2.5.1",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.1",
+    "nodemailer": "^6.9.7",
     "vercel": "^32.5.0"
   }
 }

@@ -106,6 +106,9 @@ body {
       
       
   }
+  #response-message {
+    color: red;
+  }
   .btn{
     display: flex;
     text-align: center;

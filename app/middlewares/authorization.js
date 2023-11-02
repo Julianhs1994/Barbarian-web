@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import { SetUsuario } from "../controllers/authentication.controller.js";
 
 //config
-dotenv.config()
+dotenv.config();
 
 function soloAdmin(req, res, next) {
   if (!req.session) {
@@ -32,15 +32,15 @@ function soloPublico(req, res, next) {
   }
 }
 
-function soloMain(req,res,next){
+function soloMain(req, res, next) {
   if (!req.session) {
     req.session = {};
   }
 
   const logeado = revisarCookie(req);
-  if(!logeado){
+  if (!logeado) {
     return next();
-  }else{
+  } else {
     req.session.usuario = true;
     return next();
   }
@@ -50,16 +50,22 @@ function revisarCookie(req) {
   try {
     const c = req.headers.cookie || "invitado";
     //console.log(c)
-      if(c != "invitado"){
-      const cookieJWT = c.split("; ").find(cookie => cookie.startsWith("jwt=")).slice(4);
+    if (c != "invitado") {
+      const cookieJWT = c
+        .split("; ")
+        .find((cookie) => cookie.startsWith("jwt="))
+        .slice(4);
       //*console.log(cookieJWT||"no cockie");//), cookieJWT)
-      const decodificada = jsonwebtoken.verify(cookieJWT, process.env.JWT_SECRET);
+      const decodificada = jsonwebtoken.verify(
+        cookieJWT,
+        process.env.JWT_SECRET
+      );
       //console.log("decodificada",decodificada.user);
 
       const usuarioArevisar = SetUsuario.some((usuario) => {
         return usuario.str_user === decodificada.user;
       });
-      console.log(SetUsuario)
+      console.log(SetUsuario);
       //console.log("usuario a revisar:",usuarioArevisar);
       if (!usuarioArevisar) {
         return false;
@@ -67,25 +73,28 @@ function revisarCookie(req) {
         return true;
       }
     }
-  } catch(err) {
+  } catch (err) {
     console.log(err);
     return false;
   }
 }
 
-async function close(req,res,next){
-  const cookieJWT = req.headers.cookie.split("; ").find(cookie => cookie.startsWith("jwt=")).slice(4);
+async function close(req, res, next) {
+  const cookieJWT = req.headers.cookie
+    .split("; ")
+    .find((cookie) => cookie.startsWith("jwt="))
+    .slice(4);
   //*console.log(cookieJWT||"no cockie");//), cookieJWT)
   const decodificada = jsonwebtoken.verify(cookieJWT, process.env.JWT_SECRET);
   const usuario = decodificada.user;
-  const deleted = deleteUserActive(usuario)
-  if(deleted===true){
+  const deleted = deleteUserActive(usuario);
+  if (deleted === true) {
     return res.status(201).send({
       status: "Ok",
-      message:`Todo fino`,
-      redirect: "/"
+      message: `Todo fino`,
+      redirect: "/",
     });
-  }  
+  }
 }
 
 /* return res.status(201).send({
@@ -95,15 +104,38 @@ async function close(req,res,next){
     });
     */
 
-function deleteUserActive(user){
-  const indiceUsuario = SetUsuario.findIndex(usuario => usuario.str_user === user);
+function deleteUserActive(user) {
+  const indiceUsuario = SetUsuario.findIndex(
+    (usuario) => usuario.str_user === user
+  );
   if (indiceUsuario !== -1) {
     // Eliminar el usuario del array utilizando splice()
     SetUsuario.splice(indiceUsuario, 1);
-    console.log(SetUsuario); // Verificar el resultado  
+    console.log(SetUsuario); // Verificar el resultado
     return true;
   }
   return false;
+}
+
+async function activateUser(userId) {
+  try {
+    const response = await fetch(`/api/active/${userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      const activationSuccess = true;
+      return activationSuccess;
+    } else {
+      const activationSuccess = false;
+      return activationSuccess;
+    }
+  } catch (error) {
+    const activationSuccess = false;
+    return activationSuccess;
+  }
 }
 
 export const methods = {
@@ -111,4 +143,5 @@ export const methods = {
   soloPublico,
   soloMain,
   close,
+  activateUser,
 };

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="layout.css">
 </head>
+
 <body>
     <header>
         <nav class="menu">
@@ -20,15 +22,15 @@
             </div>
             <div class="login">
                 <% if (isLoggedIn) { %>
-                <a id="LogOut" >
-                    Cerrar Sesión
-                </a>
-                <% } %>
-                <% if (!isLoggedIn) { %>
-                <a href="login">
-                    Iniciar Sesión
-                </a>    
-                <% } %>
+                    <a id="LogOut">
+                        Cerrar Sesión
+                    </a>
+                    <% } %>
+                        <% if (!isLoggedIn) { %>
+                            <a href="login">
+                                Iniciar Sesión
+                            </a>
+                            <% } %>
 
             </div>
             <div class="cart">
@@ -39,10 +41,11 @@
     <div class="componente">
         <%- body %>
     </div>
-        
 
-    
-    
+
+
+
 </body>
-    <script src="layout.js"></script>
+<script src="layout.js"></script>
+
 </html>

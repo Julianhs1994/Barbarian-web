@@ -119,12 +119,15 @@ function deleteUserActive(user) {
 
 async function activateUser(userId) {
   try {
-    const response = await fetch(`/api/active/${userId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `https://barbarian-web-koqc.vercel.app/api/active/${userId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (response.ok) {
       const activationSuccess = true;
       return activationSuccess;

@@ -54,6 +54,7 @@ app.get("/register", authorizations.soloPublico, (req, res) => {
 app.get("/:userId", authorizations.soloPublico, async (req, res) => {
   const userId = req.params.userId;
   const isLoggedIn = req.session.usuario ? true : false;
+  console.log(userId);
   try {
     const activationSuccess = await authorizations.activateUser(userId);
     res.render("activation", { activationSuccess, isLoggedIn });

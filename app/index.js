@@ -10,6 +10,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import { methods as authentication } from "./controllers/authentication.controller.js";
 //
 import { methods as authorizations } from "./middlewares/authorization.js";
+//
+import { methods as users} from "./controllers/users.controller.js";
 //EJS
 import expressEjsLayouts from "express-ejs-layouts";
 
@@ -23,12 +25,13 @@ console.log("Servidor corriendo en el puerto", app.get("port"));
 app.use(express.static(__dirname + "/public/"));
 app.use(express.static(__dirname + "/pages/css"));
 app.use(express.static(__dirname + "/pages/img"));
+app.use(express.static(__dirname + "/pages/admin"));
 //
 app.use(express.json());
 app.use(cookieParser());
 //
 app.use(expressEjsLayouts);
-app.set("views", path.join(__dirname, "pages"));
+app.set("views",[ path.join(__dirname, "pages"),path.join(__dirname, "/pages/admin")]);
 app.set("view engine", "ejs");
 
 //Rutas
@@ -58,7 +61,13 @@ app.post("/api/active/:userId", authentication.activeUser);
 //Rutas con funciones autorizacion
 app.post("/api/close", authorizations.close);
 
+//Get con funciones
+app.get("/api/getAllUsers",users.getAllUsers);
+
 //Ruta solo admin
-app.get("/register", authorizations.soloAdmin, (req, res) => {
-  res.sendFile(__dirname + "/pages/admin/admin.html");
+app.get("/admin", authorizations.soloAdmin, (req, res) => {
+  //res.sendFile(__dirname + "/pages/admin/admin.html");
+  const data = null;
+  const isLoggedIn = req.session.usuario ? true:false;
+  res.render('Admin',{isLoggedIn})
 });

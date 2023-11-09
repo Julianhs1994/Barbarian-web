@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="admin.css">
+    
+    
+</head>
+<body>
+    <div class="container">
+    <div class="imgContainer">
+        <div class="imageDiv">
+            <img src="12.jpg" alt="barbarian logo">
+        </div>
+    </div>
+    <hr class="hrPrincipal">
+    <h1>
+        Admin / Main
+    </h1>
+    <section id="sectionOne">
+        <div class="info mainDiv">
+            <p>
+                Administra tus secciones de forma eficiente,Crea,Visualiza,Actualiza y Elimina usuarios, así mismo,Gestiona tus productos de forma simple y dinamica.
+            </p>
+        </div>
+        <div class="redirects mainDiv">
+            <div class="redirectUsers redirection">
+                <img src="usrs-removebg-preview.png" alt="icono usuarios">
+                <button class="btn-expandir">+ Expandir</button>
+                <p class="textoExpandir">
+                    Si quiere crear,visualizar,editar o eliminar usuarios ingrese <a id="usuarios">aquí</a>
+                </p>
+            </div>
+            <div class="redirectProducts redirection">
+                <img src="cmst-removebg-preview.png" alt="icono productos">
+                <button class="btn-expandir">+ Expandir</button>
+                <p class="textoExpandir">
+                    si quiere visualizar,editar o eliminar productos ingrese <a id="producto">aquí</a>
+                </p>
+            </div>
+
+        </div>
+        <div class="logs mainDiv">
+           
+        </div>
+    </section>
+     <section id="sectionTwo">
+       
+        <table class="datatable" id="tabla-datos">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>rol</th>
+                    <th>tipoDocumento</th>
+                    <!--<th>numeroDocumento</th>
+                    <th>nombre</th>
+                    <th>apellido</th>
+                    <th>email</th>-->
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+        </div>
+    </section>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.0/js/dataTables.bootstrap5.min.js"></script>
+
+
+    <script src="admin.js"></script>
+</html>

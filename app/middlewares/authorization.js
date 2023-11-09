@@ -13,6 +13,7 @@ function soloAdmin(req, res, next) {
 
   const logeado = revisarCookie(req);
   if (logeado) {
+    req.session.usuario = true;
     return next();
   } else {
     return res.redirect("/");

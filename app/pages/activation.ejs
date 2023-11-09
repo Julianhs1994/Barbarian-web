@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="activation.css">
+    <title>Activación de Usuario</title>
+</head>
+
+<body>
+    <div class="container-activation">
+        <div class="title-activation">
+            <h1>Activación de Usuario</h1>
+        </div>
+        <section class="p-activation">
+            <% if (activationSuccess) { %>
+                <p>Tu usuario ha sido activado con éxito.</p>
+                <% } else { %>
+                    <p>Ha ocurrido un error al activar tu usuario o tu usario ya esta activado.</p>
+                    <% } %>
+        </section>
+        <a href="login" class="btn-login">Ir a iniciar sesión</a>
+    </div>
+</body>
+
+</html>

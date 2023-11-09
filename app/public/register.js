@@ -39,9 +39,10 @@ document
         "La contraseña y la confirmación de contraseña no coinciden.";
       return;
     }
-    
+
     const respuesta = await fetch(
-      "/api/register" /*"https://barbarian-web-koqc.vercel.app/api/register"*/,
+      // "/api/register"
+      "https://barbarian-web-koqc.vercel.app/api/register",
       {
         method: "post",
         headers: {

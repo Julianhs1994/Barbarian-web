@@ -3,15 +3,15 @@ import nodemailer from "nodemailer";
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: "cuenta para enviar los correos",
-    pass: "Contraseña para aplicaciones del correo",
+    user: "storebarbarian30@gmail.com", //"cuenta para enviar los correos",
+    pass: "tbiq wigy bfvx ahzq", //"Contraseña para aplicaciones del correo",
   },
 });
 
 const sendActivationEmail = async (userEmail, activationLink) => {
   try {
     const mailOptions = {
-      from: "cuenta para enviar los correos",
+      from: "storebarbarian30@gmail.com", //"cuenta para enviar los correos",
       to: userEmail,
       subject: "Activación de cuenta",
       text: `Haz clic en el siguiente enlace para activar tu cuenta: ${activationLink}`,

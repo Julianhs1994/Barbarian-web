@@ -53,6 +53,18 @@ app.get("/register", authorizations.soloPublico, (req, res) => {
   const isLoggedIn = req.session.usuario ? true : false;
   res.render("register", { isLoggedIn });
 });
+//app.get("/activate/:userId", authorizations.soloPublico, async (req, res) => {
+app.get("/:userId", authorizations.soloPublico, async (req, res) => {
+  const userId = req.params.userId;
+  const isLoggedIn = req.session.usuario ? true : false;
+  console.log(userId);
+  try {
+    const activationSuccess = await authorizations.activateUser(userId);
+    res.render("activation", { activationSuccess, isLoggedIn });
+  } catch (error) {
+    res.render("activation", { activationSuccess: false, isLoggedIn });
+  }
+});
 
 //Rutas con functiones autenticacion
 app.post("/api/register", authentication.register);

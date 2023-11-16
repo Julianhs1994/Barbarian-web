@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST" action="/productos" enctype="multipart/form-data">
+        <input type="number" name="pdc_fk_seccion" placeholder="#seccion">
+        <input type="text" name="pdc_descripcion" placeholder="Name">
+        <input type="text" name="pdc_fk_marca" placeholder="#marca">
+        <input type="text" name="pdc_fk_color" placeholder="#color">
+        <input type="text" name="cant_xs" placeholder="#">
+        <input type="text" name="cant_s">
+        <input type="text" name="cant_m">
+        <input type="text" name="cant_l">
+        <input type="text" name="cant_xl">
+        <input type="text" name="pdc_valor">
+        <!--<input type="text" name="nombreprod" placeholder="Nombre del producto">-->
+        <input type="file" name="pdc_imagen">
+        <button type="submit">Agregar producto</button>
+        <!--
+            ,,,,,,,,,pdc_imagen
+
+        -->
+    </form>
+</body>
+</html>

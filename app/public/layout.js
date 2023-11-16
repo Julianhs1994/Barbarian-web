@@ -25,3 +25,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
   });
+
+async  function sendParametro(value){
+  try{
+
+    const response = await fetch("api/getSectionProd",{
+      method:"POST",
+      headers:{
+        "Content-type":"application/json"
+      },
+      body:JSON.stringify({
+        value:value
+      })
+    });
+    if (response.status != 200 && response.status != 201){
+      return
+    }else{
+      const responseJSON = await response.json();
+      if(responseJSON.redirect){
+        const arrayData = responseJSON.arrayData;
+        const encodedArrayData = decodeURIComponent(JSON.stringify(arrayData));
+        const redirectUrl = ""+responseJSON.redirect+"?value="+encodedArrayData//`${response.redirect}?value=${encodedArrayData}`;
+        window.location.href=redirectUrl;
+      }
+    } 
+
+  }catch(err){
+    console.error(err)
+  }  
+  
+}
+
+  document.getElementById("Man").addEventListener("click",async()=>{
+    const parametro = "1"
+    const result = await sendParametro(parametro)
+    console.log("result",result)
+  });
+
+  document.getElementById("Woman").addEventListener("click",async()=>{
+    const parametro = "2"
+    const result = await sendParametro(parametro)
+    console.log("result",result)
+  })

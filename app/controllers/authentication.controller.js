@@ -83,7 +83,7 @@ async function register(req, res) {
   }
 }
 
-async function login(req, res) {
+async function login(req, res) { 
   try {
     const { usr_email, usr_contrasenia } = req.body;
 

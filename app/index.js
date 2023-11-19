@@ -8,8 +8,10 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 //
 import { methods as authentication } from "./controllers/authentication.controller.js";
+
 //Middlewares
 import { methods as authorizations } from "./middlewares/authorization.js";
+
 //Controladores
 import { methods as users} from "./controllers/users.controller.js";
 import { methods as products } from "./controllers/products.controller.js";

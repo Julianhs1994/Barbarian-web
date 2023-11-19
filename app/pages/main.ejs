@@ -29,6 +29,24 @@
                 <h1>PRUEBA</h1>                
             <% } %>    
         </div>
+        <div class="pagination">
+            <% if (currentPage) { %>
+            <% if (currentPage > 1) { %>
+                <a class="my-link" data-gender="<%= gender %>" data-page="<%= currentPage - 1 %>" data-pageSize="<%= pageSize %>">Anterior</a>
+                <% } %>
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <% if (i === currentPage) { %>
+                        <span class="current-page"><%= i %></span>
+                        <% }else{ %>
+                            <a class="my-link" data-gender="<%= gender %>" data-page="<%= i %>" data-pageSize="<%= pageSize %>"><%= i %></a>
+                        <% } %>
+                <% } %>
+                <% if (currentPage < totalPages) { %>
+                    <a class="my-link" data-gender="<%= gender %>" data-page="<%= currentPage + 1 %>" data-pageSize="<%= pageSize %>">Anterior</a>
+                    <!--<a href="/?page=<%= currentPage + 1 %>&pageSize=<%= pageSize %>">Siguiente</a>-->
+                <% } %>    
+            <% } %>    
+        </div>
     </body>
-
+        <script src="main.js"></script>
     </html>

@@ -45,7 +45,11 @@ async  function sendParametro(value){
       if(responseJSON.redirect){
         const arrayData = responseJSON.arrayData;
         const encodedArrayData = decodeURIComponent(JSON.stringify(arrayData));
-        const redirectUrl = ""+responseJSON.redirect+"?value="+encodedArrayData//`${response.redirect}?value=${encodedArrayData}`;
+        const page = responseJSON.page;
+        const totalPages = responseJSON.totalPages;
+        const pageSize = responseJSON.pageSize;
+        const gender=value;
+        const redirectUrl = responseJSON.redirect + "?value=" + encodedArrayData + "&page=" + page + "&totalPages="+totalPages + "&pageSize="+ pageSize +"&gender="+value ;
         window.location.href=redirectUrl;
       }
     } 

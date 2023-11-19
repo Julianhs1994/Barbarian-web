@@ -16,19 +16,35 @@ async function InsertNewProduct(pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_
 
 async function getProdListFromCategory(req,res,next){
   try{
-
+    const page = req.body.page || 1; // Página 
+    //console.log("BODY-body:" , req.body.page);
+    //console.log("BODY-query:" , req.query.page);
+    const pageSize = req.body.pageSize || 3; // Tamaño de página deseado
+    const value = req.body.value;
+  
     if(!req.session){
       req.session = {}
     }
+    // Ajusta tu consulta SQL para obtener solo los productos de la página actual
+    const offset = (page - 1) * pageSize;
     const connection = await getConnection();
-    const value = req.body.value;
-    const result = await connection.query("SELECT * FROM producto WHERE pdc_fk_seccion=?",[value]);
+    const query = "SELECT * FROM producto WHERE pdc_fk_seccion=? LIMIT ? OFFSET ?";
+    const result = await connection.query(query, [value, pageSize, offset]);
     const arrayData = result[0];
+    //
+    const totalCount = await connection.query("SELECT COUNT(*) as total FROM producto WHERE pdc_fk_seccion=?", [value]);
+    const totalItems = totalCount[0][0].total;
+    const totalPages = Math.ceil(totalItems / pageSize);
     return res.status(201).send({
       status:"Ok",
       message:"Resultado Exitoso",
       redirect:"/",
-      arrayData:arrayData
+      arrayData:arrayData,
+      page:page,
+      totalPages: totalPages,
+      pageSize: pageSize,
+      //
+      gender:value
     });
 
 

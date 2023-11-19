@@ -44,20 +44,26 @@ app.set("view engine", "ejs");
 
 app.get("/", authorizations.soloMain, (req, res) => {
   const isLoggedIn = req.session.usuario ? true : false;
-  //res.render("main", { isLoggedIn });
+
   //
   let prodList = [];
+  const value = req.query.gender;
   const prodListParam = req.query.value;
+  const page = req.query.page;
+  const totalPages = req.query.totalPages;
+  const pageSize = req.query.pageSize;
+
   if (prodListParam){
     const decodedArrayData = JSON.parse(decodeURIComponent(prodListParam));
     prodList = Array.isArray(decodedArrayData) ? decodedArrayData : [];
-    console.log(prodList)
+    //console.log(prodList)
   }
   try{
-    res.render('main', {isLoggedIn, prodList});
+    //res.render('productos', { prodList: arrayData, currentPage: page, totalPages, pageSize });
+    res.render('main', {isLoggedIn, prodList, currentPage: page, totalPages, pageSize, gender:value});
   }catch(err){
     console.error(err);
-    res.render('main', { isLoggedIn, prodList: []});
+    res.render('main', { isLoggedIn, prodList: [], currentPage: page, totalPages, pageSize, gender:value});
   }
   
 });
@@ -73,6 +79,32 @@ app.get("/register", authorizations.soloPublico, (req, res) => {
 app.get("/addproduct", authorizations.soloPublico,(req,res) => {
   const isLoggedIn = req.session.usuario ? true : false;
   res.render("addproduct", { isLoggedIn });
+});
+//se Define una ruta GET para la página de productos
+app.get('/productos', async (req, res) => {
+ // const page = parseInt(req.query.page) || 1; // Página actual
+ // const pageSize = parseInt(req.query.pageSize) || 6; // Tamaño de página deseado
+
+  try {
+    const connection = await getConnection();
+    //const value = req.body.value;
+  
+    // Ajusta tu consulta SQL para obtener solo los productos de la página actual
+    const offset = (page - 1) * pageSize;
+    const query = "SELECT * FROM producto WHERE pdc_fk_seccion=? LIMIT ? OFFSET ?";
+    const result = await connection.query(query, [value, pageSize, offset]);
+    const arrayData = result[0];
+  
+    // Obtén el número total de productos para calcular el número de páginas
+    const totalCount = await connection.query("SELECT COUNT(*) as total FROM producto WHERE pdc_fk_seccion=?", [value]);
+    const totalItems = totalCount[0][0].total;
+    const totalPages = Math.ceil(totalItems / pageSize);
+  
+    res.render('productos', { prodList: arrayData, currentPage: page, totalPages, pageSize });
+  } catch (error) {
+    console.error(error);
+    res.render('productos', { prodList: [], currentPage: page, totalPages: 0, pageSize });
+  }
 });
 
 //app.get("/activate/:userId", authorizations.soloPublico, async (req, res) => {

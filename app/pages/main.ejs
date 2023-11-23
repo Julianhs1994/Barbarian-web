@@ -11,6 +11,7 @@
 
     <body>
         <div class="container">
+            
             <!--Lista de productos:-->
             <% if (prodList && prodList.length > 0)  { %>
                 <!--<%= (prodList.length) %>-->
@@ -26,9 +27,49 @@
                     </div>    
                     <% }) %>
             <% }else{ %>
-                <div>
-                    <h1>Bienvenido</h1>
-                </div>               
+                <div class="home-title">
+                    <h1>"Donde la moda encuentra la comodidad."</h1>
+                </div>
+                <div class="eslide">
+                    <img class="items" src="mod1.jpg" alt="Nueva Colecciòn">
+                    <img class="items" src="mod2.jpg" alt="Nueva Colecciòn">
+                    <img class="items" src="mod3.jpg" alt="Nueva Colecciòn">
+                    <img class="items" src="mod4.jpg" alt="Nueva Colecciòn">
+                </div> 
+
+                <div class="categories-p">
+                    <div class="titlesp">
+                        <h2 class="title-categories">Categorias Principales</h2>
+                        <p>"La moda es una forma de expresión. Haz una declaración audaz con nuestras prendas exclusivas."</p>
+                    </div>
+                    <div class="imgcateories">
+                        <img src="poloblack.jpg" alt="">
+                        <img src="pologreen.jpg" alt="">
+                        <img src="polored.jpg" alt="">
+                        <img src="pologreenw.jpg" alt="">
+                    </div>
+                </div>
+
+               <div class="banner-p">
+                    <div class="flyer-banner">
+                        <img src="backgroundt.jpg" alt="">
+                    </div>
+                    <div class="flyer-img">
+                        <div class="direcc">
+                            <p>12 Tiendas Ubicadas en las mejores Ciudades del Pais</p>
+                        </div>
+                        <div class="recom">
+                            <p>Encuentra Una tienda cerca de Ti</p>
+                        </div>
+                        <div class="btn-storeS">
+                            <button class="btnr">TIENDAS</button>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+    
+                
             <% } %>    
         </div>
         <div class="pagination">

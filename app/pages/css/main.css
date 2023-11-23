@@ -13,9 +13,11 @@ html {
 
   .container{
     width: 100%;
-    height: 800px;
+    height: 1000px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    flex-direction: column;
+    
   }
 
   .cardProd{
@@ -47,56 +49,10 @@ html {
   .cardProd .descripcion{
     width: 100%;
     height: 14%;
-    /*border: 1px solid black;*/
+   
   }
   
-  /*
-
-  .menu {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-  }
-  
-  .menu-lista {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-  }
-  
-  .menu-lista li {
-      margin-right: 20px;
-  }
-  
-  .menu-lista a {
-      text-decoration: none;
-      color: #fff;
-      font-weight: bold;
-  }
-  
-  .buscar-btn {
-      display: flex;
-      align-items: center;
-  }
-  
-  .buscar-btn input[type="text"] {
-      padding: 5px;
-      border: none;
-      border-radius: 3px;
-      margin-right: 10px;
-  }
-  
-  .buscar-btn button {
-      background-color: #927b62;
-      color: #fff;
-      border: none;
-      border-radius: 3px;
-      padding: 5px 10px;
-      cursor: pointer;
-  }*/
+ 
     .login a {
       text-decoration: none;
       color: #f1e5e5;
@@ -124,6 +80,203 @@ html {
     margin-right: 5px; 
     background-color: white;
 }
+.cardProd {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd; /* Borde para resaltar la tarjeta */
+    border-radius: 8px; /* Esquinas redondeadas */
+    overflow: hidden; /* Para que la sombra no se extienda más allá de la tarjeta */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: box-shadow 0.3s ease; /* Efecto de transición en la sombra */
+  }
 
+  .divImg {
+    flex: 1;
+    overflow: hidden; /* Asegura que la imagen no sobresalga de la tarjeta */
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .descripcion {
+    padding: 10px;
+  }
+  .home-title{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 60%;
+    opacity: .8;
+    margin-top: 180px;
+   background-color: #f1e5e5;
+    align-items: center;
+    align-content: center;
+  
+  }
+  .home-title h1{
+    display: flex;
+    font-size: 36px;
+    color: rgb(158, 35, 35);
+    margin-top: 45px;
+    text-align: center;
+    font-style: italic;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+   
+  }
+
+  .eslide{
+  display: flex;
+  width: 100%;
+  height: 400px;
+  margin-top: 269px;
+  background-color: aquamarine ;
+}
+.items{
+  display: flex;
+  flex-direction: row;
+  width: 25%;
+}
+
+.categories-p{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 700px;
+  margin-top:0px;
+  background-color: rgb(255, 255, 255);
+}
+.titlesp{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+}
+.titlesp h2{
+font-size: 25px;
+font-family: Verdana, Geneva, Tahoma, sans-serif;
+margin-top: 5px;
+}
+.titlesp p{
+  font-size: 17px;
+  margin-top: 15px;
+  padding:0px;
+  font-style: italic;
+}
+  
+.categories-p .imgcateories{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 290px;
+  justify-content: space-around;
+}
+.imgcateories > img{
+  width: 18%;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.banner-p{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 500px;
+  margin-top:0px;
+  background-color: rgb(2, 1, 19)
+}
+ .flyer-banner{
+  display: flex;
+  flex-wrap: wrap;
+  width: 40%;
+}
+.flyer-img{
+  display: flex;
+  width: 60%;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.direcc{
+display: flex;
+justify-content: center;
+}
+.direcc > p{
+  font-size: 28px;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-align: center;
+  font-style: italic;
+
+}
+.recom{
+  display: flex;
+  justify-content: center;
   
   
+}
+.recom > p{
+  font-size: 24px;
+  color: #ffffff;
+  font-weight: bold;
+}
+.btn-storeS{
+  display: flex;
+ justify-content: center;
+ margin: 0px;
+}
+.btn-storeS .btnr {
+      text-align: center;
+      margin: 0px;
+    }
+
+    .btn-storeS {
+      text-align: center;
+      margin: 50px;
+    }
+
+    .btnr {
+      background-color: rgb(60, 168, 231);
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btnr::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%) rotate(45deg);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .btnr:hover::before {
+      opacity: 1;
+    }
+
+    @keyframes moveButton {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .btnr:hover {
+      animation: moveButton 0.5s ease infinite;
+    }  

@@ -11,9 +11,12 @@
 
     <body>
         <div class="container">
+            
             <!--Lista de productos:-->
             <% if (prodList && prodList.length > 0)  { %>
-                <!--<%= (prodList.length) %>-->
+                <div class="conten-cad">
+
+                
                     <% prodList.forEach(objeto => { %>
                     <div class="cardProd">    
                         <!--ID: <%= objeto.pdc_id %>-->
@@ -25,31 +28,90 @@
                         </div>
                     </div>    
                     <% }) %>
+                </div>
             <% }else{ %>
-                <h1>PRUEBA</h1> 
-                <a>
-                    <%= rol %>
-                </a>               
-            <% } %>    
-        </div>
-        <div class="pagination">
-            <% if (currentPage) { %>
-            <% if (currentPage > 1) { %>
-                <a class="my-link" data-gender="<%= gender %>" data-page="<%= currentPage - 1 %>" data-pageSize="<%= pageSize %>">Anterior</a>
-                <% } %>
-                <% for (let i = 1; i <= totalPages; i++) { %>
-                    <% if (i === currentPage) { %>
-                        <span class="current-page"><%= i %></span>
-                        <% }else{ %>
-                            <a class="my-link" data-gender="<%= gender %>" data-page="<%= i %>" data-pageSize="<%= pageSize %>"><%= i %></a>
-                        <% } %>
-                <% } %>
-                <% if (currentPage < totalPages) { %>
-                    <a class="my-link" data-gender="<%= gender %>" data-page="<%= currentPage + 1 %>" data-pageSize="<%= pageSize %>">Anterior</a>
-                    <!--<a href="/?page=<%= currentPage + 1 %>&pageSize=<%= pageSize %>">Siguiente</a>-->
+                <div class="home-title">
+                    <h1>"Donde la moda encuentra la comodidad."</h1>
+                </div>
+                <div class="eslide">
+                    <img class="items" src="mod1.jpg" alt="Nueva Colecciòn">
+                    <img class="items" src="mod2.jpg" alt="Nueva Colecciòn">
+                    <img class="items" src="mod3.jpg" alt="Nueva Colecciòn">
+                    <img class="items" src="mod4.jpg" alt="Nueva Colecciòn">
+                </div> 
+
+                <div class="categories-p">
+                    <div class="titlesp">
+                        <h2 class="title-categories">Categorias Principales</h2>
+                        <p>"La moda es una forma de expresión. Haz una declaración audaz con nuestras prendas exclusivas."</p>
+                    </div>
+                    <div class="imgcateories">
+                        <div class="product">
+                            <img src="poloblack.jpg" alt="">
+                            <h3 class="title-prod">Polos</h3> 
+                            
+                        </div>
+
+                        <div class="product">
+                            <img src="polored.jpg" alt="">
+                            <h3 class="title-prod">Casuales</h3>
+                            
+                        </div>
+                        
+                        <div class="product">
+                            <img src="polored.jpg" alt="">
+                            <h3 class="title-prod">Elegantes</h3>
+                        </div>
+                        <div class="product">
+                            <img src="pologreenw.jpg" alt="">
+                            <h3 class="title-prod">Sports</h3>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+
+               <div class="banner-p">
+                    <div class="flyer-banner">
+                        <img src="backgroundt.jpg" alt="">
+                    </div>
+                    <div class="flyer-img">
+                        <div class="direcc">
+                            <p>12 Tiendas Ubicadas en las mejores Ciudades del Pais</p>
+                        </div>
+                        <div class="recom">
+                            <p>Encuentra Una tienda cerca de Ti</p>
+                        </div>
+                        <div class="btn-storeS">
+                            <button class="btnr">TIENDAS</button>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+    
+                
+            <% } %>   
+            <div class="pagination">
+                <% if (currentPage) { %>
+                <% if (currentPage > 1) { %>
+                    <a class="my-link" data-gender="<%= gender %>" data-page="<%= currentPage - 1 %>" data-pageSize="<%= pageSize %>">Anterior</a>
+                    <% } %>
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <% if (i === currentPage) { %>
+                            <span class="current-page"><%= i %></span>
+                            <% }else{ %>
+                                <a class="my-link" data-gender="<%= gender %>" data-page="<%= i %>" data-pageSize="<%= pageSize %>"><%= i %></a>
+                            <% } %>
+                    <% } %>
+                    <% if (currentPage < totalPages) { %>
+                        <a class="my-link" data-gender="<%= gender %>" data-page="<%= currentPage + 1 %>" data-pageSize="<%= pageSize %>">Anterior</a>
+                        <!--<a href="/?page=<%= currentPage + 1 %>&pageSize=<%= pageSize %>">Siguiente</a>-->
+                    <% } %>    
                 <% } %>    
-            <% } %>    
+            </div> 
         </div>
+        
     </body>
         <script src="main.js"></script>
     </html>

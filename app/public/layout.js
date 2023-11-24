@@ -1,7 +1,28 @@
-/*document.getElementsByTagName('button')[0].addEventListener("click",()=>{
-    document.cookie = 'jwt=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    document.location.href = "/"
-})*/
+//import { methods as cryptoMethods } from "../public/cryptos.js";
+/*
+const algorithm = 'aes-256-cbc';
+const key = process.env.ENCODE_URL; // clave secreta
+
+function encryptUrl(url) {
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv(algorithm, Buffer.from(key), iv);
+  
+    let encrypted = cipher.update(url, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+  
+    return `${iv.toString('hex')}:${encrypted}`;
+  }
+  
+function decryptUrl(encryptedUrl) {
+    const [iv, encryptedText] = encryptedUrl.split(':');
+    const decipher = crypto.createDecipheriv(algorithm, Buffer.from(key), Buffer.from(iv, 'hex'));
+  
+    let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+  
+    return decrypted;
+}
+*/
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("LogOut").addEventListener("click",async () => {
@@ -43,14 +64,15 @@ async  function sendParametro(value){
     }else{
       const responseJSON = await response.json();
       if(responseJSON.redirect){
-        const arrayData = responseJSON.arrayData;
+        /*const arrayData = responseJSON.arrayData;
         const encodedArrayData = decodeURIComponent(JSON.stringify(arrayData));
         const page = responseJSON.page;
         const totalPages = responseJSON.totalPages;
         const pageSize = responseJSON.pageSize;
-        const gender=value;
         const redirectUrl = responseJSON.redirect + "?value=" + encodedArrayData + "&page=" + page + "&totalPages="+totalPages + "&pageSize="+ pageSize +"&gender="+value ;
-        window.location.href=redirectUrl;
+        //const url = /*cryptoMethods.*///encryptUrl(redirectUrl);
+        console.log("Url Ok");
+        window.location.href=responseJSON.redirect;
       }
     } 
 

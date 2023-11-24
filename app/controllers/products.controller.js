@@ -1,4 +1,6 @@
 import { getConnection } from "../database/database.js";
+import { methodsEnc } from "../crypto/cryptos.js";
+import { decrypt } from "dotenv";
 
 async function InsertNewProduct(pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen){
     const connection = await getConnection();
@@ -35,16 +37,30 @@ async function getProdListFromCategory(req,res,next){
     const totalCount = await connection.query("SELECT COUNT(*) as total FROM producto WHERE pdc_fk_seccion=?", [value]);
     const totalItems = totalCount[0][0].total;
     const totalPages = Math.ceil(totalItems / pageSize);
+    //
+    //const arrayData = responseJSON.arrayData;
+    const encodedArrayData = decodeURIComponent(JSON.stringify(arrayData));
+    //console.log(methodsEnc.encryptUrl(encodedArrayData))
+    const ArrayEncrypt = methodsEnc.encryptUrl(encodedArrayData)
+    const pageEncrypt = methodsEnc.encryptUrl(page.toString());
+    //console.log(pageEncrypt)
+    const totalPagesEncrypt = methodsEnc.encryptUrl(totalPages.toString());
+    //console.log(totalPagesEncrypt)
+    const pageSizeEncrypt = methodsEnc.encryptUrl(pageSize.toString());
+    //
+    //console.log("pageEncrypt decrypt", methodsEnc.decryptUrl(pageEncrypt))
+    const redirectUrl = ("/?value=" + ArrayEncrypt + "&page=" + pageEncrypt + "&totalPages="+totalPagesEncrypt + "&pageSize="+ pageSizeEncrypt +"&gender="+value).toString() ;
+    //console.log("redirect:"+redirectUrl)
     return res.status(201).send({
       status:"Ok",
       message:"Resultado Exitoso",
-      redirect:"/",
-      arrayData:arrayData,
+      redirect:redirectUrl,
+      /*arrayData:arrayData,
       page:page,
       totalPages: totalPages,
-      pageSize: pageSize,
+      pageSize: pageSize,*/
       //
-      gender:value
+      //gender:value
     });
 
 

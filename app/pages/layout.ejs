@@ -21,16 +21,21 @@
                 <button>Buscar</button>
             </div>
             <div class="login">
+                    <a>
+                        <% if (rol) { %>
+                            <%= rol %>
+                        <% } %>
+                    </a>
                 <% if (isLoggedIn) { %>
                     <a id="LogOut">
                         Cerrar Sesión
                     </a>
                     <% } %>
-                        <% if (!isLoggedIn) { %>
-                            <a href="login">
-                                Iniciar Sesión
-                            </a>
-                            <% } %>
+                <% if (!isLoggedIn) { %>
+                    <a href="login">
+                        Iniciar Sesión
+                    </a>
+                <% } %>
 
             </div>
             <div class="cart">

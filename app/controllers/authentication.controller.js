@@ -6,16 +6,8 @@ import { getConnection } from "../database/database.js";
 import { sendActivationEmail } from "../helper/email.helper.js";
 dotenv.config();
 
-/*export const usuarios = [
-  {
-    user: "aa",
-    email: "aa",
-    //user pass: aasd
-    password: "$2a$05$fGacgfn9WJhn9974ScMEHubzxEFFH.N3XXwNuvAi1meg4PkwULP.m",
-  },
-];*/
 
-export const SetUsuario = [{ str_user: "@@test@@pass" }];
+export const SetUsuario = [{ str_user: "@@test@@pass",str_rol: "@@0@@rol" }];
 
 async function register(req, res) {
   try {
@@ -41,7 +33,7 @@ async function register(req, res) {
         .status(400)
         .send({ status: 400, message: "Campos incompletos" });
     }
-
+   
     const salt = await bcryptjs.genSalt(5);
     const hashPassword = await bcryptjs.hash(usr_contrasenia, salt);
 
@@ -109,6 +101,7 @@ async function login(req, res) {
     }
 
     const usuarioArevisar = userQuery[0][0];
+    //console.log("Revision",usuarioArevisar)
 
     if (usuarioArevisar.usr_estado !== 1) {
       return res.status(401).json({ message: "Usuario no activo" });
@@ -134,16 +127,20 @@ async function login(req, res) {
       { expiresIn: process.env.JWT_EXPIRES }
     );
 
-    /*SetUsuario:{
-      usuario:usuarioArevisar.usr_email
-    }*/
-    //SetUsuario[0].usuario = usuarioArevisar.usr_email;
+    
     const usuarioRevisado = SetUsuario.find(
       (usuario) => usuario.str_user === usuarioArevisar.usr_email
     );
+    //->si el usuario no esta en sesion:
     if (!usuarioRevisado) {
+      const user_rol = usuarioArevisar.usr_rol;
+      const query_nombre_rol = await connection.query("SELECT rol_nombre FROM rol WHERE rol_id=?",[user_rol]);
+      const nombre_rol = query_nombre_rol[0][0].rol_nombre;
+      //console.log("this:",nombre_rol[0][0].rol_nombre);
+      //console.log(nombre_rol[0]);
+      //agregar al array de sesion:
       const indice = SetUsuario.length;
-      SetUsuario[indice] = { str_user: usuarioArevisar.usr_email };
+      SetUsuario[indice] = { str_user: usuarioArevisar.usr_email, str_rol: nombre_rol };
     }
 
     const cookieOption = {

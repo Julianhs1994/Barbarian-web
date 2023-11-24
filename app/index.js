@@ -15,8 +15,10 @@ import { methods as users} from "./controllers/users.controller.js";
 import { methods as products } from "./controllers/products.controller.js";
 //EJS
 import expressEjsLayouts from "express-ejs-layouts";
-//
+//multer
 import multer from "multer";
+//
+import { methodsEnc as encrypted } from "./crypto/cryptos.js";
 
 //Server
 const app = express();
@@ -30,6 +32,8 @@ app.use(express.static(__dirname + "/pages/css"));
 app.use(express.static(__dirname + "/pages/img"));
 app.use(express.static(__dirname + "/pages/admin"));
 app.use(express.static(__dirname + "/assets"))
+
+app.use(express.static(__dirname + "/crypto"))
 //
 app.use(express.json());
 app.use(cookieParser());
@@ -42,74 +46,95 @@ app.set("view engine", "ejs");
 
 app.get("/", authorizations.soloMain, (req, res) => {
   const isLoggedIn = req.session.usuario ? true : false;
-
+  res.locals.rol = "no-one";
+  var rol = "";
+  if(!req.session || !req.session.rol){
+    rol = "Invitado";
+  res.locals.rol = rol;
+  }else{
+    rol = req.session.rol;
+  res.locals.rol = rol;
+  }
   //
   let prodList = [];
-  const value = req.query.gender;
-  const prodListParam = req.query.value;
-  const page = req.query.page;
-  const totalPages = req.query.totalPages;
-  const pageSize = req.query.pageSize;
+  let value = req.query.gender;
+  let prodListParam = "";
+  let page = "";
+  let totalPages = "";
+  let pageSize = "";
+  if(value>0){
+  prodListParam = encrypted.decryptUrl( req.query.value);
+  page = req.query.page;
+  totalPages = req.query.totalPages;
+  pageSize = req.query.pageSize;
+  }
+  //console.log("param:"+prodListParam)
 
   if (prodListParam){
     const decodedArrayData = JSON.parse(decodeURIComponent(prodListParam));
     prodList = Array.isArray(decodedArrayData) ? decodedArrayData : [];
-    //console.log(prodList)
   }
   try{
-    //res.render('productos', { prodList: arrayData, currentPage: page, totalPages, pageSize });
-    res.render('main', {isLoggedIn, prodList, currentPage: page, totalPages, pageSize, gender:value});
+    res.render('main', {isLoggedIn, rol, prodList, currentPage: page, totalPages, pageSize, gender:value });
   }catch(err){
     console.error(err);
-    res.render('main', { isLoggedIn, prodList: [], currentPage: page, totalPages, pageSize, gender:value});
+    res.render('main', {isLoggedIn, rol, prodList: [], currentPage: page, totalPages, pageSize, gender:value});
   }
   
 });
 app.get("/login", authorizations.soloPublico, (req, res) => {
   const isLoggedIn = req.session.usuario ? true : false;
-  console.log(isLoggedIn);
-  res.render("login", { isLoggedIn });
+  const rol = req.session && req.session.rol ? req.session.rol : "Invitado";
+  res.locals.rol = rol;  
+  res.render("login", { isLoggedIn,rol });
 });
 app.get("/register", authorizations.soloPublico, (req, res) => {
   const isLoggedIn = req.session.usuario ? true : false;
+  //
+  var rol = "";
+  if(!req.session || !req.session.rol){
+    rol = "Invitado";
+  res.locals.rol = rol;
+  }else{
+    rol = req.session.rol;
+  res.locals.rol = rol;
+  }
+  //
   res.render("register", { isLoggedIn });
 });
 app.get("/addproduct", authorizations.soloPublico,(req,res) => {
   const isLoggedIn = req.session.usuario ? true : false;
   res.render("addproduct", { isLoggedIn });
 });
-//se Define una ruta GET para la página de productos
-app.get('/productos', async (req, res) => {
- // const page = parseInt(req.query.page) || 1; // Página actual
- // const pageSize = parseInt(req.query.pageSize) || 6; // Tamaño de página deseado
 
-  try {
-    const connection = await getConnection();
-    //const value = req.body.value;
-  
-    // Ajusta tu consulta SQL para obtener solo los productos de la página actual
-    const offset = (page - 1) * pageSize;
-    const query = "SELECT * FROM producto WHERE pdc_fk_seccion=? LIMIT ? OFFSET ?";
-    const result = await connection.query(query, [value, pageSize, offset]);
-    const arrayData = result[0];
-  
-    // Obtén el número total de productos para calcular el número de páginas
-    const totalCount = await connection.query("SELECT COUNT(*) as total FROM producto WHERE pdc_fk_seccion=?", [value]);
-    const totalItems = totalCount[0][0].total;
-    const totalPages = Math.ceil(totalItems / pageSize);
-  
-    res.render('productos', { prodList: arrayData, currentPage: page, totalPages, pageSize });
-  } catch (error) {
-    console.error(error);
-    res.render('productos', { prodList: [], currentPage: page, totalPages: 0, pageSize });
+//prueba
+/*app.get("/prueba",authorizations.soloAdmin,(req,res) =>{
+  const isLoggedIn = req.session.usuario ? true : false;
+  var rol = "";
+  if(!req.session || !req.session.rol){
+    rol = "Invitado";
+  res.locals.rol = rol;
+  }else{
+    rol = req.session.rol;
+  res.locals.rol = rol;
   }
-});
+  res.render('prueba', {isLoggedIn, rol})
+})*/
 
-//app.get("/activate/:userId", authorizations.soloPublico, async (req, res) => {
 app.get("/:userId", authorizations.soloPublico, async (req, res) => {
+  //
+  var rol = "";
+  if(!req.session || !req.session.rol){
+    rol = "Invitado";
+  res.locals.rol = rol;
+  }else{
+    rol = req.session.rol;
+  res.locals.rol = rol;
+  }
+  //
   const userId = req.params.userId;
   const isLoggedIn = req.session.usuario ? true : false;
-  console.log(userId);
+  //console.log(userId);
   try {
     const activationSuccess = await authorizations.activateUser(userId);
     res.render("activation", { activationSuccess, isLoggedIn });

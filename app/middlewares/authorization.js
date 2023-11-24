@@ -1,6 +1,5 @@
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
-//import {usuarios} from "../controllers/authentication.controller.js";
 import { SetUsuario } from "../controllers/authentication.controller.js";
 
 //config
@@ -12,7 +11,8 @@ function soloAdmin(req, res, next) {
   }
 
   const logeado = revisarCookie(req);
-  if (logeado) {
+  const rol = req.session.rol || "Invitado"
+  if (logeado && rol == "Administrador") {
     req.session.usuario = true;
     return next();
   } else {
@@ -47,27 +47,51 @@ function soloMain(req, res, next) {
   }
 }
 
-function revisarCookie(req) {
-  try {
-    const c = req.headers.cookie || "invitado";
+function getDecCookie(req){
+  //
+  const c = req.headers.cookie || "invitado";
     //console.log(c)
     if (c != "invitado") {
+      //->obtener cookie con jwt:
       const cookieJWT = c
         .split("; ")
         .find((cookie) => cookie.startsWith("jwt="))
         .slice(4);
-      //*console.log(cookieJWT||"no cockie");//), cookieJWT)
+      //->verificar integridad del usuario:  
       const decodificada = jsonwebtoken.verify(
         cookieJWT,
         process.env.JWT_SECRET
       );
-      //console.log("decodificada",decodificada.user);
+      //
+      //->obtener indice de donde se encuentra el usuario en el array de sesion:
+      const indice = SetUsuario.findIndex(usuario => usuario.str_user === decodificada.user);
+      if (indice !== -1) {
+      //->obtener el rol del usuario en sesion:
+      const rol = SetUsuario[indice].str_rol;
+      //->guardar rol en req.session:
+      req.session.rol = rol;
+      console.log("req rol",req.session.rol)
+      } else {
+        // El usuario no fue encontrado en SetUsuario
+        // Manejar el error de alguna manera adecuada
+        console.log("El usuario no fue encontrado");
+      }
+      //
+      return decodificada;  
+    }else{
+      req.session.rol = "Invitado*";
+      return "invitado"
+    }  
+}
 
+function revisarCookie(req) {
+  try {
+    const deco = getDecCookie(req)
+    if (deco != "invitado") {
       const usuarioArevisar = SetUsuario.some((usuario) => {
-        return usuario.str_user === decodificada.user;
+        return usuario.str_user === deco.user;
       });
       console.log(SetUsuario);
-      //console.log("usuario a revisar:",usuarioArevisar);
       if (!usuarioArevisar) {
         return false;
       } else {
@@ -98,12 +122,6 @@ async function close(req, res, next) {
   }
 }
 
-/* return res.status(201).send({
-      status: "Ok",
-      message: `Usuario agregado`,
-      redirect: "/",
-    });
-    */
 
 function deleteUserActive(user) {
   const indiceUsuario = SetUsuario.findIndex(

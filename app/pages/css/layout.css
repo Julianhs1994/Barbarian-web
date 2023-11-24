@@ -113,3 +113,141 @@ nav div #LogOut {
 /*main{
     margin-top: 120px ;
 }*/
+
+/*estilos footer*/
+
+.footer-major{
+  display: flex;
+  max-width: 100%;
+  height: 350px;
+  background-color: rgb(1, 1, 22);
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+/*estilos container two*/
+.container-one{
+  display: flex;
+  flex-direction: column;
+  /*justify-content: space-around;*/
+  flex-wrap: nowrap;
+  height: 300px;
+  width: 30%;
+  margin: 13px;
+  
+}
+.container-one >h2 >span{
+  color:rgb(235, 152, 27);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+/*.container-one > h2{
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}*/
+.container-one .logop{
+  width: 220px; 
+  height: 130px; 
+  margin: 5px; 
+  
+}
+.container-one > p{
+  color: white;
+}
+
+/*estilos container two*/
+.container-two{
+  display: flex;
+  flex-direction: column;
+  /*justify-content: space-around;*/
+  flex-wrap: wrap;
+  height: 300px;
+  width: 30%;
+  margin: 13px;
+  
+  
+}
+.container-two >h2{
+  color: rgb(252, 252, 252);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.container-two .useful-link{
+  color: aliceblue;
+  text-decoration: none;
+  margin: 5px 0;
+  
+}
+.container-two .useful-link:hover{
+  color:rgb(230, 190, 105);
+  
+}
+.container-three{
+  display: flex;
+  flex-direction: column;
+  /*justify-content: space-around;*/
+  height: 300px;
+  width: 34%;
+  margin: 13px;
+  
+
+}
+.container-three >h2{
+ 
+  color: white;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  
+}
+.social-networks {
+  display: flex;
+}
+
+.one {
+  
+  width: 24px; /* Ajusta el ancho según tus necesidades */
+  height: 24px; /* Ajusta la altura según tus necesidades */
+  margin: 5px; /* Espaciado entre los íconos */
+}
+.payment-method {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  
+}
+.payment-method > h2{
+  color: aliceblue;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+.cardpayment {
+
+  width: 44px; 
+  height: 34px; 
+  margin: 5px; 
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+}
+
+/* Estilos para el copyright */
+.copyright > p{
+  color: white;
+  font-size: 14px;
+  margin: 5px;
+}
+.copyright:hover{
+  color:rgb(245, 209, 143);
+}
+
+/* Estilos para los enlaces de privacidad */
+.privacy-links a {
+  color: white;
+  text-decoration: none;
+  margin: 5px;
+}
+.privacy-links a:hover{
+  color:rgb(230, 190, 105);
+}

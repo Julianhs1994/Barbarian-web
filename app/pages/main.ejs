@@ -14,7 +14,9 @@
             
             <!--Lista de productos:-->
             <% if (prodList && prodList.length > 0)  { %>
-                <!--<%= (prodList.length) %>-->
+                <div class="conten-cad">
+
+                
                     <% prodList.forEach(objeto => { %>
                     <div class="cardProd">    
                         <!--ID: <%= objeto.pdc_id %>-->
@@ -26,6 +28,7 @@
                         </div>
                     </div>    
                     <% }) %>
+                </div>
             <% }else{ %>
                 <div class="home-title">
                     <h1>"Donde la moda encuentra la comodidad."</h1>

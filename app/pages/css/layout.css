@@ -39,6 +39,7 @@ header {
   font-weight: bold;
 }
 
+
 .buscar-btn {
   display: flex;
   align-items: center;
@@ -84,7 +85,8 @@ header {
   width: 24px;
   height: 24px;
   margin-right: 5px;
-  background-color: white;
+  background-color: black;
+
 }
 
 .componente {

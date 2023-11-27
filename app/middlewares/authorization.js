@@ -9,7 +9,7 @@ function soloAdmin(req, res, next) {
   if (!req.session) {
     req.session = {};
   }
-
+//verificar login rol//
   const logeado = revisarCookie(req);
   const rol = req.session.rol || "Invitado"
   if (logeado && rol == "Administrador") {

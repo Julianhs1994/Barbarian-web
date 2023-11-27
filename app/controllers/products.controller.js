@@ -1,21 +1,25 @@
 import { getConnection } from "../database/database.js";
 import { methodsEnc } from "../crypto/cryptos.js";
-import { decrypt } from "dotenv";
 
-async function InsertNewProduct(pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen){
+async function InsertNewProduct(pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen){
+
+  if(!pdc_nombre || !pdc_fk_seccion || !pdc_descripcion || !pdc_fk_marca || !pdc_fk_color || !cant_xs || !cant_s || !cant_m || !cant_l || !cant_xl || !pdc_valor || !pdc_imagen || pdc_imagen == ""){
+    console.log("enter")
+    return ({boolean:false})
+  }
+  try{
     const connection = await getConnection();
     let pdc_estado = 1;
-    const sql = 'INSERT INTO producto (pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen,pdc_estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    connection.query(sql, [pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen,pdc_estado], (error, results) => {
-      if (error) {
-        reject(error)
-      } else {
-        console.log('Producto guardado con éxito');
-        resolve('Producto guardado con éxito');
-      }
-    });
-  }
+    const sql = 'INSERT INTO producto (pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen,pdc_estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    connection.query(sql, [pdc_nombre,parseInt(pdc_fk_seccion),pdc_descripcion,parseInt(pdc_fk_marca),parseInt(pdc_fk_color),cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen,pdc_estado]);
+    return ({boolean:true});
+  }catch(err){
+    console.error(err)
+    return ({boolean:true})
+  }  
+}
 
+  
 async function getProdListFromCategory(req,res,next){
   try{
     const page = req.body.page || 1; // Página 
@@ -50,17 +54,10 @@ async function getProdListFromCategory(req,res,next){
     //
     //console.log("pageEncrypt decrypt", methodsEnc.decryptUrl(pageEncrypt))
     const redirectUrl = ("/?value=" + ArrayEncrypt + "&page=" + pageEncrypt + "&totalPages="+totalPagesEncrypt + "&pageSize="+ pageSizeEncrypt +"&gender="+value).toString() ;
-    //console.log("redirect:"+redirectUrl)
     return res.status(201).send({
       status:"Ok",
       message:"Resultado Exitoso",
-      redirect:redirectUrl,
-      /*arrayData:arrayData,
-      page:page,
-      totalPages: totalPages,
-      pageSize: pageSize,*/
-      //
-      //gender:value
+      redirect:redirectUrl
     });
 
 

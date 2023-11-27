@@ -19,9 +19,16 @@ import { methods as authorizations } from "./middlewares/authorization.js";
 //////////////////////////////////////////////////////////
 import { methods as users} from "./controllers/users.controller.js";
 import { methods as products } from "./controllers/products.controller.js";
+<<<<<<< HEAD
 
 //EJS//
 ////////////////////////////////////////////////////
+=======
+import { methods as seccions } from "./controllers/seccion_producto.controller.js";
+import { methods as marcas } from "./controllers/marca_producto.controller.js";
+import { methods as colores } from "./controllers/color_producto.controller.js";
+//EJS
+>>>>>>> f7c9fb27899a4a19aa0167d6d131809018b9aa23
 import expressEjsLayouts from "express-ejs-layouts";
 
 //multer////////
@@ -30,6 +37,8 @@ import multer from "multer";
 
 
 import { methodsEnc as encrypted } from "./crypto/cryptos.js";
+//fs
+import { promises as fs } from 'fs';
 
 //Server
 const app = express();
@@ -74,13 +83,11 @@ app.get("/", authorizations.soloMain, (req, res) => {
   let totalPages = "";
   let pageSize = "";
   if(value>0){
-  prodListParam = encrypted.decryptUrl( req.query.value);
-  page = req.query.page;
-  totalPages = req.query.totalPages;
-  pageSize = req.query.pageSize;
+    prodListParam = encrypted.decryptUrl( req.query.value );
+    page = req.query.page;
+    totalPages = req.query.totalPages;
+    pageSize = req.query.pageSize;
   }
-  //console.log("param:"+prodListParam)
-
   if (prodListParam){
     const decodedArrayData = JSON.parse(decodeURIComponent(prodListParam));
     prodList = Array.isArray(decodedArrayData) ? decodedArrayData : [];
@@ -93,12 +100,14 @@ app.get("/", authorizations.soloMain, (req, res) => {
   }
   
 });
+
 app.get("/login", authorizations.soloPublico, (req, res) => {
   const isLoggedIn = req.session.usuario ? true : false;
   const rol = req.session && req.session.rol ? req.session.rol : "Invitado";
   res.locals.rol = rol;  
   res.render("login", { isLoggedIn,rol });
 });
+
 app.get("/register", authorizations.soloPublico, (req, res) => {
   const isLoggedIn = req.session.usuario ? true : false;
   //
@@ -113,9 +122,36 @@ app.get("/register", authorizations.soloPublico, (req, res) => {
   //
   res.render("register", { isLoggedIn });
 });
-app.get("/addproduct", authorizations.soloPublico,(req,res) => {
+
+app.get("/addproduct", authorizations.soloPublico,async (req,res) => {
   const isLoggedIn = req.session.usuario ? true : false;
-  res.render("addproduct", { isLoggedIn });
+  //
+  var rol = "";
+  if(!req.session || !req.session.rol){
+    rol = "Invitado";
+  res.locals.rol = rol;
+  }else{
+    rol = req.session.rol;
+  res.locals.rol = rol;
+  }
+  //
+  let arraySecciones = [];
+  const decodedArrayData = await (seccions.getAllSeccion_Producto());
+  if(decodedArrayData){
+    arraySecciones = Array.isArray(decodedArrayData) ? decodedArrayData : [];
+  }
+  let arrayMarcas = [];
+  const decodedArrayDataMarcas = await (marcas.getAllmarca_producto());
+  if(decodedArrayDataMarcas){
+    arrayMarcas = Array.isArray(decodedArrayDataMarcas) ? decodedArrayDataMarcas:[];
+  }
+  let arrayColores = [];
+  const decodedArrayDataColor = await (colores.getAllcolor_producto());
+  if(decodedArrayDataColor){
+    arrayColores = Array.isArray(decodedArrayDataColor) ? decodedArrayDataColor: [];
+  }
+  //
+  res.render("addproduct", { isLoggedIn, arraySecciones, arrayMarcas, arrayColores });
 });
 
 //prueba
@@ -170,18 +206,29 @@ const upload = multer({ storage: storage });
 //Formulario para agregar usuarios(Admin)
 
 
-app.post('/productos', upload.single('pdc_imagen'), (req, res) => {
-  const { pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor } = req.body;
-  const pdc_imagen = req.file.filename;
-  //users.get(req, res); // Ejemplo de uso del método get en el controlador users
-  methods.InsertNewProduct(pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen)
-  .then((response)=>{
-    res.send(response)
-  })
-  .catch((error)=>{
-    res.status(500).send('Error al guardar el producto');
-  })
-});  
+app.post('/productos', upload.single('pdc_imagen'), async (req, res) => {
+  const { pdc_nombre, pdc_fk_seccion, pdc_descripcion, pdc_fk_marca, pdc_fk_color, cant_xs, cant_s, cant_m, cant_l, cant_xl, pdc_valor } = req.body;
+  let pdc_imagen;
+  if (req.file && req.file.filename){
+    pdc_imagen = req.file.filename;
+  }else{
+    pdc_imagen = ""
+  }
+  
+    const result = await products.InsertNewProduct(pdc_nombre, pdc_fk_seccion, pdc_descripcion, pdc_fk_marca, pdc_fk_color, cant_xs, cant_s, cant_m, cant_l, cant_xl, pdc_valor, pdc_imagen);
+    // Eliminar la imagen si no se guarda en la base de datos
+    //console.log(result.boolean)
+    if (result.boolean == false && pdc_imagen != ""){
+      await fs.unlink(`app/assets/${pdc_imagen}`);
+      console.log('Imagen eliminada');
+    }else if(result.boolean == true){
+      console.log("Producto agregado")
+    }
+    res.redirect('/addproduct'); 
+  }
+);
+
+
 
 //Rutas con functiones autenticacion
 app.post("/api/register", authentication.register);

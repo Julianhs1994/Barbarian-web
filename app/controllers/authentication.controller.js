@@ -136,9 +136,6 @@ async function login(req, res) {
       const user_rol = usuarioArevisar.usr_rol;
       const query_nombre_rol = await connection.query("SELECT rol_nombre FROM rol WHERE rol_id=?",[user_rol]);
       const nombre_rol = query_nombre_rol[0][0].rol_nombre;
-      //console.log("this:",nombre_rol[0][0].rol_nombre);
-      //console.log(nombre_rol[0]);
-      //agregar al array de sesion:
       const indice = SetUsuario.length;
       SetUsuario[indice] = { str_user: usuarioArevisar.usr_email, str_rol: nombre_rol };
     }

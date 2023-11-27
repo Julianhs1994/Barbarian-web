@@ -39,6 +39,7 @@ header {
   font-weight: bold;
 }
 
+
 .buscar-btn {
   display: flex;
   align-items: center;
@@ -84,7 +85,8 @@ header {
   width: 24px;
   height: 24px;
   margin-right: 5px;
-  background-color: white;
+  background-color: black;
+
 }
 
 .componente {
@@ -100,19 +102,7 @@ nav div #LogOut {
   cursor: pointer;
 }
 
-/*body {*/
 
-/*margin:0;
-    font-family: Arial, sans-serif;
-    background-image:url(home.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}*/
-
-/*main{
-    margin-top: 120px ;
-}*/
 
 /*estilos footer*/
 
@@ -120,7 +110,7 @@ nav div #LogOut {
   display: flex;
   max-width: 100%;
   height: 350px;
-  background-color: rgb(1, 1, 22);
+  background-color: rgb(0, 0, 0);
   flex-wrap: wrap;
   justify-content: space-around;
 }

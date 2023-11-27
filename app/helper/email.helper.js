@@ -25,3 +25,5 @@ const sendActivationEmail = async (userEmail, activationLink) => {
 };
 
 export { sendActivationEmail };
+
+

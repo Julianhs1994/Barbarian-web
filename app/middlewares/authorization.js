@@ -9,7 +9,7 @@ function soloAdmin(req, res, next) {
   if (!req.session) {
     req.session = {};
   }
-//verificar login rol//
+//->verificar login rol//
   const logeado = revisarCookie(req);
   const rol = req.session.rol || "Invitado"
   if (logeado && rol == "Administrador") {
@@ -50,7 +50,7 @@ function soloMain(req, res, next) {
 function getDecCookie(req){
   //
   const c = req.headers.cookie || "invitado";
-    //console.log(c)
+    console.log("Cookie",c)
     if (c != "invitado") {
       //->obtener cookie con jwt:
       const cookieJWT = c

@@ -1,15 +1,7 @@
 //import { response } from "express";
 
 
-/*let boton = document.querySelectorAll(".btn-expandir")
-let textoExpandir = document.querySelectorAll(".textoExpandir")
-
-boton.forEach((elemento,clave) => {
-    elemento.addEventListener("click",()=>{
-        textoExpandir[clave].classList.toggle("textoExpandir")
-        textoExpandir[clave].classList.toggle("abrirCerrar")
-    })
-});
+/*
 
 document.getElementById("usuarios").addEventListener("click",async ()=>{
 try{

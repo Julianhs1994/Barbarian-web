@@ -39,8 +39,8 @@ document
     }
 
     const respuesta = await fetch(
-      "https://barbarian-web-koqc.vercel.app/api/register",
-      //"api/register",
+      //"https://barbarian-web-koqc.vercel.app/api/register",
+      "api/register",
       {
         method: "post",
         headers: {

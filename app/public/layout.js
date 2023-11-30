@@ -98,9 +98,20 @@ function displayResults(results) {
   resultsContainer.innerHTML = '';
   
   // Muestra los resultados en el recuadro
-  results.forEach(result => {
+  results.forEach((result,index) => {
     const resultItem = document.createElement('div');
     resultItem.textContent = result.pdc_nombre;
+    resultItem.setAttribute('id', `result-${index}`);
     resultsContainer.appendChild(resultItem);
+    //
+    document.getElementById(`result-${index}`).addEventListener('click',(e)=>{
+      let id = e.target.id
+      console.log(id);
+      let texto = document.getElementById(id).innerHTML;//obtener el texto
+      console.log(texto)
+      document.getElementById("SearchProd").value = texto//reemplaza el texto
+      resultsContainer.innerHTML = ''; //lo encontró,borra los textos
+    });
   });
 }
+

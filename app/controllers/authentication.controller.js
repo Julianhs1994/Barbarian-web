@@ -52,6 +52,7 @@ async function register(req, res) {
 
     //usuarios.push(usuario);
     const link = "https://barbarian-web-koqc.vercel.app/" + result[0].insertId;
+    //const link = "/"+ result[0].insertId;
     sendActivationEmail(usr_email, link);
 
     return res.status(201).send({

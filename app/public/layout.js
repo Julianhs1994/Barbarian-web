@@ -67,7 +67,12 @@ async  function sendParametro(value){
 
 const searchInput = document.getElementById("SearchProd");
 searchInput.addEventListener('input',async (event) =>{
-  const query = event.target.value;
+  let query = "";
+  query = event.target.value;
+
+  if(query==""){ //si la busqueda está vacia
+    query = "%/%querty%/%" //quemar valor para limpiar div
+  }
   const response = await fetch(`/search?query=${encodeURIComponent(query)}`,{
     method:"POST",
     headers:{
@@ -77,7 +82,7 @@ searchInput.addEventListener('input',async (event) =>{
   const contentType = response.headers.get('Content-Type');
   if (contentType && contentType.includes('application/json')) {
     const data = await response.json();
-    console.log("data:"+data.results);
+    //console.log("data:"+data.results);
     displayResults(data.results)
   } else {
     console.error('Error en la solicitud de búsqueda: La respuesta no es un JSON válido');

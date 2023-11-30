@@ -63,10 +63,11 @@ app.get("/", authorizations.soloMain, (req, res) => {
   var rol = "";
   if(!req.session || !req.session.rol){
     rol = "Invitado";
-  res.locals.rol = rol;
+    res.locals.rol = rol;
+    res.clearCookie('jwt=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;');
   }else{
     rol = req.session.rol;
-  res.locals.rol = rol;
+    res.locals.rol = rol;
   }
   //
   let prodList = [];
@@ -245,3 +246,15 @@ app.get("/admin", authorizations.soloAdmin, (req, res) => {
 
 //Ruta de activacion
 app.post("/api/active/:userId", authentication.activeUser);
+
+import { searchProducts } from './controllers/search.Controller.js';
+// Ruta para manejar la solicitud de búsqueda
+app.post('/search',async (req, res) => {
+  const query = req.query.query;
+
+  // Utiliza la función de búsqueda para obtener los resultados
+  const results = await searchProducts(query);
+  console.log("result index:"+results)
+  // Envía los resultados como respuesta al cliente
+  res.status(200).send({results:results})
+});

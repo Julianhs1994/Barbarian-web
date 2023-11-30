@@ -92,8 +92,12 @@ async function login(req, res) {
       "SELECT * FROM usuario WHERE usr_email = ?",
       [usr_email]
     );
+    
+    console.log(userQuery[0].length)
+    console.log(userQuery[0])
 
-    if (userQuery.length === 0) {
+    if (userQuery[0].length === 0) {
+      console.log("entro")
       return res.status(400).send({
         status: 400,
         message: "Usuario no encontrado",
@@ -108,8 +112,7 @@ async function login(req, res) {
     }
 
     const loginCorrecto = await bcryptjs.compare(
-      usr_contrasenia,
-      usuarioArevisar.usr_contrasenia
+      usr_contrasenia, usuarioArevisar.usr_contrasenia
     );
 
     if (!loginCorrecto) {

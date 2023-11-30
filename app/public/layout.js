@@ -1,7 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("LogOut").addEventListener("click",async () => {
-      //console.log("clicked");
       const respuesta = await fetch("/api/close",{
         method:"POST",
         headers:{
@@ -17,10 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = resJson.redirect
         }
       }
-
-
     });
-  });
+});
 
 async  function sendParametro(value){
   try{
@@ -39,14 +36,7 @@ async  function sendParametro(value){
     }else{
       const responseJSON = await response.json();
       if(responseJSON.redirect){
-        /*const arrayData = responseJSON.arrayData;
-        const encodedArrayData = decodeURIComponent(JSON.stringify(arrayData));
-        const page = responseJSON.page;
-        const totalPages = responseJSON.totalPages;
-        const pageSize = responseJSON.pageSize;
-        const redirectUrl = responseJSON.redirect + "?value=" + encodedArrayData + "&page=" + page + "&totalPages="+totalPages + "&pageSize="+ pageSize +"&gender="+value ;
-        //const url = /*cryptoMethods.*///encryptUrl(redirectUrl);
-        console.log("Url Ok");
+        //console.log("Url Ok");
         window.location.href=responseJSON.redirect;
       }
     } 
@@ -68,3 +58,44 @@ async  function sendParametro(value){
     const result = await sendParametro(parametro)
     console.log("result",result)
   })
+
+
+//Buscador Js:
+
+
+// Captura el evento de búsqueda
+
+const searchInput = document.getElementById("SearchProd");
+searchInput.addEventListener('input',async (event) =>{
+  const query = event.target.value;
+  const response = await fetch(`/search?query=${encodeURIComponent(query)}`,{
+    method:"POST",
+    headers:{
+      "Content-type":"application/json"
+    },
+  })
+  const contentType = response.headers.get('Content-Type');
+  if (contentType && contentType.includes('application/json')) {
+    const data = await response.json();
+    console.log("data:"+data.results);
+    displayResults(data.results)
+  } else {
+    console.error('Error en la solicitud de búsqueda: La respuesta no es un JSON válido');
+  }
+
+})
+
+// Función para mostrar los resultados en el recuadro debajo del buscador
+function displayResults(results) {
+  const resultsContainer = document.getElementById('SearchProd');
+  
+  // Limpia los resultados anteriores
+  resultsContainer.innerHTML = '';
+  
+  // Muestra los resultados en el recuadro
+  results.forEach(result => {
+    const resultItem = document.createElement('div');
+    resultItem.textContent = result.pdc_nombre;
+    resultsContainer.appendChild(resultItem);
+  });
+}

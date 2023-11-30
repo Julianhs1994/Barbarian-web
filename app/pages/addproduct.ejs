@@ -9,53 +9,53 @@
   <body>
     <div class="container">
       <div class="product-titlep">
-        <h1 class="product-title">AREA DE ADMINISTRACIÒN DE PRODUCTOS</h1>
+        <h1>Area De Admistraciòn de Productos</h1>
       </div>
-      <form method="POST" action="/productos" enctype="multipart/form-data">
-        <input
-          type="text"
-          name="pdc_nombre"
-          placeholder="Nombre del producto"
-        />
-        <% if(arraySecciones && arraySecciones.length > 0){ %>
-        <select name="pdc_fk_seccion">
-          <% arraySecciones.forEach(Sec => { %>
-          <option value="<%= Sec.sec_id %>"><%= Sec.sec_nombre %></option>
-          <% }) %>
-        </select>
-        <% } %>
-        <!--<input type="number" name="pdc_fk_seccion" placeholder="#seccion">-->
-        <input type="text" name="pdc_descripcion" placeholder="descripcion" />
-        <% if (arrayMarcas && arrayMarcas.length > 0){ %>
-        <select name="pdc_fk_marca">
-          <% arrayMarcas.forEach(Mar => { %>
-          <option value="<%= Mar.mar_id %>"><%= Mar.mar_nombre %></option>
-          <% }) %>
-        </select>
-        <% } %>
-        <!--<input type="text" name="pdc_fk_marca" placeholder="#marca">-->
-        <% if(arrayColores && arrayColores.length > 0) { %>
-        <select name="pdc_fk_color">
-          <% arrayColores.forEach(Col => { %>
-          <option value="<%= Col.col_id %>"><%= Col.col_nombre %></option>
-          <% }) %>
-        </select>
-        <% } %>
-        <!--<input type="text" name="pdc_fk_color" placeholder="#color">-->
-        <input type="text" name="cant_xs" placeholder="#" />
-        <input type="text" name="cant_s" placeholder="#" />
-        <input type="text" name="cant_m" placeholder="#" />
-        <input type="text" name="cant_l" placeholder="#" />
-        <input type="text" name="cant_xl" placeholder="#" />
-        <input type="text" name="pdc_valor" placeholder="valor" />
-        <!--<input type="text" name="nombreprod" placeholder="Nombre del producto">-->
-        <input type="file" name="pdc_imagen" />
-        <button class="subproduc" type="submit">Agregar Producto</button>
-        <!--
-            ,,,,,,,,,pdc_imagen
-
-        -->
-      </form>
+        <div class="form-product">
+           <form method="POST" action="/productos" enctype="multipart/form-data">
+            <input
+            type="text"
+            name="pdc_nombre"
+            placeholder="Nombre del producto"
+          />
+          <% if(arraySecciones && arraySecciones.length > 0){ %>
+          <select name="pdc_fk_seccion">
+            <% arraySecciones.forEach(Sec => { %>
+            <option value="<%= Sec.sec_id %>"><%= Sec.sec_nombre %></option>
+            <% }) %>
+          </select>
+          <% } %>
+          <!--<input type="number" name="pdc_fk_seccion" placeholder="#seccion">-->
+          <input type="text" name="pdc_descripcion" placeholder="descripcion" />
+          <% if (arrayMarcas && arrayMarcas.length > 0){ %>
+          <select name="pdc_fk_marca">
+            <% arrayMarcas.forEach(Mar => { %>
+            <option value="<%= Mar.mar_id %>"><%= Mar.mar_nombre %></option>
+            <% }) %>
+          </select>
+          <% } %>
+          <!--<input type="text" name="pdc_fk_marca" placeholder="#marca">-->
+          <% if(arrayColores && arrayColores.length > 0) { %>
+          <select name="pdc_fk_color">
+            <% arrayColores.forEach(Col => { %>
+            <option value="<%= Col.col_id %>"><%= Col.col_nombre %></option>
+            <% }) %>
+          </select>
+          <% } %>
+          <!--<input type="text" name="pdc_fk_color" placeholder="#color">-->
+          <input type="text" name="cant_xs" placeholder="#" />
+          <input type="text" name="cant_s" placeholder="#" />
+          <input type="text" name="cant_m" placeholder="#" />
+          <input type="text" name="cant_l" placeholder="#" />
+          <input type="text" name="cant_xl" placeholder="#" />
+          <input type="text" name="pdc_valor" placeholder="valor" />
+          <!--<input type="text" name="nombreprod" placeholder="Nombre del producto">-->
+          <input type="file" name="pdc_imagen" />
+          <div class="btn-addproduc">
+          <button class="subproduc" type="submit">Agregar Producto</button>
+          </div>
+          </form>
+        </div>
     </div>
   </body>
 </html>

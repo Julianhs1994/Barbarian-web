@@ -52,6 +52,15 @@ header {
   margin-right: 10px;
 }
 
+/*para el script*/
+#recuadro{
+  border:solid 4px black;
+  display:inline-block;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
+
 .buscar-btn button {
   background-color: #927b62;
   color: #fff;

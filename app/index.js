@@ -19,16 +19,10 @@ import { methods as authorizations } from "./middlewares/authorization.js";
 //////////////////////////////////////////////////////////
 import { methods as users} from "./controllers/users.controller.js";
 import { methods as products } from "./controllers/products.controller.js";
-<<<<<<< HEAD
-
-//EJS//
-////////////////////////////////////////////////////
-=======
 import { methods as seccions } from "./controllers/seccion_producto.controller.js";
 import { methods as marcas } from "./controllers/marca_producto.controller.js";
 import { methods as colores } from "./controllers/color_producto.controller.js";
 //EJS
->>>>>>> f7c9fb27899a4a19aa0167d6d131809018b9aa23
 import expressEjsLayouts from "express-ejs-layouts";
 
 //multer////////

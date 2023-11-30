@@ -87,7 +87,7 @@ searchInput.addEventListener('input',async (event) =>{
 
 // Función para mostrar los resultados en el recuadro debajo del buscador
 function displayResults(results) {
-  const resultsContainer = document.getElementById('SearchProd');
+  const resultsContainer = document.getElementById('recuadro');
   
   // Limpia los resultados anteriores
   resultsContainer.innerHTML = '';

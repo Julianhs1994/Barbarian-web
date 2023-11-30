@@ -68,7 +68,7 @@ header {
 .Buscar-btn {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  /*align-items: center;*/
 }
 
 .Buscar-btn input[type="text"] {
@@ -281,3 +281,22 @@ nav div #LogOut {
 .privacy-links a:hover{
   color:rgb(230, 190, 105);
 }
+
+#recuadro{
+  position: fixed;
+  display: wrap;
+  z-index: 100; /*Crea una capa nueva por encima, si tenemos una con valor 2 estará a una altura o por encima de una con 
+                valor 1*/
+  margin-left:3%; /*Con este margen posicionamos el div donde queramos*/
+  margin-top:5%;
+  background-color: #751919;
+}
+
+/*
+    border-radius: 0;
+    display: inline-block;
+    border: none;
+    height: 100%;
+    padding: 0 20px;
+    position: relative;
+    width: 58%;*/

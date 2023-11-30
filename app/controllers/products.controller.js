@@ -23,8 +23,6 @@ async function InsertNewProduct(pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk
 async function getProdListFromCategory(req,res,next){
   try{
     const page = req.body.page || 1; // Página 
-    //console.log("BODY-body:" , req.body.page);
-    //console.log("BODY-query:" , req.query.page);
     const pageSize = req.body.pageSize ||20
     ; // Tamaño de página deseado
     const value = req.body.value;

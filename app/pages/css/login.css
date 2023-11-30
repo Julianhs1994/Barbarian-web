@@ -73,6 +73,8 @@ body {
       text-decoration: none;
       color:white;
       font-weight: bold;
+      display: flex;
+      flex-wrap: wrap;
   }
   .login-form > h2{
     color:white;
@@ -86,7 +88,7 @@ body {
   .login-form {
       display: flex;
       flex-direction: column;
-      background-image: linear-gradient(135deg, #4786e6, #070e33);
+      background-image: linear-gradient(135deg, #6b001d, #000000);
       padding: 20px;
       border-radius: 5px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -107,7 +109,7 @@ body {
       
   }
   #response-message {
-    color: red;
+    color: rgb(252, 252, 252);
   }
   .btn{
     display: flex;
@@ -140,7 +142,8 @@ body {
   }
   
   button:hover {
-      background-color: #1f98e9;
+      background-color: #0c0100;
+      color:#f8f8f8;
   }
   
   p {

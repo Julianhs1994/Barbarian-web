@@ -28,7 +28,8 @@ h2 {
   margin: 20px auto;
   border-radius: 12px;
   padding: 20px;
-  background-image: linear-gradient(135deg, #0d052c, #235d8d);
+  background-image: linear-gradient(135deg, #6b001d, #000000);
+  margin-top: 127px;
 }
 
 .form-group {
@@ -60,11 +61,11 @@ button {
 }
 
 #response-message {
-  color: red;
+  color: rgb(250, 250, 250);
 }
 
 button:hover {
-  background-color: #2454d6;
+  background-color: #000103;
 }
 
 @media (max-width: 800px) {
@@ -72,3 +73,5 @@ button:hover {
     flex-direction: column;
   }
 }
+
+

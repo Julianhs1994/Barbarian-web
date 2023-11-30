@@ -11,11 +11,13 @@
 
     <body>
         <div class="container">
+
+           
             
             <!--Lista de productos:-->
             <% if (prodList && prodList.length > 0)  { %>
                 <div class="conten-cad">
-
+                  
                 
                     <% prodList.forEach(objeto => { %>
                     <div class="cardProd">    
@@ -24,7 +26,10 @@
                             <img src="<%= objeto.pdc_imagen %>" alt="imagen de producto">
                         </div>
                         <div class="descripcion">
+                            <p>Marca: <%= objeto.pdc_fk_marca%></p>
+                            <p>Nombre: <%= objeto.pdc_nombre %></p>
                             <p>Descripcion: <%= objeto.pdc_descripcion %></p>
+                            <p>Precio: <%= objeto.pdc_valor %></p>
                         </div>
                     </div>    
                     <% }) %>
@@ -38,6 +43,9 @@
                     <img class="items" src="mod2.jpg" alt="Nueva Colecciòn">
                     <img class="items" src="mod3.jpg" alt="Nueva Colecciòn">
                     <img class="items" src="mod4.jpg" alt="Nueva Colecciòn">
+                   <!-- <div class="eslide-title">
+                        <p>Diseño y Moda a Tu Alcance</p>
+                    </div>-->
                 </div> 
 
                 <div class="categories-p">
@@ -47,24 +55,27 @@
                     </div>
                     <div class="imgcateories">
                         <div class="product">
-                            <img src="poloblack.jpg" alt="">
-                            <h3 class="title-prod">Polos</h3> 
+                            <img src="barbarian.png" alt="">
+                        
                             
                         </div>
 
                         <div class="product">
-                            <img src="polored.jpg" alt="">
-                            <h3 class="title-prod">Casuales</h3>
+                            <img src="poloredd.png" alt="">
+                            <h3 class="title-prod">Polos</h3>
+                            <p class="title-prod">$60.000</p>
                             
                         </div>
                         
                         <div class="product">
-                            <img src="polored.jpg" alt="">
-                            <h3 class="title-prod">Elegantes</h3>
+                            <img src="poloredd.png" alt="">
+                            <p class="title-prod">Elegantes</p>
+                            <p class="title-prod">$30.000</p>
                         </div>
                         <div class="product">
-                            <img src="pologreenw.jpg" alt="">
+                            <img src="poloredd.png" alt="">
                             <h3 class="title-prod">Sports</h3>
+                            <p class="title-prod">$60.000</p>
                             
                         </div>
                         

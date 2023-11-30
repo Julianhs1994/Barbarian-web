@@ -3,20 +3,20 @@ import cookieParser from "cookie-parser";
 const port = 8080;
 
 //Fix para __dirname
-////////////////////////////////////////////////////
+
 import path from "path";
 import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-///////////////////////////////////////////////////////
+
 import { methods as authentication } from "./controllers/authentication.controller.js";
 
 //Middlewares
-//////////////////////////////////////////////////////////
+
 import { methods as authorizations } from "./middlewares/authorization.js";
 
-//Controladores///////
-//////////////////////////////////////////////////////////
+//Controladores
+
 import { methods as users} from "./controllers/users.controller.js";
 import { methods as products } from "./controllers/products.controller.js";
 import { methods as seccions } from "./controllers/seccion_producto.controller.js";
@@ -25,8 +25,7 @@ import { methods as colores } from "./controllers/color_producto.controller.js";
 //EJS
 import expressEjsLayouts from "express-ejs-layouts";
 
-//multer////////
-///////////////////////////////////////////////////
+//multer
 import multer from "multer";
 
 

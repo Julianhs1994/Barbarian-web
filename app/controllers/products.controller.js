@@ -25,7 +25,7 @@ async function getProdListFromCategory(req,res,next){
     const page = req.body.page || 1; // Página 
     //console.log("BODY-body:" , req.body.page);
     //console.log("BODY-query:" , req.query.page);
-    const pageSize = req.body.pageSize ||4; // Tamaño de página deseado
+    const pageSize = req.body.pageSize ||20; // Tamaño de página deseado
     const value = req.body.value;
   
     if(!req.session){

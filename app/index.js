@@ -244,7 +244,7 @@ app.post('/search',async (req, res) => {
 
 //ruta trocada poner de ultimo
 
-/*app.get("/:userId", authorizations.soloPublico, async (req, res) => {
+app.get("/:userId", authorizations.soloPublico, async (req, res) => {
   //
   var rol = "";
   if(!req.session || !req.session.rol){
@@ -264,4 +264,4 @@ app.post('/search',async (req, res) => {
   } catch (error) {
     res.render("activation", { activationSuccess: false, isLoggedIn });
   }
-});*/
+});

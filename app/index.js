@@ -213,6 +213,8 @@ app.post("/api/login", authentication.login);
 app.post("/api/close", authorizations.close);
 //Rutas con funciones PRODUCTOS
 app.post("/api/getSectionProd", products.getProdListFromCategory)
+//Ruta para obtener producto por nombre
+app.post("/api/searchProdFromName", products.searchProdFromName)
 
 //Get con funciones
 app.get("/api/getAllUsers",users.getAllUsers);
@@ -242,7 +244,7 @@ app.post('/search',async (req, res) => {
 
 //ruta trocada poner de ultimo
 
-app.get("/:userId", authorizations.soloPublico, async (req, res) => {
+/*app.get("/:userId", authorizations.soloPublico, async (req, res) => {
   //
   var rol = "";
   if(!req.session || !req.session.rol){
@@ -262,4 +264,4 @@ app.get("/:userId", authorizations.soloPublico, async (req, res) => {
   } catch (error) {
     res.render("activation", { activationSuccess: false, isLoggedIn });
   }
-});
+});*/

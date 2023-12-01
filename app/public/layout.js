@@ -146,4 +146,26 @@ function displayResults(results) {
 }
 
 
+//Boton buscador
 
+document.getElementById('botonBuscar').addEventListener("click",async ()=>{
+  const value = document.getElementById('SearchProd').value;
+  const respuesta = await fetch('api/searchProdFromName',{
+    method: "POST",
+    headers:{
+      'Content-type':"application/json"
+    },
+    body:JSON.stringify({
+      value:value
+    })
+  });
+  if(respuesta.status != 200 && respuesta.status != 201 ){
+    return console.log(respuesta.status)
+  }else{
+    const respuestaJson = await respuesta.json();
+    if(respuestaJson.redirect){
+      window.location.href = respuestaJson.redirect;
+    }
+  }
+
+})

@@ -26,12 +26,17 @@
                             <img src="<%= objeto.pdc_imagen %>" alt="imagen de producto">
                         </div>
                         <div class="descripcion">
-                            <p>Marca: <%= objeto.pdc_fk_marca%></p>
-                            <p>Nombre: <%= objeto.pdc_nombre %></p>
-                            <p>Descripcion: <%= objeto.pdc_descripcion %></p>
-                            <p>Precio: <%= objeto.pdc_valor %></p>
+                            <p> <%= objeto.pdc_fk_marca%></p>
+                            <p> <%= objeto.pdc_nombre %></p>
+                            <p> <%= objeto.pdc_descripcion %></p>
+                            <p> <%= objeto.pdc_valor %></p>
                             <div class="btn-shop">
-                                <button> Agregar <!--<img src="carts.png" alt="">--></button>
+                                <button> <spam>Agregar al Carrito </spam>
+                                    <div class="btn-shop-car">
+                                        <img src="carr.ico" alt="car-shop">
+                                    </div>
+                                </button>
+                                
                             </div>
                         </div>
                     </div>    

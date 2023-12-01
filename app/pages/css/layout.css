@@ -291,6 +291,9 @@ nav div #LogOut {
   margin-top:5%;
   background-color: #751919;
 }
+.selected{
+  color: red;
+}
 
 /*
     border-radius: 0;

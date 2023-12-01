@@ -139,6 +139,7 @@ function displayResults(results) {
       let selectedDivText = document.getElementsByClassName('selected')[0].innerHTML;
       console.log(selectedDivText);
       document.getElementById("SearchProd").value = selectedDivText//reemplaza el texto
+      resultsContainer.innerHTML = '';
     }
   }) 
 

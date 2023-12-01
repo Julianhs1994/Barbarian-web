@@ -23,15 +23,15 @@ async  function sendParametros(value,page,pageSize){
       }else{
         const responseJSON = await response.json();
         if(responseJSON.redirect){
-          const arrayData = responseJSON.arrayData;
+          /*const arrayData = responseJSON.arrayData;
           const encodedArrayData = decodeURIComponent(JSON.stringify(arrayData));
           //const page = responseJSON.page;
           const totalPages = responseJSON.totalPages;
           const pageSize = responseJSON.pageSize;
           console.log("thepage:"+page)
           //const redirectUrl = ""+responseJSON.redirect+"?value="+encodedArrayData+"&page="+page//`${response.redirect}?value=${encodedArrayData}`;
-          const redirectUrl = responseJSON.redirect + "?value=" + encodedArrayData + "&page=" + page + "&totalPages="+totalPages + "&pageSize="+ pageSize ;
-          window.location.href=redirectUrl;
+          const redirectUrl = responseJSON.redirect + "?value=" + encodedArrayData + "&page=" + page + "&totalPages="+totalPages + "&pageSize="+ pageSize ;*/
+          window.location.href= responseJSON.redirect;
         }
       } 
   

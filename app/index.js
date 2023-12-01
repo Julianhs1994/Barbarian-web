@@ -72,21 +72,23 @@ app.get("/", authorizations.soloMain, (req, res) => {
   //
   let prodList = [];
   let value = req.query.gender;
-  let prodListParam = "";
+  //let prodListParam = "";
   let page = "";
   let totalPages = "";
   let pageSize = "";
   if(value>0){
-    prodListParam = encrypted.decryptUrl( req.query.value );
-    page = req.query.page;
-    totalPages = req.query.totalPages;
-    pageSize = req.query.pageSize;
-  }
-  if (prodListParam){
+    const prodListParam = encrypted.decryptUrl( req.query.value );
+    page = encrypted.decryptUrl( req.query.page );
+    totalPages = encrypted.decryptUrl( req.query.totalPages )
+    pageSize = encrypted.decryptUrl( req.query.pageSize )
+  /*}
+  if (prodListParam){*/
     const decodedArrayData = JSON.parse(decodeURIComponent(prodListParam));
+    console.log("decode:"+prodListParam)
     prodList = Array.isArray(decodedArrayData) ? decodedArrayData : [];
   }
   try{
+    console.log('prodList'+prodList)
     res.render('main', {isLoggedIn, rol, prodList, currentPage: page, totalPages, pageSize, gender:value });
   }catch(err){
     console.error(err);
@@ -162,27 +164,6 @@ app.get("/addproduct", authorizations.soloPublico,async (req,res) => {
   res.render('prueba', {isLoggedIn, rol})
 })*/
 
-app.get("/:userId", authorizations.soloPublico, async (req, res) => {
-  //
-  var rol = "";
-  if(!req.session || !req.session.rol){
-    rol = "Invitado";
-  res.locals.rol = rol;
-  }else{
-    rol = req.session.rol;
-  res.locals.rol = rol;
-  }
-  //
-  const userId = req.params.userId;
-  const isLoggedIn = req.session.usuario ? true : false;
-  //console.log(userId);
-  try {
-    const activationSuccess = await authorizations.activateUser(userId);
-    res.render("activation", { activationSuccess, isLoggedIn });
-  } catch (error) {
-    res.render("activation", { activationSuccess: false, isLoggedIn });
-  }
-});
 
 //Ruta con Multer
 
@@ -232,6 +213,8 @@ app.post("/api/login", authentication.login);
 app.post("/api/close", authorizations.close);
 //Rutas con funciones PRODUCTOS
 app.post("/api/getSectionProd", products.getProdListFromCategory)
+//Ruta para obtener producto por nombre
+app.post("/api/searchProdFromName", products.searchProdFromName)
 
 //Get con funciones
 app.get("/api/getAllUsers",users.getAllUsers);
@@ -254,7 +237,31 @@ app.post('/search',async (req, res) => {
 
   // Utiliza la función de búsqueda para obtener los resultados
   const results = await searchProducts(query);
-  console.log("result index:"+results)
+  //console.log("result index:"+results)
   // Envía los resultados como respuesta al cliente
   res.status(200).send({results:results})
+});
+
+//ruta trocada poner de ultimo
+
+app.get("/:userId", authorizations.soloPublico, async (req, res) => {
+  //
+  var rol = "";
+  if(!req.session || !req.session.rol){
+    rol = "Invitado";
+  res.locals.rol = rol;
+  }else{
+    rol = req.session.rol;
+  res.locals.rol = rol;
+  }
+  //
+  const userId = req.params.userId;
+  const isLoggedIn = req.session.usuario ? true : false;
+  //console.log(userId);
+  try {
+    const activationSuccess = await authorizations.activateUser(userId);
+    res.render("activation", { activationSuccess, isLoggedIn });
+  } catch (error) {
+    res.render("activation", { activationSuccess: false, isLoggedIn });
+  }
 });

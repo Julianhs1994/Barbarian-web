@@ -4,7 +4,7 @@ import { methodsEnc } from "../crypto/cryptos.js";
 async function InsertNewProduct(pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen){
 
   if(!pdc_nombre || !pdc_fk_seccion || !pdc_descripcion || !pdc_fk_marca || !pdc_fk_color || !cant_xs || !cant_s || !cant_m || !cant_l || !cant_xl || !pdc_valor || !pdc_imagen || pdc_imagen == ""){
-    console.log("enter")
+    //console.log("enter")
     return ({boolean:false})
   }
   try{
@@ -23,7 +23,7 @@ async function InsertNewProduct(pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk
 async function getProdListFromCategory(req,res,next){
   try{
     const page = req.body.page || 1; // Página 
-    const pageSize = req.body.pageSize ||20
+    const pageSize = req.body.pageSize ||5
     ; // Tamaño de página deseado
     const value = req.body.value;
   
@@ -67,7 +67,33 @@ async function getProdListFromCategory(req,res,next){
 
 }  
 
+async function searchProdFromName(req,res){
+  try{
+    const connection = getConnection();
+    const name = req.body.value;
+    const sql = await connection.query("SELECT * FROM producto WHERE pdc_nombre =? ",[name]);
+    const arrayData = sql[0];
+    //
+    const value = 1;
+    const page = 1;
+    const totalPages = 1;
+    const pageSize = 1;
+    //
+    const encodedArrayData = decodeURIComponent(JSON.stringify(arrayData));
+    const ArrayEncrypt = methodsEnc.encryptUrl(encodedArrayData)
+    const pageEncrypt = methodsEnc.encryptUrl(page.toString());
+    const totalPagesEncrypt = methodsEnc.encryptUrl(totalPages.toString());
+    const pageSizeEncrypt = methodsEnc.encryptUrl(pageSize.toString());
+    //
+    const redirectUrl = ("/?value=" + ArrayEncrypt + "&page=" + pageEncrypt + "&totalPages="+totalPagesEncrypt + "&pageSize="+ pageSizeEncrypt +"&gender="+value).toString() ;
+    res.status(200).send({status:200,message:"Ok",redirect:redirectUrl})
+  }catch(err){
+    console.error(err)
+  }  
+}
+
 export const methods ={
     InsertNewProduct,
-    getProdListFromCategory
+    getProdListFromCategory,
+    searchProdFromName
 }

@@ -9,29 +9,39 @@
 
   <body>
     <header>
-      <nav class="menu">
-        <ul class="menu-lista">
-          <li><a href="/">Home</a></li>
-          <li><a class="a" id="Man">Hombre</a></li>
-          <li><a class="a" id="Woman">Mujer</a></li>
-        </ul>
-        <div class="Buscar-btn" id="Buscar-btn">
-          <input type="text" id="SearchProd" placeholder="Buscar" />
-          <div id="recuadro"></div>
-          <button>Buscar</button>
-        </div>
-        <div class="login">
-          <a> <% if (rol) { %> <%= rol %> <% } %> </a>
-          <% if (isLoggedIn) { %>
-          <a id="LogOut"> Cerrar Sesión </a>
-          <% } %> <% if (!isLoggedIn) { %>
-          <a href="login"> Iniciar Sesión </a>
-          <% } %>
-        </div>
-        <div class="carts">
-          <a href="#"><img src="carts.png" alt="Carrito de Compras" /></a>
-        </div>
-      </nav>
+        <nav class="menu">
+            <ul class="menu-lista">
+                <li><a href="/">Home</a></li>
+                <li><a class="a" id="Man">Hombre</a></li>
+                <li><a class="a" id="Woman">Mujer</a></li>
+            </ul>
+            <div class="Buscar-btn" id="Buscar-btn">
+                <input type="text" id="SearchProd" autocomplete="off" placeholder="Buscar">
+                <div id="recuadro"></div>
+                <button type="buton" id="botonBuscar">Buscar</button>
+            </div>
+            <div class="login">
+                    <a>
+                        <% if (rol) { %>
+                            <%= rol %>
+                        <% } %>
+                    </a>
+                <% if (isLoggedIn) { %>
+                    <a id="LogOut">
+                        Cerrar Sesión
+                    </a>
+                    <% } %>
+                <% if (!isLoggedIn) { %>
+                    <a href="login">
+                        Iniciar Sesión
+                    </a>
+                <% } %>
+
+            </div>
+            <div class="carts">
+                <a href="#"><img src="carts.png" alt="Carrito de Compras"></a>
+            </div>
+        </nav>
     </header>
     <div class="componente"><%- body %></div>
 

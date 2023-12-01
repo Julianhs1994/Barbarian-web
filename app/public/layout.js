@@ -103,15 +103,69 @@ function displayResults(results) {
     resultItem.textContent = result.pdc_nombre;
     resultItem.setAttribute('id', `result-${index}`);
     resultsContainer.appendChild(resultItem);
-    //
+    //cuando clcikea elementos del recuadro
     document.getElementById(`result-${index}`).addEventListener('click',(e)=>{
       let id = e.target.id
-      console.log(id);
+      //console.log(id);
       let texto = document.getElementById(id).innerHTML;//obtener el texto
-      console.log(texto)
+      //console.log(texto)
       document.getElementById("SearchProd").value = texto//reemplaza el texto
-      resultsContainer.innerHTML = ''; //lo encontró,borra los textos
+      resultsContainer.innerHTML = ''; //lo encontró,borra los textos del recuadro
     });
   });
+  //desplazarce por el recuadro
+  let selectedResultIndex = -1; // Inicialmente ninguno está seleccionado
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowDown') {
+      event.preventDefault(); // Evita el desplazamiento de la página por defecto
+      selectedResultIndex++; // Incrementa el índice del resultado seleccionado
+      let last = selectedResultIndex -1
+      // Verifica si el índice está fuera de rango
+      if (selectedResultIndex >= results.length) {
+        selectedResultIndex = 0; // Vuelve al primer div si se alcanza el final
+      }
+      if (last >= 0){
+        let div = document.getElementById(`result-${last}`);
+        div.classList.remove("selected"); 
+      }
+      // Resalta el div seleccionado aplicando un estilo
+      const selectedResult = document.getElementById(`result-${selectedResultIndex}`);
+      selectedResult.classList.add('selected');
+    }
+  });
+  document.addEventListener('keydown', (event) => {
+    if(event.key === 'Enter'){
+      //obtengo el div seleccionado y extraigo el texto
+      let selectedDivText = document.getElementsByClassName('selected')[0].innerHTML;
+      console.log(selectedDivText);
+      document.getElementById("SearchProd").value = selectedDivText//reemplaza el texto
+      resultsContainer.innerHTML = '';
+    }
+  }) 
+
 }
 
+
+//Boton buscador
+
+document.getElementById('botonBuscar').addEventListener("click",async ()=>{
+  const value = document.getElementById('SearchProd').value;
+  const respuesta = await fetch('api/searchProdFromName',{
+    method: "POST",
+    headers:{
+      'Content-type':"application/json"
+    },
+    body:JSON.stringify({
+      value:value
+    })
+  });
+  if(respuesta.status != 200 && respuesta.status != 201 ){
+    return console.log(respuesta.status)
+  }else{
+    const respuestaJson = await respuesta.json();
+    if(respuestaJson.redirect){
+      window.location.href = respuestaJson.redirect;
+    }
+  }
+
+})

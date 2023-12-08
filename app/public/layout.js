@@ -1,6 +1,16 @@
+document.addEventListener("DOMContentLoaded", function() {
+  var elemento = document.getElementById("tu-elemento"); // Reemplaza "tu-elemento" con el ID correcto
+  if (elemento){
+    elemento.addEventListener("evento", function() {
+    // Código para manejar el evento aquí
+    });
+  }
+});
 
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("LogOut").addEventListener("click",async () => {
+document.addEventListener("DOMContentLoaded",async () => {
+  var elemento = document.getElementById("LogOut");
+    if(elemento){
+    elemento.addEventListener("click",async () => {
       const respuesta = await fetch("/api/close",{
         method:"POST",
         headers:{
@@ -17,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     });
+    }
 });
 
 async  function sendParametro(value){
@@ -69,11 +80,14 @@ const searchInput = document.getElementById("SearchProd");
 searchInput.addEventListener('input',async (event) =>{
   let query = "";
   query = event.target.value;
-
+  //->Extraer el genero de la url
+  const urlParams = new URLSearchParams(window.location.search);
+  const myParam = urlParams.get('gender') || 1;
+  //console.log(myParam)
   if(query==""){ //si la busqueda está vacia
     query = "%/%querty%/%" //quemar valor para limpiar div
   }
-  const response = await fetch(`/search?query=${encodeURIComponent(query)}`,{
+  const response = await fetch(`/search?query=${encodeURIComponent(query)}&&gender=${encodeURIComponent(myParam)}`,{
     method:"POST",
     headers:{
       "Content-type":"application/json"
@@ -100,7 +114,9 @@ function displayResults(results) {
   // Muestra los resultados en el recuadro
   results.forEach((result,index) => {
     const resultItem = document.createElement('div');
-    resultItem.textContent = result.pdc_nombre;
+    const splitText = result.pdc_nombre.split('/');
+    const desiredText = splitText[0].trim();
+    resultItem.textContent = desiredText;//result.pdc_nombre;
     resultItem.setAttribute('id', `result-${index}`);
     resultsContainer.appendChild(resultItem);
     //cuando clcikea elementos del recuadro
@@ -150,7 +166,11 @@ function displayResults(results) {
 
 document.getElementById('botonBuscar').addEventListener("click",async ()=>{
   const value = document.getElementById('SearchProd').value;
-  const respuesta = await fetch('api/searchProdFromName',{
+  //->Extraer el genero de la url
+  const urlParams = new URLSearchParams(window.location.search);
+  const myParam = urlParams.get('gender') || 1;
+  //
+  const respuesta = await fetch(`api/searchProdFromName?gender=${encodeURIComponent(myParam)}`,{
     method: "POST",
     headers:{
       'Content-type':"application/json"

@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import { getConnection } from "../database/database.js";
 import { sendActivationEmail } from "../helper/email.helper.js";
 dotenv.config();
-
+import crypto from "crypto";
 
 export const SetUsuario = [{ str_user: "@@test@@pass",str_rol: "@@0@@rol" }];
 
@@ -76,10 +76,42 @@ async function register(req, res) {
   }
 }
 
-async function login(req, res) { 
-  try {
-    const { usr_email, usr_contrasenia } = req.body;
+//crypto client
+/*const { privateKey } = crypto.generateKeyPairSync('rsa', {
+  modulusLength: 2048,
+  publicKeyEncoding: { type: 'spki', format: 'pem' },
+  privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
+});*/
 
+import {privateKey, publicKey} from "../index.js"
+
+async function login(req, res) { 
+  const payload = req.body
+
+  let iv = Buffer.from(payload.iv, 'base64')
+  //console.log('iv se pasa tal cual, codificado en base64')
+  //console.log('iv: ' + iv.toString('base64'))
+  //console.log('')
+
+  let key = crypto.privateDecrypt({ key: privateKey, padding: crypto.constants.RSA_PKCS1_OAEP_PADDING }, Buffer.from(payload.key, 'base64'))
+  //console.log('La clave está cifrada con nuestra clave pública, por lo que solo nosotros podemos descifrarla con nuestra clave privada.')
+  //console.log('key: ' + key.toString('base64'))
+  //console.log('')
+
+  const decryptor = crypto.createDecipheriv('aes-256-cbc', key, iv)
+  const text = Buffer.concat([decryptor.update(payload.text, 'base64'), decryptor.final()]).toString('utf8')
+  console.log('El texto dentro de la carga útil está cifrado con clave y iv.')
+  console.log('y como la clave está cifrada, nadie excepto nosotros puede descifrar el texto')
+  console.log('text: ' + text)
+  console.log('')
+  const userDecrypt = JSON.parse(text);//como lo enviamos json lo parseamos
+  //console.log("DECRYPT-USER:"+userDecrypt.user)
+  try {
+
+    //const { usr_email, usr_contrasenia } = req.body;
+    const usr_email = userDecrypt.user;
+    const usr_contrasenia = userDecrypt.password;
+    
     if (!usr_email || !usr_contrasenia) {
       return res.status(400).send({
         status: 400,

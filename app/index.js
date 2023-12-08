@@ -32,6 +32,8 @@ import multer from "multer";
 import { methodsEnc as encrypted } from "./crypto/cryptos.js";
 //fs
 import { promises as fs } from 'fs';
+//
+import crypto from "crypto";
 
 //Server
 const app = express();
@@ -47,6 +49,8 @@ app.use(express.static(__dirname + "/pages/admin"));
 app.use(express.static(__dirname + "/assets"))
 
 app.use(express.static(__dirname + "/crypto"))
+app.use(express.static(__dirname + "/crypto-client"))
+
 //
 app.use(express.json());
 app.use(cookieParser());
@@ -54,6 +58,21 @@ app.use(cookieParser());
 app.use(expressEjsLayouts);
 app.set("views",[ path.join(__dirname, "pages"),path.join(__dirname, "/pages/admin")]);
 app.set("view engine", "ejs");
+
+//crypto client
+export const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
+  modulusLength: 2048,
+  publicKeyEncoding: { type: 'spki', format: 'pem' },
+  privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
+});
+//crypto client Ruta
+app.get('/public', (req, res) => {
+
+  console.log('Recibí una solicitud de clave pública.')
+  res.setHeader("Content-Type", "text/plain")
+  res.writeHead(200)
+  res.end(publicKey)
+});
 
 //Rutas
 
@@ -72,7 +91,6 @@ app.get("/", authorizations.soloMain, (req, res) => {
   //
   let prodList = [];
   let value = req.query.gender;
-  //let prodListParam = "";
   let page = "";
   let totalPages = "";
   let pageSize = "";
@@ -81,14 +99,11 @@ app.get("/", authorizations.soloMain, (req, res) => {
     page = encrypted.decryptUrl( req.query.page );
     totalPages = encrypted.decryptUrl( req.query.totalPages )
     pageSize = encrypted.decryptUrl( req.query.pageSize )
-  /*}
-  if (prodListParam){*/
     const decodedArrayData = JSON.parse(decodeURIComponent(prodListParam));
-    console.log("decode:"+prodListParam)
     prodList = Array.isArray(decodedArrayData) ? decodedArrayData : [];
   }
   try{
-    console.log('prodList'+prodList)
+    //console.log('prodList'+prodList)
     res.render('main', {isLoggedIn, rol, prodList, currentPage: page, totalPages, pageSize, gender:value });
   }catch(err){
     console.error(err);
@@ -234,9 +249,9 @@ import { searchProducts } from './controllers/search.Controller.js';
 // Ruta para manejar la solicitud de búsqueda
 app.post('/search',async (req, res) => {
   const query = req.query.query;
-
+  const gender = req.query.gender;
   // Utiliza la función de búsqueda para obtener los resultados
-  const results = await searchProducts(query);
+  const results = await searchProducts(query,gender);
   //console.log("result index:"+results)
   // Envía los resultados como respuesta al cliente
   res.status(200).send({results:results})

@@ -33,7 +33,7 @@ async function getProdListFromCategory(req,res,next){
     // Ajusta tu consulta SQL para obtener solo los productos de la página actual
     const offset = (page - 1) * pageSize;
     const connection = await getConnection();
-    const query = "SELECT * FROM producto WHERE pdc_fk_seccion=? LIMIT ? OFFSET ?";
+    const query = "SELECT producto.pdc_nombre,marca.mar_nombre,producto.pdc_descripcion,producto.pdc_valor,producto.pdc_imagen FROM producto INNER JOIN marca_producto marca ON producto.pdc_fk_marca = marca.mar_id WHERE pdc_fk_seccion=? LIMIT ? OFFSET ?";
     const result = await connection.query(query, [value, pageSize, offset]);
     const arrayData = result[0];
     //
@@ -73,8 +73,40 @@ async function searchProdFromName(req,res){
     const name = req.body.value;
     const sql = await connection.query("SELECT * FROM producto WHERE pdc_nombre =? ",[name]);
     const arrayData = sql[0];
+    //->insertar en busquedas:
+    if (arrayData.length === 0){
+      return 
+    }else{
+      let id;
+      arrayData.forEach(element => {
+        id = element.pdc_id;
+        //console.log(id)
+      });
+      const sql2 = await connection.query("SELECT * FROM busquedas WHERE pdc_id =?",[id]);
+      console.log("lenght: "+sql2[0].length)
+      if(sql2[0].length === 0){
+        //console.log(sql2[0])
+        console.log("el id:"+id+" No existe en busquedas,insertando...")
+        const insert = connection.query("INSERT INTO busquedas (pdc_id,contador) VALUES (?,?)",[id,0]);
+        console.log("Insercion realizada en busquedas, id de producto="+id);
+      }else{
+        console.log("El producto con id="+id+" Ya esta insertado en busquedas, actualizando contador...")
+        let count;
+        sql2[0].forEach(objeto=>{
+          count = objeto.contador;
+        });
+        let suma = parseInt(count) + 1;
+        try{
+        const insertB = await connection.query(`UPDATE busquedas SET contador=${suma} WHERE pdc_id=${id}`);
+        console.log("Busqueda actualizada, producto_id:"+id+" Contador="+suma)
+        }catch(err){
+          console.error(insertB)
+        }
+      }
+
+    }
     //
-    const value = 1;
+    const value = req.query.gender || 1;
     const page = 1;
     const totalPages = 1;
     const pageSize = 1;

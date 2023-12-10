@@ -13,10 +13,11 @@ html {
 
   .container{
     width: 100%;
-    height: 1800px;
+    /*height: 1800px;*/
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+
     
   }
   /*estilos diseños card*/
@@ -179,14 +180,51 @@ html {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
    
   }
+  .mostWanted{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    height: 400px;
+    margin-top: 700px;
+    background-color: rgb(224, 144, 15);
+    align-items: center;
 
-  .eslide{
+  }
+
+  .mostWanted > h2{
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+   color: #000000;
+    
+  }
+
+  .mostWanted-cards{
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+
+  .cardMostWanted{
+    display: flex;
+    flex-direction: row;
+    width: 33%;
+    height: 300px;
+    background-color: #570202;
+    align-content: space-around;
+  }
+
+  /*.eslide{
   display: flex;
   width: 100%;
   height: 400px;
-  margin-top: 269px;
+  margin-top: 269px;*/
   
-}
+
 .items{
   display: flex;
   flex-direction: row;
@@ -198,19 +236,23 @@ html {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 700px;
+  height: 500px;
   margin-top:0px;
   background-color: rgb(255, 255, 255);
 }
 .titlesp{
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   width: 100%;
   height: 100px;
   align-items: center;
   justify-content: center;
 }
 .titlesp h2{
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
 font-size: 25px;
 font-family: Verdana, Geneva, Tahoma, sans-serif;
 margin: 0px;
@@ -219,6 +261,9 @@ padding: 0px;
 color: #570202;
 }
 .titlesp p{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   font-size: 17px;
   margin-top: 15px;
   padding:0px;
@@ -230,8 +275,7 @@ color: #570202;
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 422px;
-  justify-content: space-around;
+  height: 336px;
   background: linear-gradient(rgba(10 19 77 / 70%), rgba(0 0 0 / 70%)), url('sweater.jpg');
     background-size: cover;
     background-position: center;
@@ -239,21 +283,28 @@ color: #570202;
 .categories-p .product{
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  
   transition: box-shadow 0.3s ease;
+  width: 25%;
+  height: 336px;
+  background-color: rgb(29, 5, 51);
   
 }
-.categories-p .product:hover{
-  box-shadow: 0 0 10px rgba(173, 29, 29, 0.3);
-  cursor: pointer;
+.product > img{
+  height: 227px;
+}
+.product .des-categories{
+  display: flex;
+  flex-direction: column; 
+  color: #f1e5e5;
+  align-items: center;
+  
   
 }
 
-.categories-p .product .title-prod{
-  text-align: center;
-  color: white;
+.des-categories p {
+  margin: 0;
 }
-
 /*.product img{
   height:200px;
 }*/

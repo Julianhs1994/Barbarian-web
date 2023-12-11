@@ -207,11 +207,18 @@ html {
     
   }
 
-  /*.mostWanted-cards{
+  .mostWanted-cards{
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 24%; 
+    height: 24%;
+    margin-right: 5px; 
+    background-color: white;
 
-  }*/
+
+  }
 
   /*.cardMostWanted{
     display: flex;
@@ -427,6 +434,38 @@ justify-content: center;
     width: 27px;
     color: white;
 }
+
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.my-link,
+.current-page {
+  margin: 0 5px;
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 1px solid #2c0202;
+  border-radius: 5px;
+  color: #000000;
+}
+
+.my-link:hover {
+  background-color: #550404;
+  color: #ddd;
+  cursor: pointer;
+}
+
+.current-page {
+  font-weight: bold;
+  color: #000;
+  background-color: #f8f8f8; 
+  
+}
+
 
 
 

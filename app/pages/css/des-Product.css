@@ -1,0 +1,33 @@
+body {
+    padding: 0;
+      margin: 0;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+  }
+
+ .container-desc-product{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background-color: #f8f8f8;
+} 
+.conta-product-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.conta-product-descrip{
+    Display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.conta-product-card{
+    Display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

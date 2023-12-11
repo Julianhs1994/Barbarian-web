@@ -46,6 +46,15 @@
                 <div class="home-title">
                     <h1>"Donde la moda encuentra la comodidad."</h1>
                 </div>
+                <div class="mostWanted">
+                    <% if(resultThree && resultThree.length > 0) { %>
+                        <% resultThree.forEach(objeto => { %>
+                            <a><%= objeto.pdc_nombre %></a>
+                            <a><%= objeto.pdc_imagen %></a>
+                            <a><%= objeto.contador %></a>
+                        <% }) %>
+                    <% } %>
+                </div>
                 <div class="eslide">
                     <img class="items" src="mod1.jpg" alt="Nueva Colecciòn">
                     <img class="items" src="mod2.jpg" alt="Nueva Colecciòn">

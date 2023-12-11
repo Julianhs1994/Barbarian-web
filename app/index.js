@@ -76,7 +76,7 @@ app.get('/public', (req, res) => {
 
 //Rutas
 
-app.get("/", authorizations.soloMain, (req, res) => {
+app.get("/", authorizations.soloMain,async (req, res) => {
   const isLoggedIn = req.session.usuario ? true : false;
   res.locals.rol = "no-one";
   var rol = "";
@@ -102,12 +102,15 @@ app.get("/", authorizations.soloMain, (req, res) => {
     const decodedArrayData = JSON.parse(decodeURIComponent(prodListParam));
     prodList = Array.isArray(decodedArrayData) ? decodedArrayData : [];
   }
+  //
+  const resultThree = await products.getProdForSearch();
+  //console.log(resultThree)
   try{
     //console.log('prodList'+prodList)
-    res.render('main', {isLoggedIn, rol, prodList, currentPage: page, totalPages, pageSize, gender:value });
+    res.render('main', {isLoggedIn, rol, prodList, currentPage: page, totalPages, pageSize, gender:value, resultThree });
   }catch(err){
     console.error(err);
-    res.render('main', {isLoggedIn, rol, prodList: [], currentPage: page, totalPages, pageSize, gender:value});
+    res.render('main', {isLoggedIn, rol, prodList: [], currentPage: page, totalPages, pageSize, gender:value, resultThree});
   }
   
 });

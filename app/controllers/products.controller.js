@@ -124,8 +124,24 @@ async function searchProdFromName(req,res){
   }  
 }
 
+async function getProdForSearch(){
+  const connection = await getConnection();
+  const sql = await connection.query("SELECT pdc_nombre,pdc_imagen,contador FROM producto INNER JOIN busquedas ON producto.pdc_id = busquedas.pdc_id ORDER BY busquedas.contador DESC LIMIT 3");
+  const arrayData = sql[0];
+  return arrayData;
+  //console.log("sql:"+sql[0])
+  /*sql[0].forEach((objeto,index)=>{
+    console.log(index);
+    console.log(objeto.pdc_nombre);
+    console.log(objeto.pdc_imagen);
+    console.log(objeto.contador)
+    //console.log(objeto.)
+  })*/
+}
+
 export const methods ={
     InsertNewProduct,
     getProdListFromCategory,
-    searchProdFromName
+    searchProdFromName,
+    getProdForSearch
 }

@@ -190,7 +190,7 @@ html {
     width: 100%;
     height: 400px;
     margin-top: 700px;
-    background-color: #6e1313;
+    background-color: #ffffff;
 
   }
 
@@ -202,8 +202,8 @@ html {
     justify-content: center;
     align-content: center;
     align-items: center;
-   color: #ffffff;
-   background-color: #0e0606;
+   color: #000000;
+   
     
   }
 
@@ -246,6 +246,7 @@ html {
 .categories-p{
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   width: 100%;
   height: 500px;
   margin-top:0px;
@@ -271,53 +272,75 @@ border: 0px;
 padding: 0px;
 color: #0e0606;
 }
-.titlesp p{
+.titlesp .nnd{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   font-size: 17px;
   margin-top: 15px;
   padding:0px;
   font-style: italic;
   color: #000000;
+  text-align: center;
 }
-  
+
 .categories-p .imgcateories{
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   width: 100%;
   height: 336px;
-  background: linear-gradient(rgba(10 19 77 / 70%), rgba(0 0 0 / 70%)), url('sweater.jpg');
-    background-size: cover;
-    background-position: center;
+  background-size: cover;
+  background-position: center;
 }
 .categories-p .product{
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   transition: box-shadow 0.3s ease;
   width: 25%;
   height: 336px;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
 
   
 }
 .product > img{
+  display: flex;
+  flex-wrap: wrap;
   height: 227px;
 }
 .product .des-categories{
   display: flex;
   flex-direction: column; 
-  color: #f1e5e5;
+  color: #000000;
   align-items: center;
   
   
 }
+.product .title-prod{
+  margin: 0px;
+  color: #000000;
+}
+.product .title-prodv{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-weight: bold;
+  align-content: center;
+  align-items: center;
+  margin: 0px;
+  color: #330303;
+  
+  width: 100%;
+}
 
 .des-categories p {
   margin: 0;
+  margin: 0px;
+  color: #ddd;
 }
-/*.product img{
-  height:200px;
-}*/
 
 .imgcateories > img{
   width: 18%;
@@ -330,14 +353,16 @@ color: #0e0606;
 .banner-p{
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   width: 100%;
-  height: 500px;
+  height: 406px;
   margin-top:90px;
   background-color: rgb(224, 224, 224)
 }
  .flyer-banner{
   display: flex;
   flex-wrap: wrap;
+
   width: 40%;
 }
 .flyer-img{
@@ -345,6 +370,14 @@ color: #0e0606;
   width: 60%;
   flex-direction: column;
   justify-content: space-around;
+  
+}
+.banner-p .flyer-banner > img{
+  display: flex;
+  width: 100%;
+  height: 406px;
+  margin: 0px;
+  
 }
 .direcc{
 display: flex;

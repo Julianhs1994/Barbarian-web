@@ -41,16 +41,26 @@
         <h1>"Donde la moda encuentra la comodidad."</h1>
       </div>-->
       <div class="mostWanted">
-        <h2>Productos Mas Buscados</h2>
-        <% if(resultThree && resultThree.length > 0) { %> <%
-        resultThree.forEach(objeto => { %>
-        <a><%= objeto.pdc_nombre %></a>
-        <a><%= objeto.pdc_imagen %></a>
-        <a><%= objeto.contador %></a>
-        <% }) %> <% } %>
-
-        
-      </div>
+        <div class="title-most">
+          <h2>Productos Mas Buscados</h2>
+        </div>
+    
+        <% if(resultThree && resultThree.length > 0) { %>
+            <% resultThree.forEach(objeto => { %>
+                <div class="cardMostWanted">
+                    <div class="divImg">
+                        <img src="<%= objeto.pdc_imagen %>" alt="imagen de producto" />
+                    </div>
+                    <div class="descripcion">
+                        <p><%= objeto.pdc_nombre %></p>
+                        <p>Visitas: <%= objeto.visitas %></p>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No hay productos más buscados en este momento.</p>
+        <% } %>
+    </div>
     
 
       <div class="categories-p">

@@ -1,42 +1,121 @@
 body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
     padding: 0;
-      margin: 0;
-      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
-  }
+    margin: 0;
+    transition: background-color 0.3s;
+}
 
- .container-desc-product{
+.container {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0px;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.child-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    text-align: center;
+    height: auto;
     width: 100%;
-    height: 100vh;
-    background-color: #f8f8f8;
-} 
-.conta-product-img{
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    transition: background-color 0.3s;
+    position: relative; 
+    overflow: hidden; 
+}
+
+.child-container img {
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.3s;
+}
+
+.child-container:hover img {
+    transform: scale(1.1);
+}
+
+.child-container:hover::before {
+    font-size: 30px;
+    color: #800020; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.child-container:hover {
+    cursor:pointer; 
+}
+
+.child-container h2 {
+    color: #800020; 
+    font-weight: bold; 
+    transition: color 0.3s;
+}
+
+.precio-des, .precio-act {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #800020; 
+    font-weight: bold; 
+    transition: color 0.3s;
+}
+
+.precio-act {
+    text-decoration: line-through;
+}
+
+.child-container p {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold; 
+    transition: color 0.3s;
+}
+
+.child-container ul {
+    padding: 0;
+}
+
+.child-container li {
+    margin-bottom: 5px;
+    text-align: left;
+    justify-content: flex-start;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: auto;
-    width: 33%;
-    background-color: aquamarine;
+    font-weight: bold; 
 }
-.conta-product-descrip{
-    Display: flex;
-    justify-content: center;
-    align-items: center;
+
+.btn-merge {
+    display: flex;
     flex-direction: column;
-    height: auto;
-    width: 33%;
-    background-color: blueviolet;
+    align-items: center;
 }
-.conta-product-card{
-    Display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: auto;
-    width: 33%;
-    background-color: papayawhip;
+
+.btn-merge button {
+    width: 150px;
+    margin: 10px;
+    padding: 10px;
+    background-color: #470303;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold; /* Negrita */
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-merge button:hover {
+    background-color: #800020; 
+    transform: scale(1.1);
+}
+
+
+@media (min-width: 368px) {
+    .child-container {
+        width: 33.33%;
+    }
 }

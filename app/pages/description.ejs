@@ -4,30 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./css/des-Product.css">
+    <link rel="stylesheet" href="des-Product.css">
 </head>
 <body>
     <div class="container">
         <div class="child-container">
-            <img src="silla.png" alt="">
+            <!--<img src="silla.png" alt="">-->
+            <img src="<%= imagen_producto %>" alt="">
         </div>
     
         <div class="child-container">
-            <h2>Silla Ejecutiva Magnux Ergonómica Negra Con Tapizado Mesh Color Negro</h2>
-            <p>MAS BUSCADOS</p>
-            <div class="precio-act"><span>$300.000</span></div>
-            <div class="precio-des"><span>$200.000</span></div>
+            <h2><%= nombre_producto %></h2>
+            <!--<p>MAS BUSCADOS</p>-->
+            <!--<div class="precio-act"><span>$300.000</span></div>
+            <div class="precio-des"><span>$200.000</span></div>-->
+            <div class="precio-des"><span>$<%= precio_producto %></span></div>
     
             <p>Lo que Tienes que saber de este producto</p>
             <ul>
-                <li>Material: Polímero y Aluminio.</li>
-                <li>Tamaño: 75 cm x 46 cm x 39 cm.</li>
-                <li>Peso: 1 kg.</li>
-                <li>Confortable y duradera.</li>
-                <li>Comodos Apoyabrazos.</li>
-                <li>Giratoria.</li>
-                <li>Soporte Lumbar Fijo.</li>
-                <li>Material de Relleno Espuma.</li>
+                <li>Seccion: <%= seccion_producto %></li>
+                <li>Descripcion: <%= descripcion_producto %>.</li>
+                <li>Marca: <%= marca_producto %>.</li>
+                <li>Color: <%= color_producto %></li>
+                <li>Cantidad xS Disponible: <%= CantXs %> .</li>
+                <li>Cantidad S Disponible: <%= CantS %>.</li>
+                <li>Cantidad M Disponible: <%= CantM %>.</li>
+                <li>Cantidad L Disponible: <%= Cantl %></li>
+                <li>Cantidad XL Disponible: <%= Cantxl %></li>
             </ul>
         </div>
     

@@ -20,6 +20,7 @@ function soloAdmin(req, res, next) {
   }
 }
 
+//->usuarios normales sin logearse:
 function soloPublico(req, res, next) {
   if (!req.session) {
     req.session = {};
@@ -30,6 +31,20 @@ function soloPublico(req, res, next) {
     return next();
   } else {
     return res.redirect("/");
+  }
+}
+
+//->usuarios normales logeados:
+function soloUsuario(req,res,next){
+  if (!req.session) {
+    req.session = {};
+  }
+
+  const logeado = revisarCookie(req);
+  if(logeado){
+    return next()
+  }else{
+    return res.redirect("/")
   }
 }
 
@@ -166,4 +181,5 @@ export const methods = {
   soloMain,
   close,
   activateUser,
+  soloUsuario
 };

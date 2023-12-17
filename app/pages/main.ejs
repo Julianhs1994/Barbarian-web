@@ -25,12 +25,26 @@
             <p><%= objeto.pdc_descripcion %></p>
             <p><%= objeto.pdc_valor %></p>
             <div class="btn-shop">
-              <button>
-                <spam>Agregar al Carrito </spam>
+              <% if (!isLoggedIn) { %>
+              <button id="buttonRedirect">
+                <spam>
+                    Agregar al carrito
+                </spam>
                 <div class="btn-shop-car">
                   <img src="carr.ico" alt="car-shop" />
                 </div>
               </button>
+              <% } %>
+              <% if (isLoggedIn) { %>
+                <button id="buttonDetalle" value="<%= JSON.stringify(objeto) %>">
+                  <spam>
+                      Ver Más
+                  </spam>
+                  <!--<div class="btn-shop-car">
+                    <img src="carr.ico" alt="car-shop" />
+                  </div>-->
+                </button>
+                <% } %>
             </div>
           </div>
         </div>
@@ -53,7 +67,7 @@
                     </div>
                     <div class="descripcion">
                         <p><%= objeto.pdc_nombre %></p>
-                        <p>Visitas: <%= objeto.visitas %></p>
+                        <p>Visitas: <%= objeto.contador %></p>
                     </div>
                 </div>
             <% }) %>

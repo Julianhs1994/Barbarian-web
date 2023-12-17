@@ -1,5 +1,4 @@
 
-
 async  function sendParametros(value,page,pageSize){
     try{
         alert(page);
@@ -12,7 +11,7 @@ async  function sendParametros(value,page,pageSize){
         },
         body:JSON.stringify({
           value:value,
-          page: page,//parseInt(page), 
+          page: page,
           pageSize:pageSize
 
         })
@@ -23,14 +22,6 @@ async  function sendParametros(value,page,pageSize){
       }else{
         const responseJSON = await response.json();
         if(responseJSON.redirect){
-          /*const arrayData = responseJSON.arrayData;
-          const encodedArrayData = decodeURIComponent(JSON.stringify(arrayData));
-          //const page = responseJSON.page;
-          const totalPages = responseJSON.totalPages;
-          const pageSize = responseJSON.pageSize;
-          console.log("thepage:"+page)
-          //const redirectUrl = ""+responseJSON.redirect+"?value="+encodedArrayData+"&page="+page//`${response.redirect}?value=${encodedArrayData}`;
-          const redirectUrl = responseJSON.redirect + "?value=" + encodedArrayData + "&page=" + page + "&totalPages="+totalPages + "&pageSize="+ pageSize ;*/
           window.location.href= responseJSON.redirect;
         }
       } 
@@ -59,4 +50,38 @@ document.querySelectorAll('.my-link').forEach(async function(link) {
     });
   });
 
-  
+
+//->redirect register
+const button = document.getElementById('buttonRedirect');
+if(button){
+button.addEventListener('click',()=>{
+  window.location.href = 'login'
+});
+}  
+
+//->redirect detalle
+const buttonV = document.getElementById('buttonDetalle');
+if(buttonV){
+buttonV.addEventListener('click',async ()=>{
+  let value = buttonV.value;
+  console.log("value:",value)
+
+  const response = await fetch("api/description",{
+    method: "POST",
+    headers:{
+      "Content-type":"application/json"
+    },
+    body:JSON.stringify({
+      value:value
+    })
+  });
+  if(response.status != 200){
+    return
+  }else{
+    const responseJSON = await response.json();
+    if(responseJSON.redirect){
+      window.location.href = responseJSON.redirect;
+    }
+  }
+})
+}

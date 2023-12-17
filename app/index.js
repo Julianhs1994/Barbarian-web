@@ -46,7 +46,7 @@ app.use(express.static(__dirname + "/public/"));
 app.use(express.static(__dirname + "/pages/css"));
 app.use(express.static(__dirname + "/pages/img"));
 app.use(express.static(__dirname + "/pages/admin"));
-app.use(express.static(__dirname + "/assets"))
+app.use(express.static(__dirname + "/assets"));
 
 app.use(express.static(__dirname + "/crypto"))
 app.use(express.static(__dirname + "/crypto-client"))
@@ -221,8 +221,36 @@ app.post('/productos', upload.single('pdc_imagen'), async (req, res) => {
   }
 );
 
+//desplegar post de la descripcion
+app.get("/description",authorizations.soloUsuario,async (req,res)=>{
+  const isLoggedIn = req.session.usuario ? true : false;
+  //
+  var rol = "";
+  if(!req.session || !req.session.rol){
+    rol = "Invitado";
+  res.locals.rol = rol;
+  }else{
+    rol = req.session.rol;
+  res.locals.rol = rol;
+  }
+  //
+  let nombre_producto = req.query.Nombre;
+  let imagen_producto = req.query.Imagen;
+  let precio_producto = req.query.Valor;
+  let seccion_producto = req.query.Seccion;
+  let descripcion_producto = req.query.Descripcion;
+  let marca_producto = req.query.Marca;
+  let color_producto = req.query.Color;
+  let CantXs = req.query.CantXs;
+  let CantS = req.query.CantS;
+  let CantM = req.query.CantM;
+  let Cantl = req.query.Cantl;
+  let Cantxl = req.query.Cantxl;
+  res.render('description',{ isLoggedIn,nombre_producto,imagen_producto,precio_producto,seccion_producto,descripcion_producto,marca_producto,color_producto,CantXs,CantS,CantM,Cantl,Cantxl,Valor })
 
+})
 
+app.post("/api/description", products.getProdDetail);
 //Rutas con functiones autenticacion
 app.post("/api/register", authentication.register);
 app.post("/api/login", authentication.login);

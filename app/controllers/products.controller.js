@@ -33,7 +33,7 @@ async function getProdListFromCategory(req,res,next){
     // Ajusta tu consulta SQL para obtener solo los productos de la página actual
     const offset = (page - 1) * pageSize;
     const connection = await getConnection();
-    const query = "SELECT producto.pdc_nombre,marca.mar_nombre,producto.pdc_descripcion,producto.pdc_valor,producto.pdc_imagen FROM producto INNER JOIN marca_producto marca ON producto.pdc_fk_marca = marca.mar_id WHERE pdc_fk_seccion=? LIMIT ? OFFSET ?";
+    const query = "SELECT seccion.sec_nombre,producto.pdc_nombre,producto.cant_xs,producto.cant_s,producto.cant_m,producto.cant_l,producto.cant_xl,marca.mar_nombre,color.col_nombre,producto.pdc_descripcion,producto.pdc_valor,producto.pdc_imagen FROM producto INNER JOIN color_producto color INNER JOIN seccion_producto seccion INNER JOIN marca_producto marca ON producto.pdc_fk_marca = marca.mar_id WHERE pdc_fk_seccion=? LIMIT ? OFFSET ?";
     const result = await connection.query(query, [value, pageSize, offset]);
     const arrayData = result[0];
     //
@@ -129,19 +129,32 @@ async function getProdForSearch(){
   const sql = await connection.query("SELECT pdc_nombre,pdc_imagen,contador FROM producto INNER JOIN busquedas ON producto.pdc_id = busquedas.pdc_id ORDER BY busquedas.contador DESC LIMIT 3");
   const arrayData = sql[0];
   return arrayData;
-  //console.log("sql:"+sql[0])
-  /*sql[0].forEach((objeto,index)=>{
-    console.log(index);
-    console.log(objeto.pdc_nombre);
-    console.log(objeto.pdc_imagen);
-    console.log(objeto.contador)
-    //console.log(objeto.)
-  })*/
+}
+
+async function getProdDetail(req,res){
+  let Arrays = JSON.parse(req.body.value);
+  //console.log("Arrays"+Arrays)
+  let Nombre = Arrays.pdc_nombre || "no-one";
+  let Imagen = Arrays.pdc_imagen || "no-one";
+  let Seccion = Arrays.sec_nombre || "no-one";
+  let Descripcion = Arrays.pdc_descripcion || "no-one";
+  let Marca = Arrays.mar_nombre || "no-one";
+  let Color = Arrays.col_nombre || "no-one";  
+  let CantXs = Arrays.cant_xs || "0";
+  let CantS = Arrays.cant_s || "0";
+  let CantM = Arrays.cant_m || "0";
+  let Cantl = Arrays.cant_l || "0";
+  let Cantxl = Arrays.cant_xl || "0";
+  let Valor = Arrays.pdc_valor || "0";
+
+  let redirects = `description?Nombre=${Nombre}&&Imagen=${Imagen}&&Seccion=${Seccion}&&Descripcion=${Descripcion}&&Marca=${Marca}&&Color=${Color}&&CantXs=${CantXs}&&CantS=${CantS}&&CantM=${CantM}&&Cantl=${Cantl}&&Cantxl=${Cantxl}&&Valor=${Valor}`;
+  return res.status(200).send({status:200,message:"Ok",redirect:redirects})
 }
 
 export const methods ={
     InsertNewProduct,
     getProdListFromCategory,
     searchProdFromName,
-    getProdForSearch
+    getProdForSearch,
+    getProdDetail
 }

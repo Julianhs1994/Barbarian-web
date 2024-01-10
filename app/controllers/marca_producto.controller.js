@@ -5,9 +5,10 @@ async function getAllmarca_producto(){
         const connection = await getConnection();
         const sql = await connection.query("SELECT * FROM marca_producto");
         const ArrayData = sql[0];
-        //console.log(ArrayData)
+        await closeConnection();
         return ArrayData;
     }catch(err){
+        await closeConnection();
         console.error(err)
     }
 }

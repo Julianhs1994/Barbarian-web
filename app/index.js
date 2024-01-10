@@ -246,7 +246,7 @@ app.get("/description",authorizations.soloUsuario,async (req,res)=>{
   let CantM = req.query.CantM;
   let Cantl = req.query.Cantl;
   let Cantxl = req.query.Cantxl;
-  res.render('description',{ isLoggedIn,nombre_producto,imagen_producto,precio_producto,seccion_producto,descripcion_producto,marca_producto,color_producto,CantXs,CantS,CantM,Cantl,Cantxl,Valor })
+  res.render('description',{ isLoggedIn,nombre_producto,imagen_producto,precio_producto,seccion_producto,descripcion_producto,marca_producto,color_producto,CantXs,CantS,CantM,Cantl,Cantxl })
 
 })
 
@@ -266,10 +266,19 @@ app.post("/api/searchProdFromName", products.searchProdFromName)
 app.get("/api/getAllUsers",users.getAllUsers);
 
 //Ruta solo admin
-app.get("/admin", authorizations.soloAdmin, (req, res) => {
-  //res.sendFile(__dirname + "/pages/admin/admin.html");
-  const data = null;
+app.get("/admin", authorizations.soloPublico/*soloAdmin*/, (req, res) => {
   const isLoggedIn = req.session.usuario ? true:false;
+  //
+  var rol = "";
+  if(!req.session || !req.session.rol){
+    rol = "Invitado";
+  res.locals.rol = rol;
+  }else{
+    rol = req.session.rol;
+  res.locals.rol = rol;
+  }
+  //
+  const data = null;
   res.render('Admin',{isLoggedIn})
 });
 
@@ -310,4 +319,23 @@ app.get("/:userId", authorizations.soloPublico, async (req, res) => {
   } catch (error) {
     res.render("activation", { activationSuccess: false, isLoggedIn });
   }
+});
+
+//Carrito
+
+// Agregar producto al carrito
+app.post('/agregar-al-carrito/:idProducto/:cantidad', (req, res) => {
+  const idProducto = req.params.idProducto;
+  // Lógica para agregar el producto a la sesión del carrito
+  let carrito = req.session.carrito || [];
+  // Verificar si el producto ya está en el carrito
+  const productoExistente = carrito.find(producto => producto.id === idProducto);
+  if (productoExistente) {
+    productoExistente.cantidad+cantidad;
+  } else {
+    // Agregar el producto al carrito
+    carrito.push({ id: idProducto, cantidad: cantidad });
+  }
+  req.session.carrito = carrito; // Guardar el carrito actualizado en la sesión
+  res.redirect('back'); // Redirigir de vuelta a la página anterior
 });

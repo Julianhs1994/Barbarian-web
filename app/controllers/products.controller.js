@@ -1,4 +1,4 @@
-import { getConnection } from "../database/database.js";
+import { getConnection,closeConnection } from "../database/database.js";
 import { methodsEnc } from "../crypto/cryptos.js";
 
 async function InsertNewProduct(pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen){
@@ -12,9 +12,11 @@ async function InsertNewProduct(pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk
     let pdc_estado = 1;
     const sql = 'INSERT INTO producto (pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen,pdc_estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
     connection.query(sql, [pdc_nombre,parseInt(pdc_fk_seccion),pdc_descripcion,parseInt(pdc_fk_marca),parseInt(pdc_fk_color),cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen,pdc_estado]);
+    await closeConnection();
     return ({boolean:true});
   }catch(err){
     console.error(err)
+    await closeConnection();
     return ({boolean:true})
   }  
 }
@@ -33,7 +35,7 @@ async function getProdListFromCategory(req,res,next){
     // Ajusta tu consulta SQL para obtener solo los productos de la página actual
     const offset = (page - 1) * pageSize;
     const connection = await getConnection();
-    const query = "SELECT seccion.sec_nombre,producto.pdc_nombre,producto.cant_xs,producto.cant_s,producto.cant_m,producto.cant_l,producto.cant_xl,marca.mar_nombre,color.col_nombre,producto.pdc_descripcion,producto.pdc_valor,producto.pdc_imagen FROM producto INNER JOIN color_producto color INNER JOIN seccion_producto seccion INNER JOIN marca_producto marca ON producto.pdc_fk_marca = marca.mar_id WHERE pdc_fk_seccion=? LIMIT ? OFFSET ?";
+    const query = "SELECT producto.pdc_id,seccion.sec_nombre,producto.pdc_nombre,producto.cant_xs,producto.cant_s,producto.cant_m,producto.cant_l,producto.cant_xl,marca.mar_nombre,color.col_nombre,producto.pdc_descripcion,producto.pdc_valor,producto.pdc_imagen FROM producto INNER JOIN color_producto color INNER JOIN seccion_producto seccion INNER JOIN marca_producto marca ON producto.pdc_fk_marca = marca.mar_id WHERE pdc_fk_seccion=? LIMIT ? OFFSET ?";
     const result = await connection.query(query, [value, pageSize, offset]);
     const arrayData = result[0];
     //
@@ -53,6 +55,7 @@ async function getProdListFromCategory(req,res,next){
     //
     //console.log("pageEncrypt decrypt", methodsEnc.decryptUrl(pageEncrypt))
     const redirectUrl = ("/?value=" + ArrayEncrypt + "&page=" + pageEncrypt + "&totalPages="+totalPagesEncrypt + "&pageSize="+ pageSizeEncrypt +"&gender="+value).toString() ;
+    await closeConnection();
     return res.status(201).send({
       status:"Ok",
       message:"Resultado Exitoso",
@@ -61,6 +64,7 @@ async function getProdListFromCategory(req,res,next){
 
 
   }catch(err){
+    await closeConnection();
     console.error(err);
     return null;
   }
@@ -83,7 +87,7 @@ async function searchProdFromName(req,res){
         //console.log(id)
       });
       const sql2 = await connection.query("SELECT * FROM busquedas WHERE pdc_id =?",[id]);
-      console.log("lenght: "+sql2[0].length)
+      //console.log("lenght: "+sql2[0].length)
       if(sql2[0].length === 0){
         //console.log(sql2[0])
         console.log("el id:"+id+" No existe en busquedas,insertando...")
@@ -100,11 +104,13 @@ async function searchProdFromName(req,res){
         const insertB = await connection.query(`UPDATE busquedas SET contador=${suma} WHERE pdc_id=${id}`);
         console.log("Busqueda actualizada, producto_id:"+id+" Contador="+suma)
         }catch(err){
+          await closeConnection();
           console.error(insertB)
         }
       }
 
     }
+    await closeConnection();
     //
     const value = req.query.gender || 1;
     const page = 1;
@@ -124,16 +130,25 @@ async function searchProdFromName(req,res){
   }  
 }
 
+//->Obtener productos con mas busquedas:
 async function getProdForSearch(){
-  const connection = await getConnection();
-  const sql = await connection.query("SELECT pdc_nombre,pdc_imagen,contador FROM producto INNER JOIN busquedas ON producto.pdc_id = busquedas.pdc_id ORDER BY busquedas.contador DESC LIMIT 3");
-  const arrayData = sql[0];
-  return arrayData;
+  try{
+    const connection = await getConnection();
+    const sql = await connection.query("SELECT pdc_nombre,pdc_imagen,contador FROM producto INNER JOIN busquedas ON producto.pdc_id = busquedas.pdc_id ORDER BY busquedas.contador DESC LIMIT 3");
+    const arrayData = sql[0];
+    return arrayData;
+  } catch (error) {
+    console.log(error)
+  } finally {
+    console.log('connection has been Close');
+    await closeConnection();
+  }  
 }
 
 async function getProdDetail(req,res){
   let Arrays = JSON.parse(req.body.value);
   //console.log("Arrays"+Arrays)
+  let idProducto = Arrays.pdc_id || "no-one";
   let Nombre = Arrays.pdc_nombre || "no-one";
   let Imagen = Arrays.pdc_imagen || "no-one";
   let Seccion = Arrays.sec_nombre || "no-one";
@@ -147,7 +162,7 @@ async function getProdDetail(req,res){
   let Cantxl = Arrays.cant_xl || "0";
   let Valor = Arrays.pdc_valor || "0";
 
-  let redirects = `description?Nombre=${Nombre}&&Imagen=${Imagen}&&Seccion=${Seccion}&&Descripcion=${Descripcion}&&Marca=${Marca}&&Color=${Color}&&CantXs=${CantXs}&&CantS=${CantS}&&CantM=${CantM}&&Cantl=${Cantl}&&Cantxl=${Cantxl}&&Valor=${Valor}`;
+  let redirects = `description?Nombre=${Nombre}&&Imagen=${Imagen}&&Seccion=${Seccion}&&Descripcion=${Descripcion}&&Marca=${Marca}&&Color=${Color}&&CantXs=${CantXs}&&CantS=${CantS}&&CantM=${CantM}&&Cantl=${Cantl}&&Cantxl=${Cantxl}&&Valor=${Valor}&&idProducto=${idProducto}`;
   return res.status(200).send({status:200,message:"Ok",redirect:redirects})
 }
 

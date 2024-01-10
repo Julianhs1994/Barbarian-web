@@ -5,8 +5,10 @@ async function getAllcolor_producto(){
         const connection = await getConnection();
         const sql = await connection.query("SELECT * FROM color_producto");
         const ArrayData = sql[0];
+        await closeConnection();
         return ArrayData;
     }catch(err){
+        await closeConnection();
         console.error(err)
     }
 }

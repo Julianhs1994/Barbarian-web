@@ -1,13 +1,14 @@
-import { getConnection } from "../database/database.js";
+import { getConnection,closeConnection } from "../database/database.js";
 
 async function getAllSeccion_Producto(){
     try{
         const connection = await getConnection();
         const sql = await connection.query('SELECT * FROM seccion_producto');
         const ArrayData = sql[0];
-        //console.log(ArrayData)
+        await closeConnection();
         return ArrayData
     }catch(err){
+        await closeConnection();
         console.error(err);
     }
 } 

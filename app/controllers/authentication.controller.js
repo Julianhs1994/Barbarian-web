@@ -2,7 +2,7 @@ import bcryptjs from "bcryptjs";
 //import { json } from "express";
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
-import { getConnection } from "../database/database.js";
+import { getConnection,closeConnection } from "../database/database.js";
 import { sendActivationEmail } from "../helper/email.helper.js";
 dotenv.config();
 import crypto from "crypto";
@@ -52,15 +52,15 @@ async function register(req, res) {
 
     //usuarios.push(usuario);
     const link = "https://barbarian-web-koqc.vercel.app/" + result[0].insertId;
-    //const link = "/"+ result[0].insertId;
     sendActivationEmail(usr_email, link);
-
+    await closeConnection();
     return res.status(201).send({
       status: "Ok",
       message: `Usuario agregado, revisa tu correo para activar tu cuenta`,
       redirect: "/",
     });
   } catch (error) {
+    await closeConnection();
     console.error(error);
     if (
       error &&
@@ -77,11 +77,6 @@ async function register(req, res) {
 }
 
 //crypto client
-/*const { privateKey } = crypto.generateKeyPairSync('rsa', {
-  modulusLength: 2048,
-  publicKeyEncoding: { type: 'spki', format: 'pem' },
-  privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
-});*/
 
 import {privateKey, publicKey} from "../index.js"
 
@@ -186,9 +181,11 @@ async function login(req, res) {
     res.cookie("jwt", token, cookieOption);
     res.status(200);
     res.send({ status: "Ok", message: "Usuario logeado", redirect: "/" });
+    await closeConnection();
   } catch (error) {
     console.error(error);
     res.status(500).send({ status: "Error", message: "Error en el servidor" });
+    await closeConnection();
   }
 }
 

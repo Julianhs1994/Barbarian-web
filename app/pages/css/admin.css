@@ -151,12 +151,42 @@ h1{
     width: 100%;
     height: 500px;
     display: flex;
-    justify-content: center;
-    border: solid 1px rgba(83, 85, 164, 0.8)
+    align-items: center;
+    /*justify-content: center*/;
+    border: solid 1px rgba(83, 85, 164, 0.8);
+    background-color: #4b4747;
 }
 
+#sectionTwo .dataTables_length{
+    margin-left: 20%;
+}
+
+#sectionTwo .dataTables_filter{
+    margin-left: 20%;
+}
+
+#sectionTwo .dataTables_info{
+    margin-left: 20%;
+    margin-right: 23.9%;
+    text-align: center;
+}
+
+#sectionTwo .dataTables_paginate{
+    margin-left: 20%;
+    margin-right: 23.92%;
+    text-align: center;
+    
+}
+
+.dataTables_paginate ul{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
 #sectionTwo table{
+    margin-top:55px;
+    margin-left: 20%;
     color: #fff;
     font-size: 14px;
     table-layout: fixed;
@@ -164,6 +194,28 @@ h1{
     border-collapse: collapse;
     margin-top: 5px;
 }
+
+/*oculta por defecto*/
+#sectionTwo .DivUsers{
+    overflow: hidden;
+    height: 0;
+}
+
+/*Ocultar tabla*/
+.datatableShow{
+    overflow:visible ;
+    margin-top: 40px;
+    width: 100%;
+    height: 500px;
+    border: 1px solid rgba(83, 85, 164, 0.8);
+
+    
+}
+
+a{
+    cursor: pointer;
+}
+
 
 thead {
     background-color: rgb(63, 55, 61)
@@ -188,3 +240,15 @@ tbody tr{
 tbody tr:hover{
     background-color: rgba(199, 199, 199, 0.8);
 }
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #f2f2f2;
+  }
+  
+  li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }

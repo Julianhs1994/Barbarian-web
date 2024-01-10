@@ -12,6 +12,7 @@
             <!--<img src="silla.png" alt="">-->
             <img src="<%= imagen_producto %>" alt="">
         </div>
+        <input type="hidden" name="<%= idProducto %>" >
     
         <div class="child-container">
             <h2><%= nombre_producto %></h2>
@@ -43,8 +44,8 @@
             <p><span>Cantidad Disponible</span></p>
     
             <div class="btn-merge">
-                <button id="comprarButton" onclick="cambiarTexto('comprarButton')">Comprar Ahora</button>
-                <button id="carritoButton" onclick="cambiarTexto('carritoButton')">Agregar al Carrito</button>
+                <button id="comprarButton" >Comprar Ahora</button>
+                <button id="carritoButton" >Agregar al Carrito</button>
             </div>
     
             <p><span>Devolución Gratis.</span></p>
@@ -53,4 +54,5 @@
         </div>
     </div>
 </body>
+<script src="description.js"></script>
 </html>

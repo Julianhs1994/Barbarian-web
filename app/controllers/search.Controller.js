@@ -1,4 +1,4 @@
-import { getConnection } from "../database/database.js";
+import { getConnection,closeConnection } from "../database/database.js";
 let cachedProductNames = [];
 
 // Función para obtener los nombres de los productos desde la base de datos y almacenarlos en caché
@@ -24,8 +24,10 @@ async function cacheProductNames() {
     cachedProductNames = allData; //productNames[0];//productNames.map(product => product.nombre);
     //console.log("Cached"+cachedProductNames)
   } catch (error) {
+    await closeConnection();
     console.error('Error al obtener los nombres de los productos desde la base de datos:', error);
   }
+  await closeConnection();
 }
 
 // Llama a la función para almacenar en caché los nombres de los productos cuando el servidor se inicie

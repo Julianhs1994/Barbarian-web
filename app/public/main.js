@@ -72,6 +72,7 @@ buttonV.addEventListener('click',async ()=>{
       "Content-type":"application/json"
     },
     body:JSON.stringify({
+      //->enviar array:
       value:value
     })
   });

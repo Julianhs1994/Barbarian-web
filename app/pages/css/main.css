@@ -217,12 +217,14 @@ html {
     justify-content: space-around;
     align-items: center;
     width: 20%;
-    height: 302px;
+    height:360px;
     margin-bottom: 67px;
     background-color: #ffffff;
 
 
   }
+  .cardMostWanted .descripcion > p{
+  text-align: center;}
 
   /*.cardMostWanted{
     display: flex;
@@ -265,7 +267,7 @@ html {
   align-items: center;
   justify-content: center;
 }
-.titlesp h2{
+.titlesp .title-categories{
 display: flex;
 flex-direction: row;
 flex-wrap: wrap;
@@ -276,7 +278,7 @@ border: 0px;
 padding: 0px;
 color: #0e0606;
 }
-.titlesp .nnd{
+.titlesp .drt{
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -288,9 +290,11 @@ color: #0e0606;
   text-align: center;
 }
 
-.categories-p .imgcateories{
+
+
+.imgcateories{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   width: 100%;
   height: 336px;
@@ -313,7 +317,8 @@ color: #0e0606;
 .product > img{
   display: flex;
   flex-wrap: wrap;
-  height: 227px;
+  height: 237px;
+  width: 100%;
 }
 .product .des-categories{
   display: flex;
@@ -326,6 +331,7 @@ color: #0e0606;
 .product .title-prod{
   margin: 0px;
   color: #000000;
+  text-align: center;
 }
 .product .title-prodv{
   display: flex;

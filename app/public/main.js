@@ -52,11 +52,14 @@ document.querySelectorAll('.my-link').forEach(async function(link) {
 
 
 //->redirect register
-const button = document.getElementById('buttonRedirect');
-if(button){
-button.addEventListener('click',()=>{
-  window.location.href = 'login'
-});
+//const button = document.getElementById('buttonRedirect');
+const buttons = document.getElementsByClassName('buttonRedirect');
+if(buttons){
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click',()=>{
+    window.location.href = 'login'
+    })
+  };
 }  
 
 //->redirect detalle
@@ -86,3 +89,4 @@ buttonV.addEventListener('click',async ()=>{
   }
 })
 }
+//

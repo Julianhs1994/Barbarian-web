@@ -14,6 +14,7 @@ import { methods as authentication } from "./controllers/authentication.controll
 //Middlewares
 
 import { methods as authorizations } from "./middlewares/authorization.js";
+import { methods as limit } from "./middlewares/concurrency.js";
 
 //Controladores
 
@@ -246,7 +247,8 @@ app.get("/description",authorizations.soloUsuario,async (req,res)=>{
   let CantM = req.query.CantM;
   let Cantl = req.query.Cantl;
   let Cantxl = req.query.Cantxl;
-  res.render('description',{ isLoggedIn,nombre_producto,imagen_producto,precio_producto,seccion_producto,descripcion_producto,marca_producto,color_producto,CantXs,CantS,CantM,Cantl,Cantxl })
+  let idProducto = req.query.idProducto;
+  res.render('description',{ isLoggedIn,nombre_producto,imagen_producto,precio_producto,seccion_producto,descripcion_producto,marca_producto,color_producto,CantXs,CantS,CantM,Cantl,Cantxl,idProducto })
 
 })
 
@@ -258,7 +260,7 @@ app.post("/api/login", authentication.login);
 //Rutas con funciones autorizacion
 app.post("/api/close", authorizations.close);
 //Rutas con funciones PRODUCTOS
-app.post("/api/getSectionProd", products.getProdListFromCategory)
+app.post("/api/getSectionProd", limit.limitConcurrency,products.getProdListFromCategory)
 //Ruta para obtener producto por nombre
 app.post("/api/searchProdFromName", products.searchProdFromName)
 

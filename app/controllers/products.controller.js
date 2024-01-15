@@ -55,7 +55,6 @@ async function getProdListFromCategory(req,res,next){
     //
     //console.log("pageEncrypt decrypt", methodsEnc.decryptUrl(pageEncrypt))
     const redirectUrl = ("/?value=" + ArrayEncrypt + "&page=" + pageEncrypt + "&totalPages="+totalPagesEncrypt + "&pageSize="+ pageSizeEncrypt +"&gender="+value).toString() ;
-    await closeConnection();
     return res.status(201).send({
       status:"Ok",
       message:"Resultado Exitoso",
@@ -64,10 +63,13 @@ async function getProdListFromCategory(req,res,next){
 
 
   }catch(err){
-    await closeConnection();
     console.error(err);
     return null;
   }
+  finally {
+    await closeConnection();
+    console.log('buscador de producto finalizado')
+  };
 
 }  
 

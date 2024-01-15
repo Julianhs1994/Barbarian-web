@@ -278,10 +278,7 @@ nav div #LogOut {
   color:rgb(245, 209, 143);
 }
 
-.privacy-links{
-  background-color: aquamarine;
-}
-/* Estilos para los enlaces de privacidad */
+
 .privacy-links a {
   color: white;
   text-decoration: none;

@@ -1,16 +1,19 @@
 import { getConnection } from "../database/database.js";
 
 async function getAllcolor_producto(){
+    const {connection,pool} = await getConnection();
     try{
-        const connection = await getConnection();
         const sql = await connection.query("SELECT * FROM color_producto");
         const ArrayData = sql[0];
-        await closeConnection();
         return ArrayData;
     }catch(err){
-        await closeConnection();
+        await pool.end();
         console.error(err)
     }
+    finally {
+        await pool.end();
+        console.log('color de producto finalizado')
+    };
 }
 
 export const methods = {

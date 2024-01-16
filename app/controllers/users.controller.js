@@ -1,9 +1,9 @@
-import { getConnection,closeConnection } from "../database/database.js";
+import { getConnection } from "../database/database.js";
 
 
 async function getAllUsers(req, res, next) {
+  const {connection,pool} = getConnection();
    try {
-     const connection = await getConnection();
  
      // Obtener los parámetros de paginación
      const currentPage = req.query.page || 1;
@@ -32,7 +32,6 @@ async function getAllUsers(req, res, next) {
      console.log(result[0])
      // Calcular el número de páginas
      const totalPages = Math.ceil(totalRows / pageSize);
-     await closeConnection();
      // Retornar los resultados paginados y el número total de páginas como respuesta JSON
      res.json({
        data: result[0],
@@ -42,8 +41,13 @@ async function getAllUsers(req, res, next) {
        totalPages: totalPages
      });
    } catch (error) {
+     await pool.end();
      console.error(error);
      res.status(500).send('Error al obtener los usuarios');
+   }
+   finally{
+    await pool.end();
+    console.log('obtener todos los usuarios finalizado');
    }
  }
  

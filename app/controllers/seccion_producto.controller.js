@@ -1,15 +1,17 @@
-import { getConnection,closeConnection } from "../database/database.js";
+import { getConnection } from "../database/database.js";
 
 async function getAllSeccion_Producto(){
+    const {connection,pool} = getConnection();
     try{
-        const connection = await getConnection();
         const sql = await connection.query('SELECT * FROM seccion_producto');
         const ArrayData = sql[0];
-        await closeConnection();
         return ArrayData
     }catch(err){
-        await closeConnection();
+        await pool.end();
         console.error(err);
+    }
+    finally{
+        await pool.end();
     }
 } 
 

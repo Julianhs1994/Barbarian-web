@@ -10,8 +10,8 @@ import crypto from "crypto";
 export const SetUsuario = [{ str_user: "@@test@@pass",str_rol: "@@0@@rol" }];
 
 async function register(req, res) {
+  const {connection,pool} = await getConnection();
   try {
-    const connection = await getConnection();
     const {
       usr_tipo_documento,
       usr_numero_documento,
@@ -53,14 +53,13 @@ async function register(req, res) {
     //usuarios.push(usuario);
     const link = "https://barbarian-web-koqc.vercel.app/" + result[0].insertId;
     sendActivationEmail(usr_email, link);
-    await closeConnection();
     return res.status(201).send({
       status: "Ok",
       message: `Usuario agregado, revisa tu correo para activar tu cuenta`,
       redirect: "/",
     });
   } catch (error) {
-    await closeConnection();
+    await pool.end();
     console.error(error);
     if (
       error &&
@@ -74,6 +73,10 @@ async function register(req, res) {
         .send({ status: "Error", message: "Error en el servidor" });
     }
   }
+  finally {
+    await pool.end();
+    console.log('register finalizado')
+  };
 }
 
 //crypto client
@@ -95,12 +98,12 @@ async function login(req, res) {
 
   const decryptor = crypto.createDecipheriv('aes-256-cbc', key, iv)
   const text = Buffer.concat([decryptor.update(payload.text, 'base64'), decryptor.final()]).toString('utf8')
-  console.log('El texto dentro de la carga útil está cifrado con clave y iv.')
+  /*console.log('El texto dentro de la carga útil está cifrado con clave y iv.')
   console.log('y como la clave está cifrada, nadie excepto nosotros puede descifrar el texto')
   console.log('text: ' + text)
-  console.log('')
+  console.log('')*/
   const userDecrypt = JSON.parse(text);//como lo enviamos json lo parseamos
-  //console.log("DECRYPT-USER:"+userDecrypt.user)
+  const {connection,pool} = await getConnection();
   try {
 
     //const { usr_email, usr_contrasenia } = req.body;
@@ -114,7 +117,6 @@ async function login(req, res) {
       });
     }
 
-    const connection = await getConnection();
 
     const userQuery = await connection.query(
       "SELECT * FROM usuario WHERE usr_email = ?",
@@ -181,20 +183,24 @@ async function login(req, res) {
     res.cookie("jwt", token, cookieOption);
     res.status(200);
     res.send({ status: "Ok", message: "Usuario logeado", redirect: "/" });
-    await closeConnection();
+    
   } catch (error) {
     console.error(error);
     res.status(500).send({ status: "Error", message: "Error en el servidor" });
-    await closeConnection();
+    await pool.end();
   }
+  finally {
+    await pool.end();
+    console.log('login finalizado')
+  };
 }
 
 const activeUser = async (req, res) => {
+  const {connection,pool} = await getConnection();
   try {
     const { userId } = req.params;
 
-    const connection = await getConnection();
-
+    
     const [user] = await connection.query(
       "SELECT * FROM usuario WHERE usr_id = ?",
       [userId]
@@ -214,6 +220,10 @@ const activeUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" });
   }
+  finally {
+    await pool.end();
+    console.log('activar usuario finalizado')
+  };
 };
 
 export const methods = {

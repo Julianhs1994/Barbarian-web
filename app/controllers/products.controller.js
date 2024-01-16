@@ -7,22 +7,26 @@ async function InsertNewProduct(pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk
     //console.log("enter")
     return ({boolean:false})
   }
+  const {connection,pool} = await getConnection();
   try{
-    const connection = await getConnection();
     let pdc_estado = 1;
     const sql = 'INSERT INTO producto (pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen,pdc_estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
     connection.query(sql, [pdc_nombre,parseInt(pdc_fk_seccion),pdc_descripcion,parseInt(pdc_fk_marca),parseInt(pdc_fk_color),cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen,pdc_estado]);
-    await closeConnection();
     return ({boolean:true});
   }catch(err){
     console.error(err)
-    await closeConnection();
+    await pool.end();
     return ({boolean:true})
+  }
+  finally {
+    await pool.end();
+    console.log('insertar producto finalizado')
   }  
 }
 
   
 async function getProdListFromCategory(req,res,next){
+  const {connection,pool} = await getConnection();
   try{
     const page = req.body.page || 1; // Página 
     const pageSize = req.body.pageSize ||5
@@ -34,7 +38,6 @@ async function getProdListFromCategory(req,res,next){
     }
     // Ajusta tu consulta SQL para obtener solo los productos de la página actual
     const offset = (page - 1) * pageSize;
-    const connection = await getConnection();
     const query = "SELECT producto.pdc_id,seccion.sec_nombre,producto.pdc_nombre,producto.cant_xs,producto.cant_s,producto.cant_m,producto.cant_l,producto.cant_xl,marca.mar_nombre,color.col_nombre,producto.pdc_descripcion,producto.pdc_valor,producto.pdc_imagen FROM producto INNER JOIN color_producto color INNER JOIN seccion_producto seccion INNER JOIN marca_producto marca ON producto.pdc_fk_marca = marca.mar_id WHERE pdc_fk_seccion=? LIMIT ? OFFSET ?";
     const result = await connection.query(query, [value, pageSize, offset]);
     const arrayData = result[0];
@@ -67,15 +70,15 @@ async function getProdListFromCategory(req,res,next){
     return null;
   }
   finally {
-    await closeConnection();
-    console.log('buscador de producto finalizado')
+    await pool.end();
+    console.log('obtener categoria finalizado')
   };
 
 }  
 
 async function searchProdFromName(req,res){
+  const {connection,pool} = getConnection();
   try{
-    const connection = getConnection();
     const name = req.body.value;
     const sql = await connection.query("SELECT * FROM producto WHERE pdc_nombre =? ",[name]);
     const arrayData = sql[0];
@@ -106,13 +109,13 @@ async function searchProdFromName(req,res){
         const insertB = await connection.query(`UPDATE busquedas SET contador=${suma} WHERE pdc_id=${id}`);
         console.log("Busqueda actualizada, producto_id:"+id+" Contador="+suma)
         }catch(err){
-          await closeConnection();
+          await pool.end();
           console.error(insertB)
         }
       }
 
     }
-    await closeConnection();
+    
     //
     const value = req.query.gender || 1;
     const page = 1;
@@ -128,22 +131,28 @@ async function searchProdFromName(req,res){
     const redirectUrl = ("/?value=" + ArrayEncrypt + "&page=" + pageEncrypt + "&totalPages="+totalPagesEncrypt + "&pageSize="+ pageSizeEncrypt +"&gender="+value).toString() ;
     res.status(200).send({status:200,message:"Ok",redirect:redirectUrl})
   }catch(err){
+    await pool.end();
     console.error(err)
+  }
+  finally{
+    await pool.end();
+    console.log('buscar producto por nombre finalizado')
   }  
 }
 
 //->Obtener productos con mas busquedas:
 async function getProdForSearch(){
+  const {connection,pool} = await getConnection();
   try{
-    const connection = await getConnection();
     const sql = await connection.query("SELECT pdc_nombre,pdc_imagen,contador FROM producto INNER JOIN busquedas ON producto.pdc_id = busquedas.pdc_id ORDER BY busquedas.contador DESC LIMIT 3");
     const arrayData = sql[0];
     return arrayData;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    await pool.end();
   } finally {
-    console.log('connection has been Close');
-    await closeConnection();
+    console.log('obtener productos con mas busquedas finalizado');
+    await pool.end();
   }  
 }
 

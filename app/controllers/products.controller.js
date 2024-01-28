@@ -55,8 +55,7 @@ async function getProdListFromCategory(req,res,next){
   const {connection,pool} = await getConnection();
   try{
     const page = req.body.page || 1; // Página 
-    const pageSize = req.body.pageSize ||5
-    ; // Tamaño de página deseado
+    const pageSize = req.body.pageSize ||5; // Tamaño de página deseado
     const value = req.body.value;
   
     if(!req.session){
@@ -114,7 +113,6 @@ async function searchProdFromName(req,res){
       let id;
       arrayData.forEach(element => {
         id = element.pdc_id;
-        //console.log(id)
       });
       const sql2 = await connection.query("SELECT * FROM busquedas WHERE pdc_id =?",[id]);
       //console.log("lenght: "+sql2[0].length)
@@ -280,15 +278,15 @@ async function getEditProduct(req,res,next){
   redirects = `/editproduct?Nombre=${arr.pdc_nombre}&&Imagen=${arr.pdc_imagen}&&Seccion=${arr.pdc_fk_seccion}&&Descripcion=${arr.pdc_descripcion}&&Marca=${arr.pdc_fk_marca}&&Color=${arr.pdc_fk_color}&&Valor=${arr.pdc_valor}&&Xs=${arr.cant_xs}&&S=${arr.cant_s}&&M=${arr.cant_m}&&L=${arr.cant_l}&&Xl=${arr.cant_xl}&&idProduct=${id}`;
   //console.log(arr.pdc_nombre)
   })
-
+  await pool.end();
   return res.status(200).send({status:200,message:"Seleccion realizada",redirect:redirects})
   }catch(err){
     console.error(err);
   }
-  finally{
+  /*finally{
     console.log("Edicion producto cerrada");
     await pool.end()
-  } 
+  }*/ 
 }
 
 export const methods ={

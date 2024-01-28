@@ -23,6 +23,8 @@ import { methods as products } from "./controllers/products.controller.js";
 import { methods as seccions } from "./controllers/seccion_producto.controller.js";
 import { methods as marcas } from "./controllers/marca_producto.controller.js";
 import { methods as colores } from "./controllers/color_producto.controller.js";
+import { methods as roles } from "./controllers/rol.controller.js";
+import { methods as tipo } from "./controllers/tipo_documento.controller.js";
 //EJS
 import expressEjsLayouts from "express-ejs-layouts";
 
@@ -169,7 +171,7 @@ app.get("/addproduct", authorizations.soloPublico,async (req,res) => {
   res.render("addproduct", { isLoggedIn, arraySecciones, arrayMarcas, arrayColores });
 });
 
-app.get("/editproduct",authorizations.soloPublico,(req,res)=>{
+app.get("/editproduct",authorizations.soloPublico,async (req,res)=>{
   const isLoggedIn = req.session.usuario ? true : false;
   //
   var rol = "";
@@ -181,8 +183,24 @@ app.get("/editproduct",authorizations.soloPublico,(req,res)=>{
   res.locals.rol = rol;
   }
   //
-  const {Nombre,Imagen,Seccion,Descripcion,Marca,Color,Valor,Xs,S,M,L,Xl,idProduct} = req.query
-  res.render('editproduct', {isLoggedIn,Nombre,Imagen,Seccion,Descripcion,Marca,Color,Valor,Xs,S,M,L,Xl,idProduct})
+  let arraySecciones = [];
+  const decodedArrayData = await (seccions.getAllSeccion_Producto());
+  if(decodedArrayData){
+    arraySecciones = Array.isArray(decodedArrayData) ? decodedArrayData : [];
+  }
+  let arrayMarcas = [];
+  const decodedArrayDataMarcas = await (marcas.getAllmarca_producto());
+  if(decodedArrayDataMarcas){
+    arrayMarcas = Array.isArray(decodedArrayDataMarcas) ? decodedArrayDataMarcas:[];
+  }
+  let arrayColores = [];
+  const decodedArrayDataColor = await (colores.getAllcolor_producto());
+  if(decodedArrayDataColor){
+    arrayColores = Array.isArray(decodedArrayDataColor) ? decodedArrayDataColor: [];
+  }
+  ///
+  const {Nombre,Imagen,Seccion,Descripcion,Marca,Color,Valor,Xs,S,M,L,Xl,idProduct} = req.query;
+  res.render('editproduct', {isLoggedIn,Seccion,arraySecciones,Nombre,Imagen,Descripcion,Marca,arrayMarcas,arrayColores,Color,Valor,Xs,S,M,L,Xl,idProduct})
 })
 
 app.get("/edituser",authorizations.soloPublico,async (req,res)=>{
@@ -197,26 +215,23 @@ app.get("/edituser",authorizations.soloPublico,async (req,res)=>{
   res.locals.rol = rol;
   }
   //
-  const {Rol,TipoDocumento,NumeroDocumento,Nombre,Apellido,Email,Estado,idUser} = req.query
-  res.render('edituser',{isLoggedIn,Rol,TipoDocumento,NumeroDocumento,Nombre,Apellido,Email,Estado,idUser})
+  let arrayRoles = [];
+  const decodedArrayDataRol = await (roles.getAllRol());
+  console.log(decodedArrayDataRol)
+  if (decodedArrayDataRol){
+    arrayRoles = (decodedArrayDataRol);
+    //console.log(arrayRoles.length)
+  }
+  let arrayTipo = [];
+  const decodedArrayDataTipo = await (tipo.getAllTipo());
+  if (decodedArrayDataTipo){
+    arrayTipo = (decodedArrayDataTipo)
+  }
+  const {Rol,TipoDocumento,NumeroDocumento,Nombre,Apellido,Email,Estado,idUser} = req.query;
+  res.render('edituser',{isLoggedIn,Rol,arrayRoles,TipoDocumento,arrayTipo,NumeroDocumento,Nombre,Apellido,Email,Estado,idUser})
 });
 
-/*app.get("/editarusuarios", async (req,res) => {
-  const { usr_rol } = req.body;
-  console.log("test:"+usr_rol)
-  console.log(req.body.usr_rol)
-    
-    const result = await users.EditUser(idUser,usr_rol,usr_tipo_documento,usr_numero_documento,usr_nombre,usr_apellido,usr_email,usr_estado);
-    //console.log(result.boolean)
-   
-    /*if(result.boolean == true){
-      console.log("Usuario Editado")
-    }else{
-      console.log("Usuario no Editado")
-    }
-    res.redirect('/admin');*/ 
- // }
-//);
+
 app.get("/editarusuarios", async (req,res) => {
   const { idUser,usr_rol,usr_tipo_documento,usr_numero_documento,usr_nombre,usr_apellido,usr_email,usr_estado } = req.query;
   //console.log(req.query)

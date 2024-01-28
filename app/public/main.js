@@ -1,7 +1,7 @@
 
 async  function sendParametros(value,page,pageSize){
     try{
-        alert(page);
+        //alert(page);
         console.log("PAGEJS:",page)
   
       const response = await fetch("api/getSectionProd",{

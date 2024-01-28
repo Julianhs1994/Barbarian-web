@@ -1,10 +1,11 @@
 import { getConnection } from "../database/database.js";
 
-async function getAllSeccion_Producto(){
+async function getAllRol(){
     const {connection,pool} = await getConnection();
     try{
-        const sql = await connection.query('SELECT * FROM seccion_producto');
+        const sql = await connection.query('SELECT * FROM rol');
         const ArrayData = sql[0];
+        //console.log(ArrayData)
         return ArrayData
     }catch(err){
         await pool.end();
@@ -12,10 +13,10 @@ async function getAllSeccion_Producto(){
     }
     finally{
         await pool.end();
-        console.log("Seccion producto cerrada")
+        console.log("Rol usuario cerrado")
     }
 } 
 
 export const methods = {
-    getAllSeccion_Producto
+    getAllRol
 }

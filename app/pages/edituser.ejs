@@ -12,9 +12,27 @@
         <form action="/editarusuarios" method="GET" >
             <input type="hidden" name="idUser" id="idUser" value="<%= idUser %>" readonly>    
             <label for="usr_rol">Rol:</label>
-            <input class="controls" type="text" name="usr_rol" id="usr_rol" value="<%= Rol %>" >
+            <!--<input class="controls" type="text" name="usr_rol" id="usr_rol" value="<%= Rol %>" >-->
+            <% if(arrayRoles && arrayRoles.length > 0 && Rol) { %>
+                <select name="usr_rol">
+                  <% arrayRoles.forEach(Rols => { %>
+                  <option value="<%= Rols.rol_id %>"  <% if (Rols.rol_id == Rol) { %> selected <% } %>><%= Rols.rol_nombre %></option>
+                  <% }) %>
+                </select>
+                <% } %>
+            <br>
+            <br>    
             <label for="usr_tipo_documento">TipoDocumento:</label>
-            <input class="controls" type="text" name="usr_tipo_documento" id="usr_tipo_documento" value="<%= TipoDocumento %>" >
+            <!--<input class="controls" type="text" name="usr_tipo_documento" id="usr_tipo_documento" value="<%= TipoDocumento %>" >-->
+            <% if(arrayTipo && arrayTipo.length > 0 && TipoDocumento) { %>
+                <select name="usr_tipo_documento">
+                  <% arrayTipo.forEach(Tipo => { %>
+                  <option value="<%= Tipo.tpd_id %>"  <% if (Tipo.tpd_id == TipoDocumento) { %> selected <% } %>><%= Tipo.tpd_descripcion %></option>
+                  <% }) %>
+                </select>
+                <% } %>
+            <br>
+            <br>    
             <label for="usr_numero_documento">NumeroDocumento:</label>
             <input class="controls" type="text" name="usr_numero_documento" id="usr_numero_documento" value="<%= NumeroDocumento %>" >
             <label for="usr_nombre">Nombre:</label>
@@ -24,7 +42,7 @@
             <label for="usr_email">Email:</label>
             <input class="controls" type="text" name="usr_email" id="usr_email" value="<%= Email %>" >
             <label for="usr_estado">Estado:</label>
-            <input class="controls" type="text" name="usr_estado" id="usr_estado" value="<%= Estado %>" >
+            <input class="controls" type="text" name="usr_estado" id="usr_estado" value="<%= Estado %>" readonly>
             
             <input class="botons" type="submit" value="Editar Usuario">
         </form>

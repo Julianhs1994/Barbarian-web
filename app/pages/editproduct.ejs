@@ -19,13 +19,41 @@
         <br>
         <br>
         <label for="pdc_fk_seccion">Seccion:</label>
-        <input class="controls" type="text" name="pdc_fk_seccion" id="pdc_fk_seccion" value="<%= Seccion %>">
+        <% if(arraySecciones && arraySecciones.length > 0 && Seccion){ %>
+            <select name="pdc_fk_seccion">
+              <% arraySecciones.forEach(Sec => { %>
+                <option value="<%= Sec.sec_id %>" <% if (Sec.sec_id == Seccion) { %> selected <% } %> ><%= Sec.sec_nombre %></option>
+              <% }) %>
+            </select>
+        <% } %>
+        <br>
+        <br>
+        <!--<input class="controls" type="text" name="pdc_fk_seccion" id="pdc_fk_seccion" value="<%= Seccion %>">-->
+
         <label for="pdc_descripcion">Descripcion:</label>
         <input class="controls" type="text" name="pdc_descripcion" id="pdc_descripcion" value="<%= Descripcion %>">
         <label for="pdc_fk_marca">Marca:</label>
-        <input class="controls" type="text" name="pdc_fk_marca" id="pdc_fk_marca" value="<%= Marca %>">
+        <!--<input class="controls" type="text" name="pdc_fk_marca" id="pdc_fk_marca" value="<%= Marca %>">-->
+        <% if (arrayMarcas && arrayMarcas.length > 0 && Marca){ %>
+          <select name="pdc_fk_marca">
+            <% arrayMarcas.forEach(Mar => { %>
+            <option value="<%= Mar.mar_id %>" <% if (Mar.mar_id == Marca) { %> selected <% } %> ><%= Mar.mar_nombre %></option>
+            <% }) %>
+          </select>
+          <% } %>
+          <br>
+          <br>
         <label for="pdc_fk_color">Color:</label>
-        <input class="controls" type="text" name="pdc_fk_color" id="pdc_fk_color" value="<%= Color %>">
+        <!--<input class="controls" type="text" name="pdc_fk_color" id="pdc_fk_color" value="<%= Color %>">-->
+        <% if(arrayColores && arrayColores.length > 0 && Color) { %>
+          <select name="pdc_fk_color">
+            <% arrayColores.forEach(Col => { %>
+            <option value="<%= Col.col_id %>"  <% if (Col.col_id == Color) { %> selected <% } %>><%= Col.col_nombre %></option>
+            <% }) %>
+          </select>
+          <% } %>
+          <br>
+          <br>
         <label for="pdc_valor">Valor:</label>
         <input class="controls" type="text" name="pdc_valor" id="pdc_valor" value="<%= Valor %>">
         <label for="cant_xs">Cantidad xs:</label>

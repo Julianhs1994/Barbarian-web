@@ -3,6 +3,10 @@ body {
     padding: 0;
     margin: 0;
     transition: background-color 0.3s;
+      background-image:url("https://cdn.pixabay.com/photo/2015/08/25/11/50/shop-906722_1280.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
 }
 
 .container {
@@ -11,10 +15,14 @@ body {
     gap: 0px;
     max-width: 1200px;
     margin: 20px auto;
+    margin-top: 178px;
+    
+    
+
 }
 
 .child-container {
-    background-color: #ffffff;
+    background-color:rgb(255, 255, 255);
     padding: 20px;
     border: 1px solid #ccc;
     text-align: center;
@@ -26,6 +34,10 @@ body {
     transition: background-color 0.3s;
     position: relative; 
     overflow: hidden; 
+    border-radius: 2px;
+ /* Valor de opacidad (0.0 a 1.0) */
+}
+
 }
 
 .child-container img {

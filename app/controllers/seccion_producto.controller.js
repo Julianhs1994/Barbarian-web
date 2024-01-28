@@ -1,7 +1,7 @@
 import { getConnection } from "../database/database.js";
 
 async function getAllSeccion_Producto(){
-    const {connection,pool} = getConnection();
+    const {connection,pool} = await getConnection();
     try{
         const sql = await connection.query('SELECT * FROM seccion_producto');
         const ArrayData = sql[0];

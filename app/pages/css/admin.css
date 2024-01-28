@@ -17,7 +17,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 200vh;
+    height: 250vh;
     flex-direction: column;
     flex-wrap: wrap;
     background-image:url("https://b2cmattelsa.vtexassets.com/assets/vtex.file-manager-graphql/images/ae39bb89-0a9c-4364-8303-8050d597bc1f___484457618d70650a8e733283470e0a1b.jpg") ;
@@ -28,7 +28,7 @@ body {
   }
 
 .imgContainer{
-    /*border: 1px solid black;*/
+    border: 1px solid rgb(114, 38, 214);
     width: 100%;
     height: 100px;
     display: flex;
@@ -38,16 +38,17 @@ body {
 }
 
 .imageDiv{
+    margin-top: 30px;
     /*border: 1px solid red;*/
     width: 100px;
-    height: 100px;
-    position: absolute;
+    height: 90px;
+    /*position: absolute;*/
 }
 
 .imgContainer .imageDiv img{
-    position: relative;
-    width: 100px;
-    height: 100px;
+    /*position: relative;*/
+    width: 100%;
+    height: 100%;
 }
 
 
@@ -88,6 +89,26 @@ h1{
     font-size: 30px;
     color: rgb(20, 5, 43);
 }
+
+#sectionOne .addProd{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url("tienda.jpg");
+    background-repeat: no-repeat;
+    text-align: center;
+   
+}
+
+#sectionOne .addProd img{
+    cursor: pointer;
+}
+
+#sectionOne .addProd p{
+    font-size: 30px;
+    color: rgb(20, 5, 43);
+}
+
 
 #sectionOne .redirects{
     background-image: url("ropa2.jpg");
@@ -149,12 +170,21 @@ h1{
 /*tabla*/
 #sectionTwo{
     width: 100%;
-    height: 500px;
+    height: 800px;
     display: flex;
     align-items: center;
+    flex-direction: column;
     /*justify-content: center*/;
     border: solid 1px rgba(83, 85, 164, 0.8);
     background-color: #4b4747;
+    text-align: center;
+}
+
+#sectionTwo p{
+    font-size: 50px;
+    color: #d4bcbc;
+    font-family: 'calibri';
+    margin-top: 15%;
 }
 
 #sectionTwo .dataTables_length{
@@ -184,9 +214,9 @@ h1{
     justify-content: center;
 }
 
-#sectionTwo table{
+#sectionTwo .table1{
     margin-top:55px;
-    margin-left: 20%;
+    margin-left: 10%;
     color: #fff;
     font-size: 14px;
     table-layout: fixed;
@@ -201,6 +231,12 @@ h1{
     height: 0;
 }
 
+/*oculta por defecto*/
+#sectionTwo .DivProducts{
+    overflow: hidden;
+    height: 0;
+}
+
 /*Ocultar tabla*/
 .datatableShow{
     overflow:visible ;
@@ -208,11 +244,27 @@ h1{
     width: 100%;
     height: 500px;
     border: 1px solid rgba(83, 85, 164, 0.8);
-
-    
 }
 
-a{
+/*.datatableShow2{
+    overflow: visible;
+    margin-top: 40px;
+    width: 100%;
+    height: 500px;
+}*/
+
+#sectionTwo .table2{
+    /*margin-top:55px;
+    */
+    margin-left: 11%;
+    color: #fff;
+    font-size: 14px;
+    table-layout: fixed;
+    border: 1px solid rgba(83, 85, 164, 0.8);
+    border-collapse: collapse;
+    margin-top: 5px;
+}
+.redirects a{
     cursor: pointer;
 }
 
@@ -233,6 +285,11 @@ td{
     text-align: center;
 }
 
+td img{
+    width: 100%;
+    height: 100%;
+}
+
 tbody tr{
     cursor: pointer;
 }
@@ -241,14 +298,18 @@ tbody tr:hover{
     background-color: rgba(199, 199, 199, 0.8);
 }
 
-ul {
+.col-sm-12 ul {
     list-style: none;
     padding: 0;
     margin: 0;
     background-color: #f2f2f2;
   }
   
-  li {
+.col-sm-12 li {
     padding: 10px;
     border-bottom: 1px solid #ddd;
   }
+
+.Hidden {
+    overflow: hidden;
+}  

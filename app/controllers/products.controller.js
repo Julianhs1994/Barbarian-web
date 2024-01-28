@@ -1,10 +1,12 @@
-import { getConnection,closeConnection } from "../database/database.js";
+import { getConnection } from "../database/database.js";
 import { methodsEnc } from "../crypto/cryptos.js";
+//fs
+import { promises as fs } from 'fs';
 
+//->Insertar producto nuevo:
 async function InsertNewProduct(pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen){
 
   if(!pdc_nombre || !pdc_fk_seccion || !pdc_descripcion || !pdc_fk_marca || !pdc_fk_color || !cant_xs || !cant_s || !cant_m || !cant_l || !cant_xl || !pdc_valor || !pdc_imagen || pdc_imagen == ""){
-    //console.log("enter")
     return ({boolean:false})
   }
   const {connection,pool} = await getConnection();
@@ -23,6 +25,30 @@ async function InsertNewProduct(pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk
     console.log('insertar producto finalizado')
   }  
 }
+
+//->Editar producto existente:
+async function EditProduct(idProduct,pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen){
+
+  if(!pdc_nombre || !pdc_fk_seccion || !pdc_descripcion || !pdc_fk_marca || !pdc_fk_color || !cant_xs || !cant_s || !cant_m || !cant_l || !cant_xl || !pdc_valor || !pdc_imagen || pdc_imagen == ""){
+    return ({boolean:false})
+  }
+  const {connection,pool} = await getConnection();
+  try{
+    let pdc_id = idProduct;
+    const sql = 'UPDATE producto SET pdc_nombre = ?, pdc_fk_seccion = ?, pdc_descripcion = ?, pdc_fk_marca = ?,pdc_fk_color = ?,cant_xs = ?,cant_s = ?,cant_m = ?,cant_l = ?,cant_xl = ?,pdc_valor = ?,pdc_imagen = ? WHERE pdc_id = ?';
+    connection.query(sql, [pdc_nombre,parseInt(pdc_fk_seccion),pdc_descripcion,parseInt(pdc_fk_marca),parseInt(pdc_fk_color),cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen,pdc_id]);
+    return ({boolean:true});
+  }catch(err){
+    console.error(err)
+    await pool.end();
+    return ({boolean:true})
+  }
+  finally {
+    await pool.end();
+    console.log('editar producto finalizado')
+  }  
+}
+
 
   
 async function getProdListFromCategory(req,res,next){
@@ -46,7 +72,6 @@ async function getProdListFromCategory(req,res,next){
     const totalItems = totalCount[0][0].total;
     const totalPages = Math.ceil(totalItems / pageSize);
     //
-    //const arrayData = responseJSON.arrayData;
     const encodedArrayData = decodeURIComponent(JSON.stringify(arrayData));
     //console.log(methodsEnc.encryptUrl(encodedArrayData))
     const ArrayEncrypt = methodsEnc.encryptUrl(encodedArrayData)
@@ -77,7 +102,7 @@ async function getProdListFromCategory(req,res,next){
 }  
 
 async function searchProdFromName(req,res){
-  const {connection,pool} = getConnection();
+  const {connection,pool} = await getConnection();
   try{
     const name = req.body.value;
     const sql = await connection.query("SELECT * FROM producto WHERE pdc_nombre =? ",[name]);
@@ -177,10 +202,103 @@ async function getProdDetail(req,res){
   return res.status(200).send({status:200,message:"Ok",redirect:redirects})
 }
 
+async function getAllproducts(req, res, next) {
+  const {connection,pool} = await getConnection();
+   try {
+ 
+     // Obtener los parámetros de paginación
+     const currentPage = req.query.page || 1;
+     //console.log("Current:"+currentPage)
+     //console.log(req.query.search)
+     const pageSize = req.query.length || 5;
+     const offset = (currentPage - 1) * pageSize;
+ 
+     // Obtener el número total de filas
+     const totalCountQuery = 'SELECT COUNT(*) AS total FROM producto';
+     const totalCountResult = await connection.query(totalCountQuery);
+     const totalRows = totalCountResult[0][0].total;
+     //
+    let query;
+    let busqueda = req.query.search;
+    if (busqueda.value != ''){
+      query = `SELECT * FROM producto WHERE CONCAT(pdc_nombre, ' ',pdc_imagen, ' ', pdc_fk_seccion, ' ', pdc_descripcion, ' ', pdc_fk_marca, ' ', pdc_fk_color, ' ',pdc_valor ) LIKE '%${busqueda.value}%'`;
+    }else{
+     // Obtener los resultados paginados
+     query = `SELECT * FROM producto LIMIT ${offset}, ${pageSize}`;
+     //FIN 
+     } 
+     const result = await connection.query(query);
+     //console.log(result[0])
+     // Calcular el número de páginas
+     const totalPages = Math.ceil(totalRows / pageSize);
+     // Retornar los resultados paginados y el número total de páginas como respuesta JSON
+     res.json({
+       data: result[0],
+       recordsTotal: totalRows,
+       recordsFiltered: totalRows,
+       draw: req.query.draw,
+       totalPages: totalPages
+     });
+     await pool.end()
+   } catch (error) {
+     await pool.end();
+     console.error(error);
+     res.status(500).send('Error al obtener los productos');
+   }
+ }
+
+async function deleteProduct(req,res,next){
+  const {connection,pool} = await getConnection();
+  try{
+    let id = req.body.id;
+    //console.log("id"+id);
+    let pdc_imagen = await connection.query(`SELECT pdc_imagen FROM producto WHERE pdc_id=${id}`);
+    let url = (pdc_imagen[0][0].pdc_imagen);
+    await connection.query(`DELETE FROM busquedas WHERE pdc_id=${id}`);
+    const sql = await connection.query(`DELETE FROM producto WHERE pdc_id=${id}`);
+    await fs.unlink(`app/assets/${url}`);
+    return res.status(200).send({status:200,message:"Producto Eliminado",redirect:"/admin"});
+  }catch(err){
+    console.error(err);
+    return res.status(400).send({status:400,message:"Error al Eliminar producto",redirect:"/admin"})
+  }
+  finally{
+    console.log("Eliminar imagen cerrado")
+    await pool.end();
+  }
+}
+
+async function getEditProduct(req,res,next){
+  const {connection,pool} = await getConnection();
+  try{
+  let id = req.body.id;
+  console.log("ID:"+id);
+  //let arr = [];
+  const sql = await connection.query(`SELECT * FROM producto WHERE pdc_id=${id}`);
+  let redirects;
+  sql[0].forEach(arr =>{
+  redirects = `/editproduct?Nombre=${arr.pdc_nombre}&&Imagen=${arr.pdc_imagen}&&Seccion=${arr.pdc_fk_seccion}&&Descripcion=${arr.pdc_descripcion}&&Marca=${arr.pdc_fk_marca}&&Color=${arr.pdc_fk_color}&&Valor=${arr.pdc_valor}&&Xs=${arr.cant_xs}&&S=${arr.cant_s}&&M=${arr.cant_m}&&L=${arr.cant_l}&&Xl=${arr.cant_xl}&&idProduct=${id}`;
+  //console.log(arr.pdc_nombre)
+  })
+
+  return res.status(200).send({status:200,message:"Seleccion realizada",redirect:redirects})
+  }catch(err){
+    console.error(err);
+  }
+  finally{
+    console.log("Edicion producto cerrada");
+    await pool.end()
+  } 
+}
+
 export const methods ={
     InsertNewProduct,
     getProdListFromCategory,
     searchProdFromName,
     getProdForSearch,
-    getProdDetail
+    getProdDetail,
+    getAllproducts,
+    deleteProduct,
+    getEditProduct,
+    EditProduct
 }

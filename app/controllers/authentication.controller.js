@@ -2,7 +2,7 @@ import bcryptjs from "bcryptjs";
 //import { json } from "express";
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
-import { getConnection,closeConnection } from "../database/database.js";
+import { getConnection } from "../database/database.js";
 import { sendActivationEmail } from "../helper/email.helper.js";
 dotenv.config();
 import crypto from "crypto";

@@ -169,9 +169,9 @@ app.get("/addproduct", authorizations.soloPublico,async (req,res) => {
   res.render("addproduct", { isLoggedIn, arraySecciones, arrayMarcas, arrayColores });
 });
 
-//prueba
-/*app.get("/prueba",authorizations.soloAdmin,(req,res) =>{
+app.get("/editproduct",authorizations.soloPublico,(req,res)=>{
   const isLoggedIn = req.session.usuario ? true : false;
+  //
   var rol = "";
   if(!req.session || !req.session.rol){
     rol = "Invitado";
@@ -180,8 +180,59 @@ app.get("/addproduct", authorizations.soloPublico,async (req,res) => {
     rol = req.session.rol;
   res.locals.rol = rol;
   }
-  res.render('prueba', {isLoggedIn, rol})
-})*/
+  //
+  const {Nombre,Imagen,Seccion,Descripcion,Marca,Color,Valor,Xs,S,M,L,Xl,idProduct} = req.query
+  res.render('editproduct', {isLoggedIn,Nombre,Imagen,Seccion,Descripcion,Marca,Color,Valor,Xs,S,M,L,Xl,idProduct})
+})
+
+app.get("/edituser",authorizations.soloPublico,async (req,res)=>{
+  const isLoggedIn = req.session.usuario ? true : false;
+  //
+  var rol = "";
+  if(!req.session || !req.session.rol){
+    rol = "Invitado";
+  res.locals.rol = rol;
+  }else{
+    rol = req.session.rol;
+  res.locals.rol = rol;
+  }
+  //
+  const {Rol,TipoDocumento,NumeroDocumento,Nombre,Apellido,Email,Estado,idUser} = req.query
+  res.render('edituser',{isLoggedIn,Rol,TipoDocumento,NumeroDocumento,Nombre,Apellido,Email,Estado,idUser})
+});
+
+/*app.get("/editarusuarios", async (req,res) => {
+  const { usr_rol } = req.body;
+  console.log("test:"+usr_rol)
+  console.log(req.body.usr_rol)
+    
+    const result = await users.EditUser(idUser,usr_rol,usr_tipo_documento,usr_numero_documento,usr_nombre,usr_apellido,usr_email,usr_estado);
+    //console.log(result.boolean)
+   
+    /*if(result.boolean == true){
+      console.log("Usuario Editado")
+    }else{
+      console.log("Usuario no Editado")
+    }
+    res.redirect('/admin');*/ 
+ // }
+//);
+app.get("/editarusuarios", async (req,res) => {
+  const { idUser,usr_rol,usr_tipo_documento,usr_numero_documento,usr_nombre,usr_apellido,usr_email,usr_estado } = req.query;
+  //console.log(req.query)
+    
+  const result = await users.EditUser(idUser,usr_rol,usr_tipo_documento,usr_numero_documento,usr_nombre,usr_apellido,usr_email,usr_estado);
+
+  //console.log(result.boolean)
+   
+    if(result.boolean == true){
+      console.log("Usuario Editado")
+    }else{
+      console.log("Usuario no Editado")
+    }
+    res.redirect('/admin');
+  }
+);
 
 
 //Ruta con Multer
@@ -197,8 +248,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-//Formulario para agregar usuarios(Admin)
-
+//Config Formulario para agregar productos(Admin)
 
 app.post('/productos', upload.single('pdc_imagen'), async (req, res) => {
   const { pdc_nombre, pdc_fk_seccion, pdc_descripcion, pdc_fk_marca, pdc_fk_color, cant_xs, cant_s, cant_m, cant_l, cant_xl, pdc_valor } = req.body;
@@ -222,7 +272,35 @@ app.post('/productos', upload.single('pdc_imagen'), async (req, res) => {
   }
 );
 
-//desplegar post de la descripcion
+//Config Formulario para editar productos(Admin)
+
+app.post('/editarproductos', upload.single('pdc_imagen'), async (req, res) => {
+  const { pdc_nombre, pdc_fk_seccion, pdc_descripcion, pdc_fk_marca, pdc_fk_color, cant_xs, cant_s, cant_m, cant_l, cant_xl, pdc_valor,idProduct,pdc_imagen_old } = req.body;
+  let pdc_imagen;
+  //->Si carga una imagen nueva:
+  if (req.file && req.file.filename){
+    pdc_imagen = req.file.filename;
+    //->Eliminar imagen antigua:
+    await fs.unlink(`app/assets/${pdc_imagen_old}`)
+  //->Si no inserta imagen nueva, entonces inserta el dato antiguo:  
+  }else{
+    pdc_imagen = pdc_imagen_old
+  }
+  
+    const result = await products.EditProduct(idProduct,pdc_nombre, pdc_fk_seccion, pdc_descripcion, pdc_fk_marca, pdc_fk_color, cant_xs, cant_s, cant_m, cant_l, cant_xl, pdc_valor, pdc_imagen);
+    // Eliminar la imagen si no se guarda en la base de datos
+    //console.log(result.boolean)
+    if (result.boolean == false && pdc_imagen != ""){
+      await fs.unlink(`app/assets/${pdc_imagen}`);
+      console.log('Imagen eliminada');
+    }else if(result.boolean == true){
+      console.log("Producto Editado")
+    }
+    res.redirect('/admin'); 
+  }
+);
+
+//->desplegar GET de la descripcion:
 app.get("/description",authorizations.soloUsuario,async (req,res)=>{
   const isLoggedIn = req.session.usuario ? true : false;
   //
@@ -260,12 +338,19 @@ app.post("/api/login", authentication.login);
 //Rutas con funciones autorizacion
 app.post("/api/close", authorizations.close);
 //Rutas con funciones PRODUCTOS
-app.post("/api/getSectionProd", limit.limitConcurrency,products.getProdListFromCategory)
+app.post("/api/getSectionProd", limit.limitConcurrency,products.getProdListFromCategory);
+app.post("/api/deleteProduct", products.deleteProduct);
+app.post("/api/getEditProduct",products.getEditProduct);
+app.get("/api/getAllProducts", products.getAllproducts);
 //Ruta para obtener producto por nombre
-app.post("/api/searchProdFromName", products.searchProdFromName)
+app.post("/api/searchProdFromName", products.searchProdFromName);
+//Ruta para obtener producto por id y editar
+app.post("/api/getEditProduct",)
 
-//Get con funciones
+//Rutas con funciones USUARIOS
 app.get("/api/getAllUsers",users.getAllUsers);
+app.post("/api/deleteUser",users.deleteUser);
+app.post("/api/getEditUser",users.getEditUser);
 
 //Ruta solo admin
 app.get("/admin", authorizations.soloPublico/*soloAdmin*/, (req, res) => {

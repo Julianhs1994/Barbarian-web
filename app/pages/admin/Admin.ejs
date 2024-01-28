@@ -30,43 +30,84 @@
                 <img src="usrs-removebg-preview.png" alt="icono usuarios">
                 <button class="btn-expandir">+ Expandir</button>
                 <p class="textoExpandir">
-                    Si quiere crear,visualizar,editar o eliminar usuarios ingrese <a class="options" id="usuarios">aquí</a>
+                    Si quiere crear,visualizar,editar o eliminar usuarios ingrese <a class="option-user" id="usuarios">aquí</a>
                 </p>
             </div>
             <div class="redirectProducts redirection">
                 <img src="cmst-removebg-preview.png" alt="icono productos">
                 <button class="btn-expandir">+ Expandir</button>
                 <p class="textoExpandir">
-                    si quiere visualizar,editar o eliminar productos ingrese <a id="producto">aquí</a>
+                    si quiere visualizar,editar o eliminar productos ingrese <a class="option-product" id="producto">aquí</a>
                 </p>
             </div>
 
         </div>
-        <div class="logs mainDiv">
+        <div class="addProd mainDiv">
+            <a href="/addproduct">
+                <img src="agregarprod-removebg-preview.png" alt="tienda de ropa" href="/">
+            </a>
+                <p>
+                Agregue sus productos de manera agil
+            </p>
            
         </div>
     </section>
      <section id="sectionTwo">
+        <p id="parrafo">En esta seccion podras visualizar la lista de usuarios y/o productos,Segun elijas,recuerda hacerlo en los botones desplegables de la seccion de arriba ↑</p>
        <div class="DivUsers" id="DivUsers">
         <br>
         <br>
-        <table class="datatable" id="tabla-datos">
-            <thead>
-                <tr>
-                    <!--<th>id</th>-->
-                    <th>rol</th>
-                    <th>tipoDocumento</th>
-                    <th>numeroDocumento</th>
-                    <th>nombre</th>
-                    <th>apellido</th>
-                    <th>email</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
+            <table class="datatable table1" id="tabla-datos">
+                <thead>
+                    <tr>
+                        <!--<th>id</th>-->
+                        <th>rol</th>
+                        <th>tipoDocumento</th>
+                        <th>numeroDocumento</th>
+                        <th>nombre</th>
+                        <th>apellido</th>
+                        <th>email</th>
+                        <th>estado</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!---->
+                </tbody>
+            </table>
         </div>
+        <div class="DivProducts" id="DivProducts">
+            <br>
+            <br>
+                <table class="datatable table2" id="tabla-productos">
+                    <thead>
+                        <tr>
+                            <th>nombre</th>
+                            <th>imagen</th>
+                            <th>seccion</th>
+                            <th>descripcion</th>
+                            <th>fk_marca</th>
+                            <th>fk_color</th>
+                            <th>valor</th>
+                            <th>xs</th>
+                            <th>s</th>
+                            <th>m</th>
+                            <th>l</th>
+                            <th>xl</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!---->
+                        <!--<tr>
+                            <td><button>Editar</button></td>
+                            <td><button>Eliminar</button></td>
+                        </tr>-->
+                    </tbody>
+                </table>
+            </div>
     </section>
     </div>
 </body>

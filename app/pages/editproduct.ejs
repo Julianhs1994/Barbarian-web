@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="editproduct.css">
+    <title>Document</title>
+</head>
+<body>
+    <section class="form-editProduct">
+        <h4>Editar Producto</h4>
+        <form action="/editarproductos" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="idProduct" id="idProduct" value="<%= idProduct %>" readonly>    
+        <label for="pdc_nombre">Nombre:</label>
+        <input class="controls" type="text" name="pdc_nombre" id="pdc_nombre" value="<%= Nombre %>" >
+        <label for="pdc_imagen_old">Imagen:</label>
+        <input class="controls" type="text" name="pdc_imagen_old" id="pdc_imagen_old" value="<%= Imagen %>" readonly>
+        <input type="file" name="pdc_imagen" />
+        <br>
+        <br>
+        <label for="pdc_fk_seccion">Seccion:</label>
+        <input class="controls" type="text" name="pdc_fk_seccion" id="pdc_fk_seccion" value="<%= Seccion %>">
+        <label for="pdc_descripcion">Descripcion:</label>
+        <input class="controls" type="text" name="pdc_descripcion" id="pdc_descripcion" value="<%= Descripcion %>">
+        <label for="pdc_fk_marca">Marca:</label>
+        <input class="controls" type="text" name="pdc_fk_marca" id="pdc_fk_marca" value="<%= Marca %>">
+        <label for="pdc_fk_color">Color:</label>
+        <input class="controls" type="text" name="pdc_fk_color" id="pdc_fk_color" value="<%= Color %>">
+        <label for="pdc_valor">Valor:</label>
+        <input class="controls" type="text" name="pdc_valor" id="pdc_valor" value="<%= Valor %>">
+        <label for="cant_xs">Cantidad xs:</label>
+        <input class="controls" type="text" name="cant_xs" id="cant_xs" value="<%= Xs %>">
+        <label for="cant_s">Cantidad S:</label>
+        <input class="controls" type="text" name="cant_s" id="cant_s" value="<%= S %>">
+        <label for="cant_m">Cantidad M:</label>
+        <input class="controls" type="text" name="cant_m" id="cant_m" value="<%= M %>">
+        <label for="cant_l">Cantidad L:</label>
+        <input class="controls" type="text" name="cant_l" id="cant_l" value="<%= L %>">
+        <label for="cant_xl">Cantidad XL:</label>
+        <input class="controls" type="text" name="cant_xl" id="cant_xl" value="<%= Xl %>">
+        <input class="botons" type="submit" value="Editar Producto">
+        </form>
+    </section>
+</body>
+</html>

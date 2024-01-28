@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="editproduct.css">
+    <title>Document</title>
+</head>
+<body>
+    <section class="form-editProduct">
+        <h4>Editar Usuario</h4>
+        <form action="/editarusuarios" method="GET" >
+            <input type="hidden" name="idUser" id="idUser" value="<%= idUser %>" readonly>    
+            <label for="usr_rol">Rol:</label>
+            <input class="controls" type="text" name="usr_rol" id="usr_rol" value="<%= Rol %>" >
+            <label for="usr_tipo_documento">TipoDocumento:</label>
+            <input class="controls" type="text" name="usr_tipo_documento" id="usr_tipo_documento" value="<%= TipoDocumento %>" >
+            <label for="usr_numero_documento">NumeroDocumento:</label>
+            <input class="controls" type="text" name="usr_numero_documento" id="usr_numero_documento" value="<%= NumeroDocumento %>" >
+            <label for="usr_nombre">Nombre:</label>
+            <input class="controls" type="text" name="usr_nombre" id="usr_nombre" value="<%= Nombre %>" >
+            <label for="usr_apellido">Apellido:</label>
+            <input class="controls" type="text" name="usr_apellido" id="usr_apellido" value="<%= Apellido %>" >
+            <label for="usr_email">Email:</label>
+            <input class="controls" type="text" name="usr_email" id="usr_email" value="<%= Email %>" >
+            <label for="usr_estado">Estado:</label>
+            <input class="controls" type="text" name="usr_estado" id="usr_estado" value="<%= Estado %>" >
+            
+            <input class="botons" type="submit" value="Editar Usuario">
+        </form>
+    </section>
+</body>
+</html>
+

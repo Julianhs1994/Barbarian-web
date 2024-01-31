@@ -93,7 +93,7 @@ header {
 
 .login a {
   text-decoration: none;
-  color: #ffffff;
+  color: #d7da14;
   font-weight: bold;
 }
 
@@ -268,7 +268,7 @@ nav div #LogOut {
 
 }
 
-/* Estilos para el copyright */
+
 .copyright > p{
   color: white;
   font-size: 14px;
@@ -328,5 +328,41 @@ nav div #LogOut {
     margin-top: 10px;
   }
 }
+
+
+
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 5px; 
+  background-color: #f0f0f0; 
+}
+
+
+.login a {
+  margin-right: 10px; 
+  text-decoration: none; 
+  color: #333; 
+}
+
+
+#LogOut {
+  color: rgb(80, 9, 9); 
+}
+
+
+.login a[href="login"] {
+  background-color: #500d0d; 
+  color: #fff; 
+  padding: 5px 12px; 
+  border-radius: 1px;
+}
+
+
+.login a:hover {
+  text-decoration: underline; 
+}
+
 
     

@@ -35,10 +35,9 @@ body {
     position: relative; 
     overflow: hidden; 
     border-radius: 2px;
- /* Valor de opacidad (0.0 a 1.0) */
-}
 
 }
+
 
 .child-container img {
     max-width: 100%;
@@ -104,7 +103,10 @@ body {
 .btn-merge {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .btn-merge button {
@@ -126,7 +128,66 @@ body {
 }
 
 
-@media (min-width: 368px) {
+
+
+
+.size-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  
+  .form-container {
+    display: flex;
+  }
+
+  
+  .size-selector-inner {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+  }
+
+  
+  .size-selector-inner label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  .campt{
+  padding: 11px;
+  }
+
+  
+  .size-selector-inner select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    width: 100%; 
+  }
+
+  
+  .numeric-input label {
+    margin-right:0px;
+  }
+
+  .numeric-input input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    width: 35%; 
+  }
+
+  
+  .size-selector-inner select:focus,
+  .numeric-input input:focus {
+    border-color: #3498db;
+  }
+  @media (min-width: 368px) {
     .child-container {
         width: 33.33%;
     }

@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/Julianhs1994/Barbarian-web#readme",
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.3"
   },
   "dependencies": {
     "@vercel/node": "^3.0.7",

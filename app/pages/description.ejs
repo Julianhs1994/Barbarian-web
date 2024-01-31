@@ -1,58 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="des-Product.css">
-</head>
-<body>
+    <link rel="stylesheet" href="des-Product.css" />
+  </head>
+  <body>
     <div class="container">
-        <div class="child-container">
-            <!--<img src="silla.png" alt="">-->
-            <img src="<%= imagen_producto %>" alt="">
+      <div class="child-container">
+        <img src="<%= imagen_producto %>" alt="" />
+      </div>
+      <input type="hidden" name="<%= idProducto %>" />
+
+      <div class="child-container">
+        <h2><%= nombre_producto %></h2>
+        <div class="precio-des"><span>$<%= precio_producto %></span></div>
+
+        <p>Lo que Tienes que saber de este producto</p>
+        <ul>
+          <li>Seccion: <%= seccion_producto %></li>
+          <li>Descripcion: <%= descripcion_producto %>.</li>
+          <li>Marca: <%= marca_producto %>.</li>
+          <li>Color: <%= color_producto %></li>
+          <li>Cantidad xS Disponible: <%= CantXs %> .</li>
+          <li>Cantidad S Disponible: <%= CantS %>.</li>
+          <li>Cantidad M Disponible: <%= CantM %>.</li>
+          <li>Cantidad L Disponible: <%= Cantl %></li>
+          <li>Cantidad XL Disponible: <%= Cantxl %></li>
+        </ul>
+        <div class="size-selector">
+            <div class="form-container">
+                <div class="size-selector">
+                  <label for="talla">Talla:</label>
+                  <select class="campt" id="talla" name="talla">
+                    <option value="s">S</option>
+                    <option value="m">M</option>
+                    <option value="l">L</option>
+                    <option value="xl">XL</option>
+                  </select>
+                </div>
+              
+                <div class="numeric-input">
+                  <label for="numero">Cantidad:</label>
+                  <input type="number" id="numero" name="numero" min="0" step="1" />
+                </div>
+              </div>
+
+         
         </div>
-        <input type="hidden" name="<%= idProducto %>" >
-    
-        <div class="child-container">
-            <h2><%= nombre_producto %></h2>
-            <!--<p>MAS BUSCADOS</p>-->
-            <!--<div class="precio-act"><span>$300.000</span></div>
-            <div class="precio-des"><span>$200.000</span></div>-->
-            <div class="precio-des"><span>$<%= precio_producto %></span></div>
-    
-            <p>Lo que Tienes que saber de este producto</p>
-            <ul>
-                <li>Seccion: <%= seccion_producto %></li>
-                <li>Descripcion: <%= descripcion_producto %>.</li>
-                <li>Marca: <%= marca_producto %>.</li>
-                <li>Color: <%= color_producto %></li>
-                <li>Cantidad xS Disponible: <%= CantXs %> .</li>
-                <li>Cantidad S Disponible: <%= CantS %>.</li>
-                <li>Cantidad M Disponible: <%= CantM %>.</li>
-                <li>Cantidad L Disponible: <%= Cantl %></li>
-                <li>Cantidad XL Disponible: <%= Cantxl %></li>
-            </ul>
+      </div>
+
+      <div class="child-container">
+        <!--<p><span>Envío Gratis a Todo el País</span></p>
+        <p><span>Conoce los tiempos y las formas de envío</span></p>-->
+
+        <div class="btn-merge">
+          <button id="comprarButton">Comprar Ahora</button>
+          <button id="carritoButton">Agregar al Carrito</button>
         </div>
-    
-        <div class="child-container">
-            <p><span>Envío Gratis a Todo el País</span></p>
-            <p><span>Conoce los tiempos y las formas de envío</span></p>
-            
-    
-            
-            
-    
-            <div class="btn-merge">
-                <button id="comprarButton" >Comprar Ahora</button>
-                <button id="carritoButton" >Agregar al Carrito</button>
-            </div>
-    
-            <p><span>Devolución Gratis.</span></p>
-            <p><span>Compra Protegida</span></p>
-            <p><span>1 mes garantía de práctica</span></p>
-        </div>
+
+       <!-- <p><span>Devolución Gratis.</span></p>
+        <p><span>Compra Protegida</span></p>
+        <p><span>1 mes garantía de práctica</span></p>-->
+      </div>
     </div>
-</body>
-<script src="description.js"></script>
+  </body>
+  <script src="description.js"></script>
 </html>

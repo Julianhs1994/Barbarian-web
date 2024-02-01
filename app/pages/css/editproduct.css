@@ -15,7 +15,7 @@ body {
 
 .form-editProduct {
     width: 400px;
-    background: #24303c;
+    background: #290207;
     padding: 30px;
     margin: auto;
     margin-top: 100px;
@@ -27,6 +27,7 @@ body {
 .form-editProduct h4{
     font-size:22px;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .controls {
@@ -35,14 +36,14 @@ body {
     padding: 10px;
     border-radius: 4px;
     margin-bottom: 16px;
-    border: 1px solid #1f53c5;
+    border: 1px solid #fbfcff;
     font-family: 'calibri';
     font-size: 18px;
 }
 
 .form-editProduct .botons {
     width: 100%;
-    background: #1f53c5;
+    background: #470808;
     border: none;
     padding: 12px;
     color: white;
@@ -50,12 +51,18 @@ body {
     font-size: 16px;
 
 }
+.form-editProduct .botons:hover{
+background-color: #fbfcff;
+color: black;
+
+}
 
 .form-editProduct input{
-    color: aquamarine;
+    color: rgb(236, 241, 239);
 }
 
 .botons{
     cursor: pointer;
+    
 }
 

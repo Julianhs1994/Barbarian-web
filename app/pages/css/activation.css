@@ -1,3 +1,13 @@
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+  padding: 0;
+  margin: 0;
+  transition: background-color 0.3s;
+    background-image:url("https://cdn.pixabay.com/photo/2017/08/10/01/23/shopping-2616824_1280.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 .container-activation {
   height: calc(100vh - 84px);
   width: 100vw;
@@ -7,25 +17,26 @@
   flex-direction: column;
   padding: 10px;
   
+  
 }
 
 .title-activation {
   font-size: 20px;
   text-align: center;
   margin-bottom: 20px;
-  background-color: #06192e;
-  color: #fff
+  color: #ffffff
+  
 }
 
 .p-activation {
   text-align: center;
   font-size: 18px;
-  background-color: #06192e;
+  color:#ffffff;
 }
 
 .btn-login {
   display: block;
-  background-color: #7a0b0b;
+  background-color: #500d0d;
   color: #fff;
   padding: 10px 20px;
   text-align: center;

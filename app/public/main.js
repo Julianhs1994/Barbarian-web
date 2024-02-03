@@ -63,9 +63,9 @@ if(buttons){
 }  
 
 //->redirect detalle
-const buttonV = document.getElementById('buttonDetalle');
+/*const buttonV = document.getElementById('buttonDetalle');
 if(buttonV){
-buttonV.addEventListener('click',async ()=>{
+/*buttonV.addEventListener('click',async ()=>{
   let value = buttonV.value;
   console.log("value:",value)
 
@@ -88,5 +88,36 @@ buttonV.addEventListener('click',async ()=>{
     }
   }
 })
+}//
+//*/
+
+//->redirect detalle
+const buttonV = document.getElementsByClassName('buttonDetalle');
+if(buttonV){
+  for (let i = 0; i < buttonV.length; i++) {
+    buttonV[i].addEventListener('click',async ()=>{
+    let value = buttonV[i].value;
+    console.log("value:",value);
+ 
+    const response = await fetch("api/description",{
+      method: "POST",
+      headers:{
+        "Content-type":"application/json"
+      },
+      body:JSON.stringify({
+        //->enviar array:
+        value:value
+      })
+    });
+    if(response.status != 200){
+      return
+    }else{
+      const responseJSON = await response.json();
+      if(responseJSON.redirect){
+        window.location.href = responseJSON.redirect;
+      }
+    }
+})
+};
 }
 //

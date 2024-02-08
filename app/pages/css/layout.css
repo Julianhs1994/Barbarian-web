@@ -365,4 +365,14 @@ nav div #LogOut {
 }
 
 
-    
+/*Carrito isplay*/
+
+.carrito-popup {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 100;
+}

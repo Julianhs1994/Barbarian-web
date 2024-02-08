@@ -37,6 +37,9 @@ import { methodsEnc as encrypted } from "./crypto/cryptos.js";
 import { promises as fs } from 'fs';
 //
 import crypto from "crypto";
+//session
+
+
 
 //Server
 const app = express();
@@ -61,6 +64,21 @@ app.use(cookieParser());
 app.use(expressEjsLayouts);
 app.set("views",[ path.join(__dirname, "pages"),path.join(__dirname, "/pages/admin")]);
 app.set("view engine", "ejs");
+//
+//import { config } from "dotenv";
+import session from "express-session";
+
+
+app.use(session({
+  secret: 'jjhs', // Reemplaza 'mi_secreto_de_sesion' con un secreto de sesión seguro.
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    secure: false, // Establece 'secure' en 'false' para desarrollo local y 'true' para producción en HTTPS.
+    maxAge: 1000 * 60 * 60 * 24 * 7 // Establece la duración de la sesión en 7 días (1 semana).
+  },
+}));
 
 //crypto client
 export const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
@@ -80,16 +98,20 @@ app.get('/public', (req, res) => {
 //Rutas
 
 app.get("/", authorizations.soloMain,async (req, res) => {
+  //->Configuracion:
   const isLoggedIn = req.session.usuario ? true : false;
   res.locals.rol = "no-one";
   var rol = "";
   if(!req.session || !req.session.rol){
     rol = "Invitado";
     res.locals.rol = rol;
+    res.locals.cantCar = 0;
     res.clearCookie('jwt=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;');
   }else{
     rol = req.session.rol;
     res.locals.rol = rol;
+    let carrito = req.session.carrito || [];
+    res.locals.cantCar = carrito.length;
   }
   //
   let prodList = [];
@@ -121,7 +143,8 @@ app.get("/", authorizations.soloMain,async (req, res) => {
 app.get("/login", authorizations.soloPublico, (req, res) => {
   const isLoggedIn = req.session.usuario ? true : false;
   const rol = req.session && req.session.rol ? req.session.rol : "Invitado";
-  res.locals.rol = rol;  
+  res.locals.rol = rol;
+  res.locals.cantCar = "0";  
   res.render("login", { isLoggedIn,rol });
 });
 
@@ -132,9 +155,12 @@ app.get("/register", authorizations.soloPublico, (req, res) => {
   if(!req.session || !req.session.rol){
     rol = "Invitado";
   res.locals.rol = rol;
+  res.locals.cantCar = 0;
   }else{
     rol = req.session.rol;
   res.locals.rol = rol;
+  let carrito = req.session.carrito || [];
+    res.locals.cantCar = carrito.length;
   }
   //
   res.render("register", { isLoggedIn });
@@ -147,9 +173,12 @@ app.get("/addproduct", authorizations.soloPublico,async (req,res) => {
   if(!req.session || !req.session.rol){
     rol = "Invitado";
   res.locals.rol = rol;
+  res.locals.cantCar = 0;
   }else{
     rol = req.session.rol;
   res.locals.rol = rol;
+  let carrito = req.session.carrito || [];
+    res.locals.cantCar = carrito.length;
   }
   //
   let arraySecciones = [];
@@ -178,7 +207,10 @@ app.get("/editproduct",authorizations.soloPublico,async (req,res)=>{
   if(!req.session || !req.session.rol){
     rol = "Invitado";
   res.locals.rol = rol;
+  res.locals.cantCar = 0;
   }else{
+    let carrito = req.session.carrito || [];
+    res.locals.cantCar = carrito.length;
     rol = req.session.rol;
   res.locals.rol = rol;
   }
@@ -210,9 +242,12 @@ app.get("/edituser",authorizations.soloPublico,async (req,res)=>{
   if(!req.session || !req.session.rol){
     rol = "Invitado";
   res.locals.rol = rol;
+  res.locals.cantCar = 0;
   }else{
     rol = req.session.rol;
   res.locals.rol = rol;
+  let carrito = req.session.carrito || [];
+    res.locals.cantCar = carrito.length;
   }
   //
   let arrayRoles = [];
@@ -323,9 +358,12 @@ app.get("/description",authorizations.soloUsuario,async (req,res)=>{
   if(!req.session || !req.session.rol){
     rol = "Invitado";
   res.locals.rol = rol;
+  res.locals.cantCar = 0
   }else{
     rol = req.session.rol;
   res.locals.rol = rol;
+  let carrito = req.session.carrito || [];
+    res.locals.cantCar = carrito.length;
   }
   //
   let nombre_producto = req.query.Nombre;
@@ -375,9 +413,12 @@ app.get("/admin", authorizations.soloPublico/*soloAdmin*/, (req, res) => {
   if(!req.session || !req.session.rol){
     rol = "Invitado";
   res.locals.rol = rol;
+  res.locals.cantCar = 0
   }else{
     rol = req.session.rol;
   res.locals.rol = rol;
+  let carrito = req.session.carrito || [];
+    res.locals.cantCar = carrito.length;
   }
   //
   const data = null;
@@ -407,9 +448,12 @@ app.get("/:userId", authorizations.soloPublico, async (req, res) => {
   if(!req.session || !req.session.rol){
     rol = "Invitado";
   res.locals.rol = rol;
+  res.locals.cantCar = 0;
   }else{
     rol = req.session.rol;
   res.locals.rol = rol;
+  let carrito = req.session.carrito || [];
+  res.locals.cantCar = carrito.length;
   }
   //
   const userId = req.params.userId;
@@ -426,9 +470,15 @@ app.get("/:userId", authorizations.soloPublico, async (req, res) => {
 //Carrito
 
 // Agregar producto al carrito
-app.post('/agregar-al-carrito/:idProducto/:cantidad', (req, res) => {
+app.post('/agregar-al-carrito/:idProducto/:cantidad/:nombre', (req, res) => {
   const idProducto = req.params.idProducto;
+  const cantidad = req.params.cantidad;
+  const nombre = req.params.nombre;
+  console.log("nombre:"+nombre)
   // Lógica para agregar el producto a la sesión del carrito
+  if (!req.session) {
+    req.session = {};
+  }
   let carrito = req.session.carrito || [];
   // Verificar si el producto ya está en el carrito
   const productoExistente = carrito.find(producto => producto.id === idProducto);
@@ -436,8 +486,23 @@ app.post('/agregar-al-carrito/:idProducto/:cantidad', (req, res) => {
     productoExistente.cantidad+cantidad;
   } else {
     // Agregar el producto al carrito
-    carrito.push({ id: idProducto, cantidad: cantidad });
+    carrito.push({ id: idProducto, nombre:nombre ,cantidad: cantidad });
+    res.locals.cantCar = carrito.length;
   }
   req.session.carrito = carrito; // Guardar el carrito actualizado en la sesión
-  res.redirect('back'); // Redirigir de vuelta a la página anterior
+  res.status(200).send({status:200,message:'producto agregado',redirect:"/",carrito:carrito})
+  //console.log("posted")
+  //res.redirect('back'); // Redirigir de vuelta a la página anterior
+});
+
+app.post('/obtenerProductos',async (req, res) => {
+  if (/*!req.session ||*/ !req.session.carrito || req.session.carrito.length === 0) {
+    // Si el carrito está vacío, enviar una respuesta indicando que está vacío
+    res.status(201).send({status:201,message:'El carrito está vacío',redirect:"/"});
+    console.log("1")
+  } else {
+    // Si el carrito no está vacío, enviar la lista de productos en el carrito
+    res.status(200).send({status:200,message:"ok",productos: req.session.carrito});
+    console.log("2")
+  }
 });

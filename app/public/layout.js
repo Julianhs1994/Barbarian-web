@@ -189,3 +189,39 @@ document.getElementById('botonBuscar').addEventListener("click",async ()=>{
   }
 
 })
+
+//mostrarcarrito
+
+// Agrega un evento al ícono del carrito para mostrar la ventana emergente o recuadro al hacer clic
+document.querySelector('.carts a').addEventListener('click', async () => {
+  // Obtén los productos en el carrito desde la sesión del usuario
+  const respuesta = await fetch('/obtenerProductos',{
+    method:"POST",
+    headers:{
+      'Content-type':"application/json"
+    },
+  });
+  if (respuesta.status != 200){
+   return
+  }else{
+    const contentType = respuesta.headers.get('Content-Type');
+    if (contentType && contentType.includes('application/json')) {
+    const data = await respuesta.json();
+    
+    // Actualiza el contenido de la ventana emergente o recuadro con los productos en el carrito
+    const productList = document.getElementById('productosEnCarritoList');
+    productList.innerHTML = '';
+      //
+      data.productos.forEach(producto => {
+      const li = document.createElement('li');
+      li.textContent = `${producto.nombre} - Cantidad: ${producto.cantidad}`;
+      productList.appendChild(li);
+      });
+    
+    // Muestra la ventana emergente o recuadro
+    document.getElementById('carritoPopup').style.display = 'block';
+    } else {
+      console.error('Error en la solicitud de búsqueda: La respuesta no es un JSON válido');
+    }
+  }
+});

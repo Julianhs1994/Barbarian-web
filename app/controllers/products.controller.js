@@ -6,6 +6,7 @@ import { promises as fs } from 'fs';
 //->Insertar producto nuevo:
 async function InsertNewProduct(pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen){
 
+  //->Comprobar campos vacios:
   if(!pdc_nombre || !pdc_fk_seccion || !pdc_descripcion || !pdc_fk_marca || !pdc_fk_color || !cant_xs || !cant_s || !cant_m || !cant_l || !cant_xl || !pdc_valor || !pdc_imagen || pdc_imagen == ""){
     return ({boolean:false})
   }
@@ -164,21 +165,26 @@ async function searchProdFromName(req,res){
 }
 
 //->Obtener productos con mas busquedas:
-async function getProdForSearch(){
-  const {connection,pool} = await getConnection();
-  try{
-    const sql = await connection.query("SELECT pdc_nombre,pdc_imagen,contador FROM producto INNER JOIN busquedas ON producto.pdc_id = busquedas.pdc_id ORDER BY busquedas.contador DESC LIMIT 3");
-    const arrayData = sql[0];
-    return arrayData;
-  } catch (error) {
-    console.log(error);
-    await pool.end();
-  } finally {
-    console.log('obtener productos con mas busquedas finalizado');
-    await pool.end();
-  }  
+async function getProdForSearch() {
+  const connectionData = await getConnection();
+  if (connectionData) {
+    const { connection, pool } = connectionData;
+    try {
+      const sql = await connection.query("SELECT pdc_nombre,pdc_imagen,contador FROM producto INNER JOIN busquedas ON producto.pdc_id = busquedas.pdc_id ORDER BY busquedas.contador DESC LIMIT 3");
+      const arrayData = sql[0];
+      return arrayData;
+    } catch (error) {
+      console.log(error);
+      await pool.end();
+    } finally {
+      console.log('obtener productos con mas busquedas finalizado');
+      await pool.end();
+    }
+  } else {
+    // Manejo del error o aviso de que no se pudo obtener la conexión
+    console.log('Error obteniendo getConecction()');
+  }
 }
-
 async function getProdDetail(req,res){
   let Arrays = JSON.parse(req.body.value);
   //console.log("Arrays"+Arrays)

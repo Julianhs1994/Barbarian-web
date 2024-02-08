@@ -39,7 +39,18 @@
             </div>
             <div class="carts">
                 <a href="#"><img src="carts.png" alt="Carrito de Compras"></a>
+                <span id="cantidadProductosEnCarrito">
+                  <% if (!cantCar) { %>
+                  0
+                  <% }else{ %>
+                    <%= cantCar %>
+                  <% } %> 
+                </span>
             </div>
+            <div id="carritoPopup" class="carrito-popup" style="display:none;">
+              <h2>Productos en el carrito</h2>
+              <ul id="productosEnCarritoList"></ul>
+            </div>	
         </nav>
     </header>
     <div class="componente"><%- body %></div>

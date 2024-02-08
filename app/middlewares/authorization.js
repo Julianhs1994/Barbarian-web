@@ -9,6 +9,7 @@ function soloAdmin(req, res, next) {
   if (!req.session) {
     req.session = {};
   }
+  
 //->verificar login rol//
   const logeado = revisarCookie(req);
   const rol = req.session.rol || "Invitado"
@@ -26,6 +27,7 @@ function soloPublico(req, res, next) {
     req.session = {};
   }
 
+  
   const logeado = revisarCookie(req);
   if (!logeado) {
     return next();
@@ -40,8 +42,10 @@ function soloUsuario(req,res,next){
     req.session = {};
   }
 
+  
   const logeado = revisarCookie(req);
   if(logeado){
+    req.session.usuario = true;
     return next()
   }else{
     return res.redirect("/")
@@ -62,13 +66,17 @@ function soloMain(req, res, next) {
   }
 }
 
-function getDecCookie(req){
+/*function getDecCookie(req){
   //
   const c = req.headers.cookie || "invitado";
     console.log("Cookie",c)
-    if (c != "invitado") {
+    if (c != "invitado" && !c.includes("connect.sid") ) {
+      const jwtCookie = c.split("; ").find((cookie)=>cookie.startsWith('jwt='));
+      console.log("that cook:"+jwtCookie)
+      //
+      
       //->obtener cookie con jwt:
-      const cookieJWT = c
+      const cookieJWT = req.headers.cookie
         .split("; ")
         .find((cookie) => cookie.startsWith("jwt="))
         .slice(4);
@@ -85,7 +93,9 @@ function getDecCookie(req){
       const rol = SetUsuario[indice].str_rol;
       //->guardar rol en req.session:
       req.session.rol = rol;
-      console.log("req rol",req.session.rol)
+      console.log("req rol",req.session.rol);
+     
+    
       } else {
         // El usuario no fue encontrado en SetUsuario
         // Manejar el error de alguna manera adecuada
@@ -97,6 +107,41 @@ function getDecCookie(req){
       req.session.rol = "Invitado*";
       return "invitado"
     }  
+}*/
+
+function getDecCookie(req) {
+  const cookies = req.headers.cookie ? req.headers.cookie.split('; ') : []; // Dividir las cookies en un arreglo
+  
+  const jwtCookie = cookies.find((cookie) => cookie.startsWith('jwt=')); // Buscar la cookie con el nombre 'jwt='
+  
+  if (jwtCookie) { // Verificar si se encontró la cookie 'jwt='
+    console.log("that cook:" + jwtCookie);
+    
+    // Decodificar el contenido de la cookie 'jwt='
+    const cookieJWT = jwtCookie.slice(4); // Obtener el valor de la cookie 'jwt=' sin el prefijo 'jwt='
+    const decodificada = jsonwebtoken.verify(cookieJWT, process.env.JWT_SECRET);
+    
+    // Resto de tu lógica para manejar la sesión
+          //->obtener indice de donde se encuentra el usuario en el array de sesion:
+          const indice = SetUsuario.findIndex(usuario => usuario.str_user === decodificada.user);
+          if (indice !== -1) {
+          //->obtener el rol del usuario en sesion:
+          const rol = SetUsuario[indice].str_rol;
+          //->guardar rol en req.session:
+          req.session.rol = rol;
+          console.log("req rol",req.session.rol);
+        } else {
+          // El usuario no fue encontrado en SetUsuario
+          // Manejar el error de alguna manera adecuada
+          console.log("El usuario no fue encontrado");
+        }
+        //
+        return decodificada;  
+    
+  } else {
+    req.session.rol = "Invitado*";
+    return "invitado";
+  }
 }
 
 function revisarCookie(req) {

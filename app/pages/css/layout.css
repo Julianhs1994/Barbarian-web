@@ -68,7 +68,7 @@ header {
 .Buscar-btn {
   display: flex;
   flex-wrap: wrap;
-  /*align-items: center;*/
+
 }
 
 .Buscar-btn input[type="text"] {
@@ -93,11 +93,11 @@ header {
 
 .login a {
   text-decoration: none;
-  color: #d7da14;
+  color: #000000;
   font-weight: bold;
 }
 
-.cart {
+.carts {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -122,7 +122,7 @@ header {
 
 
 .componente {
-  /*border: 3px solid red;*/
+  
   display: flex;
 }
 
@@ -136,7 +136,7 @@ nav div #LogOut {
 
 
 
-/*estilos footer*/
+
 
 .footer-major{
   display: flex;
@@ -155,7 +155,6 @@ nav div #LogOut {
   background-color: #000000;
   display: flex;
   flex-direction: column;
-  /*justify-content: space-around;*/
   flex-wrap: nowrap;
   height: auto;
   width: 25%;
@@ -336,19 +335,24 @@ nav div #LogOut {
   align-items: center;
   justify-content: flex-end;
   padding: 5px; 
-  background-color: #f0f0f0; 
+  background-color: #000000; 
+  
 }
 
 
 .login a {
   margin-right: 10px; 
   text-decoration: none; 
-  color: #333; 
+  color: #ffffff; 
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 
 #LogOut {
-  color: rgb(80, 9, 9); 
+  color: rgb(246, 237, 237); 
+  background-color:#500d0d ;
+  padding: 5px 12px;
+  border-radius: 1px;
 }
 
 
@@ -365,14 +369,45 @@ nav div #LogOut {
 }
 
 
-/*Carrito isplay*/
+.carrito-popup {
+  display: none;
+  background-color: #ffffff; 
+  border-radius: 2px solid #000000; 
+  padding: 20px; 
+  width: 210px; 
+  color:#000000;
+  
+  position: fixed;
+  top: 175px; 
+  right: 20px; 
+}
+
+.carrito-popup h2 {
+  font-size: 17px; 
+  background-color: #500d0d;
+  margin-bottom: 10px; 
+  color:#ffffff;
+  font-family: Arial,sans-serif;
+  border:2px solid rgb(0, 0, 0);
+  border-radius: 5px;
+  text-align: center;
+}
+
+.carrito-popup ul {
+  list-style-type: none; 
+  padding: 0;
+  font-family: Arial,sans-serif;
+  background-color: #751919;
+  
+}
+
 
 .carrito-popup {
-  position: absolute;
-  top: 50px;
-  right: 10px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 10px;
-  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  border:2px solid rgb(0, 0, 0);
+  border-radius: 5px;
+  background-color: #ffffff;
 }
+

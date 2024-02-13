@@ -51,7 +51,8 @@ async function register(req, res) {
     const result = await connection.query("INSERT INTO usuario SET ?", usuario);
 
     //usuarios.push(usuario);
-    const link = "https://barbarian-web-koqc.vercel.app/" + result[0].insertId;
+    //const link = "https://barbarian-web-koqc.vercel.app/" + result[0].insertId;
+    const link = "/" + result[0].insertId;
     sendActivationEmail(usr_email, link);
     return res.status(201).send({
       status: "Ok",
@@ -59,7 +60,6 @@ async function register(req, res) {
       redirect: "/",
     });
   } catch (error) {
-    await pool.end();
     console.error(error);
     if (
       error &&
@@ -84,7 +84,7 @@ async function register(req, res) {
 import {privateKey, publicKey} from "../index.js"
 
 async function login(req, res) { 
-  const payload = req.body
+  const payload = req.body;
 
   let iv = Buffer.from(payload.iv, 'base64')
   //console.log('iv se pasa tal cual, codificado en base64')
@@ -170,7 +170,7 @@ async function login(req, res) {
       const query_nombre_rol = await connection.query("SELECT rol_nombre FROM rol WHERE rol_id=?",[user_rol]);
       const nombre_rol = query_nombre_rol[0][0].rol_nombre;
       const indice = SetUsuario.length;
-      SetUsuario[indice] = { str_user: usuarioArevisar.usr_email, str_rol: nombre_rol };
+      SetUsuario[indice] = { str_user: usuarioArevisar.usr_email, str_rol: nombre_rol };//lo mete
     }
 
     const cookieOption = {
@@ -195,12 +195,49 @@ async function login(req, res) {
   };
 }
 
-const activeUser = async (req, res) => {
+async function activeUser(userId,req,res){
+  //->Extraer Id: 
+  const id = userId.replace(/:/g, '');
+  //console.log("Id arreglada:"+id)
+  const {connection,pool} = await getConnection();
+  try{
+    const [user] = await connection.query(
+      "SELECT * FROM usuario WHERE usr_id = ?",[id]
+    );
+
+    if(user.length > 0 && user[0].usr_estado === 2) {
+      await connection.query(
+        "UPDATE usuario SET usr_estado = 1 WHERE usr_id = ?",[id]
+      );
+      //res.status(200).json({message:"cuenta activada con exito"})
+      const activationSuccess = true;
+      return activationSuccess;
+      console.log("cuenta activada con exito")
+    }else{
+      /*res.status(400).json({
+        message: "Enlace de activación inválido o la cuenta ya está activa",
+      });*/
+      const activationSuccess = false;
+      return activationSuccess;
+      console.log("Enlace de activacion invalido o la cuenta ya esta activa")
+    }
+  }catch(err){
+    //res.status(500).json({ message: "Error en el servidor" });
+    const activationSuccess = false;
+    return activationSuccess;
+  }
+  finally {
+    await pool.end();
+    console.log('activar usuario finalizado')
+  };
+}
+
+/*const activeUser2 = async (req, res) => {
   const {connection,pool} = await getConnection();
   try {
     const { userId } = req.params;
-
-    
+    console.log("Hola");
+    console.log(userId)
     const [user] = await connection.query(
       "SELECT * FROM usuario WHERE usr_id = ?",
       [userId]
@@ -212,10 +249,12 @@ const activeUser = async (req, res) => {
         [userId]
       );
       res.status(200).json({ message: "Cuenta activada con éxito" });
+      console.log("One")
     } else {
       res.status(400).json({
         message: "Enlace de activación inválido o la cuenta ya está activa",
       });
+      console.log("Two")
     }
   } catch (error) {
     res.status(500).json({ message: "Error en el servidor" });
@@ -224,7 +263,7 @@ const activeUser = async (req, res) => {
     await pool.end();
     console.log('activar usuario finalizado')
   };
-};
+};*/
 
 export const methods = {
   login,

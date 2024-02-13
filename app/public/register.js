@@ -56,7 +56,7 @@ document
         }),
       }
     );
-    if (respuesta.status != 201 && respuesta.status != 200) {
+    if (respuesta.status == 201 || respuesta.status == 200) {
       const responseJson = await respuesta.json();
       if (responseJson.message) {
         document.getElementById("response-message").textContent =

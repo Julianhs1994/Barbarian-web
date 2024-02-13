@@ -426,7 +426,7 @@ app.get("/admin", authorizations.soloPublico/*soloAdmin*/, (req, res) => {
 });
 
 //Ruta de activacion
-app.post("/api/active/:userId", authentication.activeUser);
+app.post("/api/active", authentication.activeUser);
 
 import { searchProducts } from './controllers/search.Controller.js';
 // Ruta para manejar la solicitud de búsqueda
@@ -442,7 +442,7 @@ app.post('/search',async (req, res) => {
 
 //ruta trocada poner de ultimo
 
-app.get("/:userId", authorizations.soloPublico, async (req, res) => {
+app.get("/:userId", async (req, res) => {
   //
   var rol = "";
   if(!req.session || !req.session.rol){
@@ -457,10 +457,11 @@ app.get("/:userId", authorizations.soloPublico, async (req, res) => {
   }
   //
   const userId = req.params.userId;
+  console.log("id index:"+userId)
   const isLoggedIn = req.session.usuario ? true : false;
   //console.log(userId);
   try {
-    const activationSuccess = await authorizations.activateUser(userId);
+    const activationSuccess = await authentication.activeUser(userId);//await authorizations.activateUser(userId);
     res.render("activation", { activationSuccess, isLoggedIn });
   } catch (error) {
     res.render("activation", { activationSuccess: false, isLoggedIn });

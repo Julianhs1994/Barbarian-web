@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", function() {
+/*document.addEventListener("DOMContentLoaded", function() {
   var elemento = document.getElementById("tu-elemento"); // Reemplaza "tu-elemento" con el ID correcto
   if (elemento){
     elemento.addEventListener("evento", function() {
     // Código para manejar el evento aquí
     });
   }
-});
+});*/
 
 document.addEventListener("DOMContentLoaded",async () => {
   var elemento = document.getElementById("LogOut");

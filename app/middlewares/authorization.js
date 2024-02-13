@@ -198,16 +198,24 @@ function deleteUserActive(user) {
 
 async function activateUser(userId) {
   try {
+    //console.log("USER ID:"+userId)
     const response = await fetch(
-      `https://barbarian-web-koqc.vercel.app/api/active/${userId}`,
+      //`https://barbarian-web-koqc.vercel.app/api/active/${userId}`,
+      `api/active/`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body:JSON.stringify({
+          userId:userId
+        })
       }
     );
-    if (response.ok) {
+    const res = await response.json();
+    console.log(res.status)
+    if (res.status == 200) {
+      console.log("active status 200")
       const activationSuccess = true;
       return activationSuccess;
     } else {

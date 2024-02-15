@@ -471,12 +471,19 @@ app.get("/:userId", async (req, res) => {
 //Carrito
 
 // Agregar producto al carrito
-app.post('/agregar-al-carrito/:idProducto/:cantidad/:nombre/:talla', (req, res) => {
+app.post('/agregar-al-carrito/:idProducto/:cantidad/:nombre/:talla',async (req, res) => {
   const idProducto = req.params.idProducto;
   const cantidad = req.params.cantidad;
   const nombre = req.params.nombre;
   const talla = req.params.talla;
+  const cantVerify = ("cant_"+talla).toString();
+  const result = await products.verifyProductCant(cantVerify,idProducto)
+  //console.log("resultado:"+result)
+  //console.log(cantVerify)
   //console.log("nombre:"+nombre)
+  if(parseInt(result) < parseInt(cantidad)){
+    res.status(400).send({status:400,message:'No hay suficiente cantidad de producto disponible'})
+  }else{  
   // Lógica para agregar el producto a la sesión del carrito
   if (!req.session) {
     req.session = {};
@@ -504,6 +511,7 @@ app.post('/agregar-al-carrito/:idProducto/:cantidad/:nombre/:talla', (req, res) 
   res.status(200).send({status:200,message:'producto agregado',redirect:"/",carrito:carrito})
   //console.log("posted")
   //res.redirect('back'); // Redirigir de vuelta a la página anterior
+  }
 });
 
 app.post('/obtenerProductos',async (req, res) => {

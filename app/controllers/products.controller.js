@@ -295,6 +295,24 @@ async function getEditProduct(req,res,next){
   }*/ 
 }
 
+async function verifyProductCant(cantTalla,idProducto){
+  const {connection,pool} = await getConnection();
+  try{
+  //console.log("cant in controller: "+cantTalla)
+  const sql = await connection.query(`SELECT ${cantTalla} FROM producto WHERE pdc_id=${idProducto}`);
+  let cantidadxTalla = sql[0][0];
+  //console.log(cantidadxTalla)
+  let cantidadTallaProducto = (cantidadxTalla.cant_s);
+  return cantidadTallaProducto;
+  }catch(err){
+    console.log(err)
+  }
+  finally{
+    await pool.end();
+    console.log("Verify cant talla cerrado")
+  }
+}
+
 export const methods ={
     InsertNewProduct,
     getProdListFromCategory,
@@ -304,5 +322,6 @@ export const methods ={
     getAllproducts,
     deleteProduct,
     getEditProduct,
-    EditProduct
+    EditProduct,
+    verifyProductCant
 }

@@ -17,6 +17,8 @@ document.getElementById("carritoButton").addEventListener('click',async () =>{
         },
     });
     if(respuesta.status != 200 ){
+        const res = await respuesta.json();
+        alert(res.message);
         return
     }else{
         //agregar cantidad de productos al icono

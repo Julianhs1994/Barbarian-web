@@ -9,6 +9,7 @@ html {
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
+      
   }
 
   .container{
@@ -17,6 +18,7 @@ html {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+    
 
     
   }

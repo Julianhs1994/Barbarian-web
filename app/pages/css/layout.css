@@ -1,11 +1,13 @@
 body {
   padding: 0;
   margin: 0;
-  overflow: auto;
+  
 }
-::-webkit-scrollbar {
+body ::-webkit-scrollbar {
   display: none;
+  
 }
+
 header {
   background-color: #000000;
   color: #fff;
@@ -13,6 +15,10 @@ header {
   position:fixed; 
   width: 100%;
   border-bottom: rgb(255, 255, 255) 2px solid;
+}
+.locg > img{
+width: 80px;
+height: 60px;
 }
 
 .menu {
@@ -177,6 +183,7 @@ nav div #LogOut {
 .container-one > p{
   color: white;
   margin: 0px;
+  text-align: justify;
 }
 
 /*estilos container two*/
@@ -375,7 +382,7 @@ nav div #LogOut {
   background-color: #ffffff; 
   border-radius: 2px solid #000000; 
   padding: 20px; 
-  width: 210px; 
+  width: 230px; 
   color:#000000;
   
   position: fixed;
@@ -396,9 +403,11 @@ nav div #LogOut {
 
 .carrito-popup ul {
   list-style-type: none; 
-  padding: 0;
+  padding: 10px;
   font-family: Arial,sans-serif;
   background-color: #ffffff;
+  border: 2px solid rgb(9, 4, 4);
+  font-family: Arial, Helvetica, sans-serif;
   
 }
 

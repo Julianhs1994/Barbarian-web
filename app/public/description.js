@@ -18,7 +18,7 @@ document.getElementById("carritoButton").addEventListener('click',async () =>{
     if(respuesta.status != 200 ){
         return
     }else{
-        //agregar cantidad de productos al icono
+        //agregar cantidad de productos al carrito
         const contentType = respuesta.headers.get('Content-Type');
         if (contentType && contentType.includes('application/json')) {
             const data = await respuesta.json();
@@ -30,4 +30,3 @@ document.getElementById("carritoButton").addEventListener('click',async () =>{
         }
     }
 })
-

@@ -1,81 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="layout.css">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="layout.css" />
+  </head>
 
   <body>
     <header>
-        <nav class="menu">
+      <nav class="menu">
         <div class="locg">
-        <img src="barbarian.png" alt="">
+          <img src="barbarian.png" alt="" />
         </div>
-            <ul class="menu-lista">
-                <li><a href="/">Home</a></li>
-                <li><a class="a" id="Man">Hombre</a></li>
-                <li><a class="a" id="Woman">Mujer</a></li>
-            </ul>
-            <div class="Buscar-btn" id="Buscar-btn">
-                <input type="text" id="SearchProd" autocomplete="off" placeholder="Buscar">
-                <div id="recuadro"></div>
-                <button type="buton" id="botonBuscar">Buscar</button>
-            </div>
-            <div class="login">
-                    <a>
-                        <% if (rol) { %>
-                            <%= rol %>
-                        <% } %>
-                    </a>
-                <% if (isLoggedIn) { %>
-                    <a id="LogOut">
-                        Cerrar Sesión
-                    </a>
-                    <% } %>
-                <% if (!isLoggedIn) { %>
-                    <a href="login">
-                        Iniciar Sesión
-                    </a>
-                <% } %>
-
-            </div>
-            <div class="carts">
-                <a href="#"><img src="carts.png" alt="Carrito de Compras"></a>
-                <span id="cantidadProductosEnCarrito">
-                  <% if (!cantCar) { %>
-                  0
-                  <% }else{ %>
-                    <%= cantCar %>
-                  <% } %> 
-                </span>
-            </div>
-            <div id="carritoPopup" class="carrito-popup" style="display:none;">
-              <h2>Productos En El Carrito</h2>
-              <ul id="productosEnCarritoList"></ul>
+        <ul class="menu-lista">
+          <li><a href="/">Home</a></li>
+          <li><a class="a" id="Man">Hombre</a></li>
+          <li><a class="a" id="Woman">Mujer</a></li>
+        </ul>
+        <div class="Buscar-btn" id="Buscar-btn">
+          <input
+            type="text"
+            id="SearchProd"
+            autocomplete="off"
+            placeholder="Buscar"
+          />
+          <div id="recuadro"></div>
+          <button type="buton" id="botonBuscar">Buscar</button>
+        </div>
+        <div class="login">
+          <a> <% if (rol) { %> <%= rol %> <% } %> </a>
+          <% if (isLoggedIn) { %>
+          <a id="LogOut"> Cerrar Sesión </a>
+          <% } %> <% if (!isLoggedIn) { %>
+          <a href="login"> Iniciar Sesión </a>
+          <% } %>
+        </div>
+        <div class="carts">
+          <a href="#"><img src="carts.png" alt="Carrito de Compras" /></a>
+          <span id="cantidadProductosEnCarrito"><span class="flecha">&#9650;</span>
+            <% if (!cantCar) { %> 0 <% }else{ %> <%= cantCar %> <% } %>
+          </span>
+        </div>
+        <div id="carritoPopup" class="carrito-popup" style="display: none">
+          <h2>Productos En El Carrito</h2>
+          <ul id="productosEnCarritoList"></ul>
+          <div class="pay-t">
+            <div class="pay">
               <button>Pagar</button>
-            </div>	  
-        </nav>
+            </div>
+            <div class="pag">
+              <label for="total">Total:</label>
+              <input type="number" id="total" name="total" value="0" />
+            </div>
+          </div>
+        </div>
+      </nav>
     </header>
-    
+
     <div class="componente"><%- body %></div>
-    
-    
 
     <footer class="footer-major">
       <div class="container-one">
         <img class="logop" src="barbarian.png" />
-        <P
-          >
-          ¡Descubre el estilo que te define en nuestra 
-          exclusiva tienda de moda! Sumérgete en un mundo
-          de tendencias irresistibles y encuentra prendas 
-          que te harán brillar en cada ocasión. Desde 
-          elegancia clásica hasta audacia vanguardista,
-          nuestra colección te invita a expresar tu 
-          personalidad sin límites. Deja que cada pieza
-          hable por ti y conquista miradas con tu estilo 
-          único. ¡Bienvenido a tu nueva Tienda!</P
+        <P>
+          ¡Descubre el estilo que te define en nuestra exclusiva tienda de moda!
+          Sumérgete en un mundo de tendencias irresistibles y encuentra prendas
+          que te harán brillar en cada ocasión. Desde elegancia clásica hasta
+          audacia vanguardista, nuestra colección te invita a expresar tu
+          personalidad sin límites. Deja que cada pieza hable por ti y conquista
+          miradas con tu estilo único. ¡Bienvenido a tu nueva Tienda!</P
         >
       </div>
 

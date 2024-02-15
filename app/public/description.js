@@ -6,16 +6,19 @@ document.getElementById("carritoButton").addEventListener('click',async () =>{
     const nombreEscapado = urlParams.get('Nombre'); // Obtener el valor del parámetro 'Nombre' escapado
     const nombre = decodeURIComponent(nombreEscapado); // Decodificar el valor del parámetro 'Nombre' escapado para obtener el valor original del parámetro 'Nombre'
     const idProducto = urlParams.get('idProducto'); // Obtener el valor del parámetro 'idProducto' sin escapar los espacios en blanco
+    const talla = document.getElementById("talla").value;
 
     let cantidad = document.getElementById('numero').value;
 
-    const respuesta = await fetch(`/agregar-al-carrito/${idProducto}/${cantidad}/${nombre}`,{
+    const respuesta = await fetch(`/agregar-al-carrito/${idProducto}/${cantidad}/${nombre}/${talla}`,{
         method:"POST",
         headers:{
             "Content-type":"application/json",
         },
     });
     if(respuesta.status != 200 ){
+        const res = await respuesta.json();
+        alert(res.message);
         return
     }else{
         //agregar cantidad de productos al carrito
@@ -30,3 +33,12 @@ document.getElementById("carritoButton").addEventListener('click',async () =>{
         }
     }
 })
+
+//->no negativos en campo cantidad:
+const inputNumero = document.getElementById('numero');
+
+inputNumero.addEventListener('input', function() {
+  if (this.value <= 0) {
+    this.value = 1;
+  }
+});

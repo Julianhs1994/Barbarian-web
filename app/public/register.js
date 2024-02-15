@@ -16,6 +16,15 @@ document
       return;
     }
 
+    const emailValido = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/;
+
+    // Validar si el correo electrónico cumple con el formato esperado
+    if (!emailValido.test(email)) {
+      document.getElementById("response-message").textContent = "Por favor, introduce un correo electrónico válido.";
+      return false; // Evita que el formulario se envíe si el correo electrónico no es válido
+    }
+
+
     if (contrasenia.length < 5) {
       document.getElementById("response-message").textContent =
         "La contraseña debe tener al menos 5 caracteres.";
@@ -56,7 +65,7 @@ document
         }),
       }
     );
-    if (respuesta.status != 201 && respuesta.status != 200) {
+    if (respuesta.status == 201 || respuesta.status == 200) {
       const responseJson = await respuesta.json();
       if (responseJson.message) {
         document.getElementById("response-message").textContent =

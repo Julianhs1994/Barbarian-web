@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", function() {
+/*document.addEventListener("DOMContentLoaded", function() {
   var elemento = document.getElementById("tu-elemento"); // Reemplaza "tu-elemento" con el ID correcto
   if (elemento){
     elemento.addEventListener("evento", function() {
     // Código para manejar el evento aquí
     });
   }
-});
+});*/
 
 document.addEventListener("DOMContentLoaded",async () => {
   var elemento = document.getElementById("LogOut");
@@ -192,6 +192,24 @@ document.getElementById('botonBuscar').addEventListener("click",async ()=>{
 
 //mostrarcarrito
 
+async function eliminarProducto(nombre,talla){
+  const response = await fetch("/eliminarProductoCarrito",{
+    method:"POST",
+    headers: {
+      "Content-type":"application/json"
+    },
+    body:JSON.stringify({
+      nombre:nombre,
+      talla:talla
+    })
+  })
+  const res = await response.json();
+  if(res.status == 200){
+    const length = res.length;
+    document.getElementById('cantidadProductosEnCarrito').textContent = length;
+  }
+}
+
 // Agrega un evento al ícono del carrito para mostrar la ventana emergente o recuadro al hacer clic
 document.querySelector('.carts a').addEventListener('click', async () => {
   // Obtén los productos en el carrito desde la sesión del usuario
@@ -214,8 +232,19 @@ document.querySelector('.carts a').addEventListener('click', async () => {
       //
       data.productos.forEach(producto => {
       const li = document.createElement('li');
-      li.textContent = `${producto.nombre} - Cantidad: ${producto.cantidad}`;
+      li.textContent = `${producto.nombre} - X:${producto.cantidad} talla: ${producto.talla}`;
+       // Agregar un botón para eliminar el producto
+        const btnEliminar = document.createElement('button');
+        btnEliminar.textContent = 'Eliminar';
+        btnEliminar.addEventListener('click', () => {
+        // Lógica para eliminar el producto, por ejemplo, llamando a una función para manejar la eliminación
+        eliminarProducto(producto.nombre,producto.talla);
+        // Eliminar el elemento de la lista visualmente
+        li.remove();
+      });
+      li.appendChild(btnEliminar);
       productList.appendChild(li);
+      
       });
     
     // Muestra la ventana emergente o recuadro
@@ -225,3 +254,19 @@ document.querySelector('.carts a').addEventListener('click', async () => {
     }
   }
 });
+
+//->cerrar recuadro:
+
+// Obtén una referencia al recuadro del carrito
+const carritoPopup = document.getElementById('carritoPopup');
+
+// Agrega un evento de clic al documento
+document.addEventListener('click', (event) => {
+  // Verifica si el clic ocurrió dentro del recuadro del carrito
+  const targetElement = event.target;
+  if (!carritoPopup.contains(targetElement)) {
+    // El clic ocurrió fuera del recuadro del carrito, cierra el carrito
+    carritoPopup.style.display = 'none';
+  }
+});
+

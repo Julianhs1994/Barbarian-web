@@ -426,7 +426,7 @@ app.get("/admin", authorizations.soloPublico/*soloAdmin*/, (req, res) => {
 });
 
 //Ruta de activacion
-app.post("/api/active/:userId", authentication.activeUser);
+app.post("/api/active", authentication.activeUser);
 
 import { searchProducts } from './controllers/search.Controller.js';
 // Ruta para manejar la solicitud de búsqueda
@@ -442,7 +442,7 @@ app.post('/search',async (req, res) => {
 
 //ruta trocada poner de ultimo
 
-app.get("/:userId", authorizations.soloPublico, async (req, res) => {
+app.get("/:userId", async (req, res) => {
   //
   var rol = "";
   if(!req.session || !req.session.rol){
@@ -457,10 +457,11 @@ app.get("/:userId", authorizations.soloPublico, async (req, res) => {
   }
   //
   const userId = req.params.userId;
+  console.log("id index:"+userId)
   const isLoggedIn = req.session.usuario ? true : false;
   //console.log(userId);
   try {
-    const activationSuccess = await authorizations.activateUser(userId);
+    const activationSuccess = await authentication.activeUser(userId);//await authorizations.activateUser(userId);
     res.render("activation", { activationSuccess, isLoggedIn });
   } catch (error) {
     res.render("activation", { activationSuccess: false, isLoggedIn });
@@ -470,39 +471,68 @@ app.get("/:userId", authorizations.soloPublico, async (req, res) => {
 //Carrito
 
 // Agregar producto al carrito
-app.post('/agregar-al-carrito/:idProducto/:cantidad/:nombre', (req, res) => {
+app.post('/agregar-al-carrito/:idProducto/:cantidad/:nombre/:talla',async (req, res) => {
   const idProducto = req.params.idProducto;
   const cantidad = req.params.cantidad;
   const nombre = req.params.nombre;
-  console.log("nombre:"+nombre)
+  const talla = req.params.talla;
+  const cantVerify = ("cant_"+talla).toString();
+  const result = await products.verifyProductCant(cantVerify,idProducto)
+  //console.log("resultado:"+result)
+  //console.log(cantVerify)
+  //console.log("nombre:"+nombre)
+  if(parseInt(result) < parseInt(cantidad)){
+    res.status(400).send({status:400,message:'No hay suficiente cantidad de producto disponible'})
+  }else{  
   // Lógica para agregar el producto a la sesión del carrito
   if (!req.session) {
     req.session = {};
   }
   let carrito = req.session.carrito || [];
-  // Verificar si el producto ya está en el carrito
-  const productoExistente = carrito.find(producto => producto.id === idProducto);
+  //-> Verificar si el producto ya está en el carrito y que sea de la misma talla:
+  const productoExistente = carrito.find(producto => producto.id === idProducto && producto.talla === talla);
   if (productoExistente) {
-    productoExistente.cantidad+cantidad;
+    //productoExistente.cantidad+cantidad;
+    // Encuentra el índice del producto con el id específico
+    const index = carrito.findIndex(producto => producto.id === idProducto);
+    // Verifica si se encontró el producto con el id específico
+    if (index !== -1) {
+    // Actualiza la propiedad 'cantidad' del objeto correspondiente
+    carrito[index].cantidad = parseInt(carrito[index].cantidad) + parseInt(cantidad); 
+    } else {
+    console.log('El producto con el id específico no fue encontrado en el carrito');
+    }
   } else {
     // Agregar el producto al carrito
-    carrito.push({ id: idProducto, nombre:nombre ,cantidad: cantidad });
+    carrito.push({ id: idProducto, nombre:nombre ,cantidad: cantidad, talla: talla });
     res.locals.cantCar = carrito.length;
   }
   req.session.carrito = carrito; // Guardar el carrito actualizado en la sesión
   res.status(200).send({status:200,message:'producto agregado',redirect:"/",carrito:carrito})
   //console.log("posted")
   //res.redirect('back'); // Redirigir de vuelta a la página anterior
+  }
 });
 
 app.post('/obtenerProductos',async (req, res) => {
   if (/*!req.session ||*/ !req.session.carrito || req.session.carrito.length === 0) {
     // Si el carrito está vacío, enviar una respuesta indicando que está vacío
     res.status(201).send({status:201,message:'El carrito está vacío',redirect:"/"});
-    console.log("1")
+   // console.log("1")
   } else {
     // Si el carrito no está vacío, enviar la lista de productos en el carrito
     res.status(200).send({status:200,message:"ok",productos: req.session.carrito});
-    console.log("2")
+   // console.log("2")
   }
+});
+
+app.post('/eliminarProductoCarrito', async (req, res) => { 
+  const { nombre, talla } = req.body; 
+  let carrito = req.session.carrito || []; 
+  carrito = carrito.filter(producto => producto.nombre !== nombre || producto.talla !== talla); 
+  console.log(carrito); 
+  req.session.carrito = carrito;
+  res.locals.cantCar = carrito.length;
+  let length = carrito.length;
+  res.status(200).send({status:200,message:"Producto eliminado exitosamente del carrito",length:length});
 });

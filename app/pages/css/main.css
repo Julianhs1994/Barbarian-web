@@ -22,7 +22,7 @@ html {
 
     
   }
-  /*estilos diseños card*/
+  
   .conten-cad{
     display: flex;
     flex-direction: row;
@@ -31,9 +31,8 @@ html {
     justify-content: space-around;
     align-items: center;
     width: 100%;
-    /*height: 702px;*/
     margin-bottom: 67px;
-    /*background-color: #ffffff;*/
+    
   }
 
   .cardProd{
@@ -64,7 +63,7 @@ html {
     transition: transform 0.3s;
   }
   .divImg:hover img {
-    transform: scale(1.4); /* Puedes ajustar el valor según tus preferencias */
+    transform: scale(1.4); 
   }
 
   .cardProd .descripcion{
@@ -87,7 +86,7 @@ html {
     display: flex;
     background-color: rgb(94, 1, 1);
     color: #ddd;
-    border: 1px solid #ddd; /* Borde para resaltar la tarjeta */
+    border: 1px solid #ddd; 
     border-radius: 6px; 
     width: 100%;
     justify-content: center;
@@ -141,11 +140,11 @@ html {
 .cardProd {
     display: flex;
     flex-direction: column;
-    border: 1px solid #ddd; /* Borde para resaltar la tarjeta */
-    border-radius: 8px; /* Esquinas redondeadas */
-    overflow: hidden; /* Para que la sombra no se extienda más allá de la tarjeta */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    transition: box-shadow 0.3s ease; /* Efecto de transición en la sombra */
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: box-shadow 0.3s ease; 
   }
 
   .divImg {
@@ -417,7 +416,7 @@ justify-content: center;
     }
 
     .btnr {
-      background-color:#9e1a1a;
+      background-color:#500d0d;
       color: #fff;
       padding: 10px 20px;
       font-size: 16px;

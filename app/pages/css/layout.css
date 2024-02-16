@@ -308,35 +308,6 @@ nav div #LogOut {
   background-color:#333
 }
 
-
-@media only screen and (max-width: 767px) {
-  header {
-    padding: 15px 10px; 
-  }
-
-  .menu {
-    padding: 0 10px; 
-  }
-
-  .menu-lista li {
-    margin-right: 5px; 
-  }
-  
-  .Buscar-btn {
-    flex-direction: column; 
-  }
-
-  .Buscar-btn input[type="text"] {
-    margin-bottom: 10px; 
-  }
-
-  .login, .carts {
-    margin-top: 10px;
-  }
-}
-
-
-
 .login {
   display: flex;
   align-items: center;
@@ -391,11 +362,11 @@ nav div #LogOut {
 
 .carrito-popup h2 {
   font-size: 17px; 
-  background-color:#500d0d;
+  background-color:#5e0101;
   margin-bottom: 10px; 
   color:#ffffff;
-  font-family: Arial,sans-serif;
-  border:2px solid rgb(255, 255, 255);
+  font-family:Arial, Helvetica, sans-serif;
+  border:1px solid rgb(0, 0, 0);
   border-radius: 5px;
   text-align: center;
 }
@@ -410,8 +381,8 @@ top: 60px;
   list-style-type: none; 
   padding: 10px;
   font-family: Arial,sans-serif;
-  background-color: #ffffff;
-  border: 2px solid rgb(9, 4, 4);
+  background-color:#e2e1e1;
+  border: 1px solid rgb(9, 4, 4);
   font-family: Arial, Helvetica, sans-serif;
   
 }
@@ -421,27 +392,80 @@ top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center; 
-  border:2px solid rgb(0, 0, 0);
   border-radius: 5px;
-  background-color: #ffffff;
+  background-color:#e2e1e1;
 }
-/*.pay-t{
-display: flex;
-flex-direction: row;
-}*/
+
 
 .pay-t {
   display: flex;
-  justify-content: space-between; /* Distribuye los elementos en el espacio disponible */
-  align-items: center; /* Alinea los elementos verticalmente */
+  justify-content: space-between; 
+  align-items: center;
 }
 
 .pay,
 .pag {
   display: flex;
-  align-items: center; /* Alinea los elementos verticalmente */
+  align-items: center; 
 }
 
 .pag input[type="number"] {
-  width: 80px; /* Ajusta el ancho según sea necesario */
+  width: 80px; 
+  color: #fff;
+  background-color: #5e0101;
+  border:1px solid rgb(0, 0, 0);
+  border-radius: 3px;
+}
+.pay
+button{
+background-color:#5e0101;
+color: #fff;
+font-family: Arial, Helvetica, sans-serif;
+cursor: pointer;
+border:1px solid rgb(0, 0, 0);
+border-radius: 3px;
+}
+.pay
+button:hover{
+background-color: #7b1313;
+}
+
+.carrito-popup ul li button{
+background-color: #500d0d;
+color: #fff;
+border:1px solid rgb(0, 0, 0);
+border-radius: 3px;
+cursor: pointer;
+
+}
+
+.carrito-popup ul li button:hover{
+background-color: #000000;
+color: #fff;
+}
+
+@media only screen and (max-width: 767px) {
+  header {
+    padding: 15px 10px; 
+  }
+
+  .menu {
+    padding: 0 10px; 
+  }
+
+  .menu-lista li {
+    margin-right: 5px; 
+  }
+  
+  .Buscar-btn {
+    flex-direction: column; 
+  }
+
+  .Buscar-btn input[type="text"] {
+    margin-bottom: 10px; 
+  }
+
+  .login, .carts {
+    margin-top: 10px;
+  }
 }

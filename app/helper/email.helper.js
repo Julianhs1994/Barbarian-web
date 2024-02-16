@@ -24,6 +24,43 @@ const sendActivationEmail = async (userEmail, activationLink) => {
   }
 };
 
-export { sendActivationEmail };
+/*const sendAmountEmail = async (userEmail,object) =>{
+  try{
+    const mailOptions = {
+      from: "storebarbarian30@gmail.com",
+      to: userEmail,
+      subject: "Compra realizada Barbarian-Web Team",
+      text: ""
+    };
+  }catch(err){
+    console.log(err)
+  }
+}*/
+
+const sendAmountEmail = async (userEmail, carrito) => {
+  try {
+    let texto = "Detalles de la compra:\n";
+
+    carrito.forEach((producto) => {
+      texto += `Nombre: ${producto.nombre}\nCantidad: ${producto.cantidad}\nTalla: ${producto.talla}\nValor Total: ${producto.valTot}\n\n`;
+    });
+
+    const mailOptions = {
+      from: "storebarbarian30@gmail.com",
+      to: userEmail,
+      subject: "Compra realizada Barbarian-Web Team",
+      text: texto,
+    };
+    // Aquí 
+    await transporter.sendMail(mailOptions);
+    console.log("Correo compra ha sido confirmado")
+  } catch (err) {
+    console.log(err);
+    console.log("No se pudo enviar el correo compra")
+  }
+};
+
+
+export { sendActivationEmail,sendAmountEmail };
 
 

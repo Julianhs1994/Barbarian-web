@@ -302,6 +302,7 @@ async function verifyProductCant(cantTalla,idProducto){
   const sql = await connection.query(`SELECT ${cantTalla} FROM producto WHERE pdc_id=${idProducto}`);
   let cantidadxTalla = sql[0][0];
   //console.log(cantidadxTalla)
+  //->retornar solo la cantidad de esta talla:
   let cantidadTallaProducto = (cantidadxTalla.cant_s);
   return cantidadTallaProducto;
   }catch(err){
@@ -311,6 +312,51 @@ async function verifyProductCant(cantTalla,idProducto){
     await pool.end();
     console.log("Verify cant talla cerrado")
   }
+}
+
+
+//->Revisar integridad de precios al comprar:
+async function verifyValueIntegrity(carrito){ 
+  const {connection,pool} = await getConnection();
+  try{
+  let sql;
+  carrito.forEach(async (objeto) => {
+    try{
+      let idProd = objeto.id;
+      //->Obtener valor del objeto:
+      let valor = objeto.valTot;
+      //->Obtener cantidad del objeto:
+      let cantidad = objeto.cantidad;
+      
+      //console.log(idProd)
+      sql = await connection.query(`SELECT pdc_valor FROM producto WHERE pdc_id=${idProd}`);
+      console.log("|||||||||||||||||||||||||||||")
+      //console.log(sql[0][0].pdc_valor)
+      let obtenerValorDB = parseInt(sql[0][0].pdc_valor);
+      //->cantidadvalor: ingresar a variable, cantidad en objeto * valor DB:
+      let cantidadvalor = parseInt(obtenerValorDB) * parseInt(cantidad);
+      //->comparar el valor en el objeto con el valor en DB:
+    
+      if(cantidadvalor == valor){
+        console.log("Integridad correcta")
+      }else{
+        return false;
+      }
+    }catch(err){
+      console.error(err)
+    }
+  });
+  //->Todo está correcto:
+  console.log("Integridad correcta")
+  return true;
+  }catch(err){
+    console.error(err)
+  }
+  finally{
+    await pool.end();
+  }
+
+
 }
 
 export const methods ={
@@ -323,5 +369,6 @@ export const methods ={
     deleteProduct,
     getEditProduct,
     EditProduct,
-    verifyProductCant
+    verifyProductCant,
+    verifyValueIntegrity
 }

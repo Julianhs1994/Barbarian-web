@@ -405,6 +405,12 @@ app.get("/api/getAllUsers",users.getAllUsers);
 app.post("/api/deleteUser",users.deleteUser);
 app.post("/api/getEditUser",users.getEditUser);
 
+//Ruta pagar y correo
+app.post("/api/sendMailPay",async (req,res)=>{
+  let carrito = req.session.carrito || [];
+  const verify = await authentication.sendEmailPay(req,res,carrito);
+})
+
 //Ruta solo admin
 app.get("/admin", authorizations.soloPublico/*soloAdmin*/, (req, res) => {
   const isLoggedIn = req.session.usuario ? true:false;
@@ -471,13 +477,14 @@ app.get("/:userId", async (req, res) => {
 //Carrito
 
 // Agregar producto al carrito
-app.post('/agregar-al-carrito/:idProducto/:cantidad/:nombre/:talla',async (req, res) => {
+app.post('/agregar-al-carrito/:idProducto/:cantidad/:nombre/:talla/:precio',async (req, res) => {
   const idProducto = req.params.idProducto;
   const cantidad = req.params.cantidad;
   const nombre = req.params.nombre;
   const talla = req.params.talla;
   const cantVerify = ("cant_"+talla).toString();
   const result = await products.verifyProductCant(cantVerify,idProducto)
+  const precio = req.params.precio;
   //console.log("resultado:"+result)
   //console.log(cantVerify)
   //console.log("nombre:"+nombre)
@@ -488,6 +495,7 @@ app.post('/agregar-al-carrito/:idProducto/:cantidad/:nombre/:talla',async (req, 
   if (!req.session) {
     req.session = {};
   }
+  let CantXprecio = parseInt(precio) * parseInt(cantidad);
   let carrito = req.session.carrito || [];
   //-> Verificar si el producto ya está en el carrito y que sea de la misma talla:
   const productoExistente = carrito.find(producto => producto.id === idProducto && producto.talla === talla);
@@ -498,14 +506,17 @@ app.post('/agregar-al-carrito/:idProducto/:cantidad/:nombre/:talla',async (req, 
     // Verifica si se encontró el producto con el id específico
     if (index !== -1) {
     // Actualiza la propiedad 'cantidad' del objeto correspondiente
-    carrito[index].cantidad = parseInt(carrito[index].cantidad) + parseInt(cantidad); 
+      carrito[index].cantidad = parseInt(carrito[index].cantidad) + parseInt(cantidad); 
+    //->Actualiza la informacion del valor total al agregar el producto:
+      carrito[index].valTot = parseInt(carrito[index].valTot) + CantXprecio;  
     } else {
-    console.log('El producto con el id específico no fue encontrado en el carrito');
+      console.log('El producto con el id específico no fue encontrado en el carrito');
     }
   } else {
-    // Agregar el producto al carrito
-    carrito.push({ id: idProducto, nombre:nombre ,cantidad: cantidad, talla: talla });
+    //->Agregar el producto al carrito:
+    carrito.push({ id: idProducto, nombre:nombre ,cantidad: cantidad, talla: talla, valTot: CantXprecio });
     res.locals.cantCar = carrito.length;
+    console.log("carrito: "+carrito)
   }
   req.session.carrito = carrito; // Guardar el carrito actualizado en la sesión
   res.status(200).send({status:200,message:'producto agregado',redirect:"/",carrito:carrito})

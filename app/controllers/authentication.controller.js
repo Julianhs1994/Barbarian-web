@@ -4,6 +4,8 @@ import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
 import { getConnection } from "../database/database.js";
 import { sendActivationEmail } from "../helper/email.helper.js";
+import { sendAmountEmail } from "../helper/email.helper.js"; 
+import {methods as products} from "../controllers/products.controller.js"
 dotenv.config();
 import crypto from "crypto";
 
@@ -232,6 +234,30 @@ async function activeUser(userId,req,res){
   };
 }
 
+async function sendEmailPay(req,res,carrito){
+  const cookies = req.headers.cookie ? req.headers.cookie.split('; ') : []; // Dividir las cookies en un arreglo
+  
+  const jwtCookie = cookies.find((cookie) => cookie.startsWith('jwt=')); // Buscar la cookie con el nombre 'jwt='
+  
+  if (jwtCookie) { // Verificar si se encontró la cookie 'jwt='
+    //console.log("COOKIE:" + jwtCookie);
+    
+    // Decodificar el contenido de la cookie 'jwt='
+    const cookieJWT = jwtCookie.slice(4); // Obtener el valor de la cookie 'jwt=' sin el prefijo 'jwt='
+    const decodificada = jsonwebtoken.verify(cookieJWT, process.env.JWT_SECRET);
+    //console.log("//////////////////")
+    let email = decodificada.user;
+    //->Revisar integridad de precios de la compra:
+    const integridad = await products.verifyValueIntegrity(carrito)
+    //console.log(integridad)
+    if (integridad == true){
+      sendAmountEmail(email,carrito);
+      console.log("correo Compra enviado")
+    }
+
+  }  
+}
+
 /*const activeUser2 = async (req, res) => {
   const {connection,pool} = await getConnection();
   try {
@@ -269,4 +295,5 @@ export const methods = {
   login,
   register,
   activeUser,
+  sendEmailPay
 };

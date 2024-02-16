@@ -40,6 +40,7 @@ const createConnectionPool = async () => {
       host: config.host,
       port: config.port,
       database: config.database,
+      connectTimeout: 20000
     });
     const connection = await pool.getConnection();
     // ... some query

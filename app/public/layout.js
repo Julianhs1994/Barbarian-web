@@ -230,8 +230,11 @@ document.querySelector('.carts a').addEventListener('click', async () => {
     const productList = document.getElementById('productosEnCarritoList');
     productList.innerHTML = '';
       //
+      let suma = 0;
       data.productos.forEach(producto => {
       const li = document.createElement('li');
+      suma = producto.valTot + suma;
+      document.getElementById('total').value = suma;
       li.textContent = `${producto.nombre} - X:${producto.cantidad} talla: ${producto.talla}`;
        // Agregar un botón para eliminar el producto
         const btnEliminar = document.createElement('button');
@@ -270,3 +273,18 @@ document.addEventListener('click', (event) => {
   }
 });
 
+/*data.carrito.forEach(objeto => {
+  let valor = objeto.valTot;
+  console.log("valor:"+valor);
+  document.getElementById('total').textContent = valor;
+});*/
+
+document.getElementById('pagar').addEventListener('click',async ()=> {
+  const response = await fetch("api/sendMailPay",{
+    method: "POST",
+    headers:{
+      "Content-type":"application/json"
+    }
+
+  })
+})

@@ -10,7 +10,9 @@ document.getElementById("carritoButton").addEventListener('click',async () =>{
 
     let cantidad = document.getElementById('numero').value;
 
-    const respuesta = await fetch(`/agregar-al-carrito/${idProducto}/${cantidad}/${nombre}/${talla}`,{
+    const precio = urlParams.get('Valor')
+
+    const respuesta = await fetch(`/agregar-al-carrito/${idProducto}/${cantidad}/${nombre}/${talla}/${precio}`,{
         method:"POST",
         headers:{
             "Content-type":"application/json",
@@ -26,6 +28,8 @@ document.getElementById("carritoButton").addEventListener('click',async () =>{
         if (contentType && contentType.includes('application/json')) {
             const data = await respuesta.json();
             const length = data.carrito.length;
+           
+            console.log("data"+data.carrito)
             document.getElementById('cantidadProductosEnCarrito').textContent = length;
             //window.location.href = "/"
         } else {

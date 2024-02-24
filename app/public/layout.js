@@ -110,6 +110,7 @@ function displayResults(results) {
     resultItem.textContent = desiredText;//result.pdc_nombre;
     resultItem.setAttribute('id', `result-${index}`);
     resultsContainer.appendChild(resultItem);
+    
     //cuando clcikea elementos del recuadro
     document.getElementById(`result-${index}`).addEventListener('click',(e)=>{
       let id = e.target.id
@@ -120,6 +121,7 @@ function displayResults(results) {
       resultsContainer.innerHTML = ''; //lo encontró,borra los textos del recuadro
     });
   });
+  
   //desplazarce por el recuadro
   let selectedResultIndex = -1; // Inicialmente ninguno está seleccionado
   document.addEventListener('keydown', (event) => {

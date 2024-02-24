@@ -253,43 +253,13 @@ async function sendEmailPay(req,res,carrito){
     if (integridad == true){
       sendAmountEmail(email,carrito);
       console.log("correo Compra enviado")
+      return true
+    }else{
+      return false
     }
 
   }  
 }
-
-/*const activeUser2 = async (req, res) => {
-  const {connection,pool} = await getConnection();
-  try {
-    const { userId } = req.params;
-    console.log("Hola");
-    console.log(userId)
-    const [user] = await connection.query(
-      "SELECT * FROM usuario WHERE usr_id = ?",
-      [userId]
-    );
-
-    if (user.length > 0 && user[0].usr_estado === 2) {
-      await connection.query(
-        "UPDATE usuario SET usr_estado = 1 WHERE usr_id = ?",
-        [userId]
-      );
-      res.status(200).json({ message: "Cuenta activada con éxito" });
-      console.log("One")
-    } else {
-      res.status(400).json({
-        message: "Enlace de activación inválido o la cuenta ya está activa",
-      });
-      console.log("Two")
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Error en el servidor" });
-  }
-  finally {
-    await pool.end();
-    console.log('activar usuario finalizado')
-  };
-};*/
 
 export const methods = {
   login,

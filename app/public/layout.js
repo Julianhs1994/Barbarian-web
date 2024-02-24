@@ -1,11 +1,3 @@
-/*document.addEventListener("DOMContentLoaded", function() {
-  var elemento = document.getElementById("tu-elemento"); // Reemplaza "tu-elemento" con el ID correcto
-  if (elemento){
-    elemento.addEventListener("evento", function() {
-    // Código para manejar el evento aquí
-    });
-  }
-});*/
 
 document.addEventListener("DOMContentLoaded",async () => {
   var elemento = document.getElementById("LogOut");
@@ -47,7 +39,6 @@ async  function sendParametro(value){
     }else{
       const responseJSON = await response.json();
       if(responseJSON.redirect){
-        //console.log("Url Ok");
         window.location.href=responseJSON.redirect;
       }
     } 
@@ -286,5 +277,11 @@ document.getElementById('pagar').addEventListener('click',async ()=> {
       "Content-type":"application/json"
     }
 
-  })
+  });
+  const res = await response.json();
+  alert(res.message);
+  if(res.status == 200){
+    document.getElementById('cantidadProductosEnCarrito').textContent = 0;
+  }
+  
 })

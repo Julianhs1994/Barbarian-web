@@ -409,9 +409,22 @@ app.post("/api/getEditUser",users.getEditUser);
 app.post("/api/sendMailPay",async (req,res)=>{
   let carrito = req.session.carrito || [];
   const verify = await authentication.sendEmailPay(req,res,carrito);
+  if(verify == true){
+    const detalle = await products.insertDetOrd(req,res,carrito);
+    if(detalle == true){
+      //->Reiniciar carrito:
+      req.session.carrito = [];
+      res.status(200).send({status:200, message:"Envio de pedido correcto"});
+    }else{
+      res.status(400).send({status:400, message:"No se realizó la accion"})
+    }
+  }else{
+    res.status(400).send({status:400, message:"No se pudo realizar la accion"})
+  }
 })
 
 //Ruta solo admin
+//->Se pone solo publicopara fines de testing:
 app.get("/admin", authorizations.soloPublico/*soloAdmin*/, (req, res) => {
   const isLoggedIn = req.session.usuario ? true:false;
   //

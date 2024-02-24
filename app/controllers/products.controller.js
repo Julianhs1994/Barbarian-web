@@ -2,6 +2,10 @@ import { getConnection } from "../database/database.js";
 import { methodsEnc } from "../crypto/cryptos.js";
 //fs
 import { promises as fs } from 'fs';
+//
+import jsonwebtoken from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 //->Insertar producto nuevo:
 async function InsertNewProduct(pdc_nombre,pdc_fk_seccion,pdc_descripcion,pdc_fk_marca,pdc_fk_color,cant_xs,cant_s,cant_m,cant_l,cant_xl,pdc_valor,pdc_imagen){
@@ -340,6 +344,7 @@ async function verifyValueIntegrity(carrito){
       if(cantidadvalor == valor){
         console.log("Integridad correcta")
       }else{
+        //->Si detecta que algun precio no es correcto:
         return false;
       }
     }catch(err){
@@ -355,9 +360,128 @@ async function verifyValueIntegrity(carrito){
   finally{
     await pool.end();
   }
-
-
 }
+
+// Función para insertar productos en la tabla 'detalle_orden'
+async function insertProductsInDetalleOrden(carrito, ordenId) {
+  const {connection,pool} = await getConnection();
+  try{
+   for (const producto of carrito) {
+    const detalleData = {
+      det_fk_orden: ordenId,
+      det_fk_producto: producto.id,
+      det_talla: producto.talla,
+      det_cantidad: producto.cantidad
+    };
+    try{
+    await connection.query('INSERT INTO detalle_orden SET ?', detalleData)
+    }catch(err){
+      console.error(err);
+      return false;
+    }
+      return true;
+  };
+}catch(err){
+  console.error(err)
+}
+finally{
+  await pool.end();
+}
+}
+
+async function insertDetOrd(req,res,carrito){
+  const {connection,pool} = await getConnection();
+  try{
+  //->Obtener email:
+  const cookies = req.headers.cookie ? req.headers.cookie.split('; ') : []; // Dividir las cookies en un arreglo
+  
+  const jwtCookie = cookies.find((cookie) => cookie.startsWith('jwt=')); // Buscar la cookie con el nombre 'jwt='
+  
+  if (jwtCookie) { // Verificar si se encontró la cookie 'jwt='
+    //console.log("COOKIE:" + jwtCookie);
+    
+    // Decodificar el contenido de la cookie 'jwt='
+    const cookieJWT = jwtCookie.slice(4); // Obtener el valor de la cookie 'jwt=' sin el prefijo 'jwt='
+    const decodificada = jsonwebtoken.verify(cookieJWT, process.env.JWT_SECRET);
+    //console.log("//////////////////")
+    let email = decodificada.user;
+    let user = await connection.query(`SELECT usr_id FROM usuario WHERE usr_email='${email}'`);
+    let userId = user[0][0].usr_id;
+    //console.log("USR:"+userId)
+  
+    let acu = 0;
+    carrito.forEach(objeto =>{
+      acu = acu + (objeto.valTot)
+    })
+  
+    const fechaActual = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+
+    // Primero, realizamos la inserción en la tabla 'orden'
+    try {
+      const orderData = {
+        ord_fk_estado: 1,
+        ord_fecha_compra: fechaActual,
+        ord_valor_total: acu,
+        ord_fk_usuario: userId  
+       
+      };
+      const [result] = await connection.query('INSERT INTO orden SET ?', orderData);
+      const ordenId = result.insertId;
+      console.log('Orden insertada con ID: ', ordenId);
+  
+      // Luego, recorremos el carrito para insertar los productos en la tabla 'detalle_orden'
+      const bol = await insertProductsInDetalleOrden(carrito, ordenId);
+      console.log("bol:"+bol)
+      return bol;
+    } catch (error) {
+      console.error('Error al insertar en la tabla orden:', error);
+      // Manejar el error de acuerdo a tus necesidades
+      return false;
+    }
+
+  }
+
+  }catch(err){
+    console.error(err);
+    return false;
+  }
+  finally{
+    await pool.end();
+  }
+}
+
+
+
+
+
+/*connection.query('INSERT INTO orden SET ?', orderData, (err, result) => {
+  if (err) {
+    console.error('Error al insertar en la tabla orden:', err);
+    // Manejar el error de acuerdo a tus necesidades
+  } else {
+    const ordenId = result.insertId;
+    console.log('Orden insertada con ID: ', ordenId);
+    
+    // Luego, recorremos el carrito para insertar los productos en la tabla 'detalle_orden'
+    for (const producto of carrito) {
+      const detalleData = {
+        det_fk_orden: ordenId,
+        det_producto: producto.id,
+        det_cantidad: producto.cantidad
+      };
+      
+      connection.query('INSERT INTO detalle_orden SET ?', detalleData, (err, result) => {
+        if (err) {
+          console.error('Error al insertar en la tabla detalle_orden:', err);
+          // Manejar el error de acuerdo a tus necesidades
+        } else {
+          console.log('Producto insertado en detalle_orden');
+        }
+      });
+    }
+  }
+});*/
 
 export const methods ={
     InsertNewProduct,
@@ -370,5 +494,6 @@ export const methods ={
     getEditProduct,
     EditProduct,
     verifyProductCant,
-    verifyValueIntegrity
+    verifyValueIntegrity,
+    insertDetOrd
 }

@@ -19,19 +19,6 @@ import mysql from 'mysql2/promise';
   console.log(err);
 }*/
 
-/*const createConnectionPool = () => {
-  if (!pool) {
-    pool = createPool({
-      user: config.user,
-      password: config.password,
-      host: config.host,
-      port: config.port,
-      database: config.database,
-    });
-  }
-  return pool;
-};*/
-
 const createConnectionPool = async () => {
   try {
     const pool = mysql.createPool({

@@ -3,10 +3,11 @@ body {
     padding: 0;
     margin: 0;
     transition: background-color 0.3s;
-      background-image:url("https://cdn.pixabay.com/photo/2015/08/25/11/50/shop-906722_1280.jpg");
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
+    background-image:url("https://cdn.pixabay.com/photo/2015/08/25/11/50/shop-906722_1280.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+      
 }
 
 .container {
@@ -16,6 +17,7 @@ body {
     max-width: 1200px;
     margin: 20px auto;
     margin-top: 178px;
+    
     
     
 
@@ -32,8 +34,8 @@ body {
     align-items: center;
     box-sizing: border-box;
     transition: background-color 0.3s;
-    position: relative; 
-    overflow: hidden; 
+    /*position: relative; 
+    overflow: hidden;*/ 
     border-radius: 2px;
     border: 1px solid rgb(60, 7, 7)
 

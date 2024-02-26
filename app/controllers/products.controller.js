@@ -265,7 +265,7 @@ async function deleteProduct(req,res,next){
      const count = totalCountResult[0][0].total;
      if (parseInt(count) >= 1){
       //->Retorna una respuesta diferente
-      return res.status(300).send({status:409,message:"El producto está en una orden y/o pedido",redirect:"/admin"});
+      return res.status(409).send({status:409,message:"El producto está en una orden y/o pedido",redirect:"/admin"});
      }else{
     //console.log("result:"+count)
     //console.log("id"+id);

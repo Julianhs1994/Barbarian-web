@@ -259,13 +259,23 @@ async function deleteProduct(req,res,next){
   const {connection,pool} = await getConnection();
   try{
     let id = req.body.id;
+    //->Si el id está en detalle/orden:
+    
+     const totalCountResult = await connection.query(`SELECT COUNT(*) AS total FROM detalle_orden WHERE det_fk_producto=${id}`);
+     const count = totalCountResult[0][0].total;
+     if (parseInt(count) >= 1){
+      //->Retorna una respuesta diferente
+      return res.status(300).send({status:409,message:"El producto está en una orden y/o pedido",redirect:"/admin"});
+     }else{
+    //console.log("result:"+count)
     //console.log("id"+id);
-    let pdc_imagen = await connection.query(`SELECT pdc_imagen FROM producto WHERE pdc_id=${id}`);
-    let url = (pdc_imagen[0][0].pdc_imagen);
-    await connection.query(`DELETE FROM busquedas WHERE pdc_id=${id}`);
-    const sql = await connection.query(`DELETE FROM producto WHERE pdc_id=${id}`);
-    await fs.unlink(`app/assets/${url}`);
-    return res.status(200).send({status:200,message:"Producto Eliminado",redirect:"/admin"});
+      let pdc_imagen = await connection.query(`SELECT pdc_imagen FROM producto WHERE pdc_id=${id}`);
+      let url = (pdc_imagen[0][0].pdc_imagen);
+      await connection.query(`DELETE FROM busquedas WHERE pdc_id=${id}`);
+      const sql = await connection.query(`DELETE FROM producto WHERE pdc_id=${id}`);
+      await fs.unlink(`app/assets/${url}`);
+      return res.status(200).send({status:200,message:"Producto Eliminado",redirect:"/admin"});
+    }
   }catch(err){
     console.error(err);
     return res.status(400).send({status:400,message:"Error al Eliminar producto",redirect:"/admin"})

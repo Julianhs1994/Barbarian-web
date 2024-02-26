@@ -440,7 +440,7 @@ app.get("/admin", authorizations.soloPublico/*soloAdmin*/, (req, res) => {
     res.locals.cantCar = carrito.length;
   }
   //
-  const data = null;
+  //const data = null;
   res.render('Admin',{isLoggedIn})
 });
 

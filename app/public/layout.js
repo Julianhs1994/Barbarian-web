@@ -281,6 +281,7 @@ document.getElementById('pagar').addEventListener('click',async ()=> {
 
   });
   const res = await response.json();
+  //->Sin importar la respuestas ,enviamos un mensaje al usuario:
   alert(res.message);
   if(res.status == 200){
     document.getElementById('cantidadProductosEnCarrito').textContent = 0;

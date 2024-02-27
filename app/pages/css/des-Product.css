@@ -24,7 +24,7 @@ body {
 }
 
 .child-container {
-    background-color:rgb(255, 255, 255);
+    
     padding: 20px;
     border: 1px solid #ccc;
     text-align: center;
@@ -37,7 +37,9 @@ body {
     /*position: relative; 
     overflow: hidden;*/ 
     border-radius: 2px;
-    border: 1px solid rgb(60, 7, 7)
+    border: 1px solid rgb(60, 7, 7);
+    background-color: #fff;
+   
 
 }
 

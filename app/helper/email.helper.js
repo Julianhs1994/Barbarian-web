@@ -8,13 +8,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendActivationEmail = async (userEmail, activationLink) => {
+const sendActivationEmail = async (userEmail, activationLink, link2) => {
   try {
     const mailOptions = {
       from: "storebarbarian30@gmail.com", //"cuenta para enviar los correos",
       to: userEmail,
       subject: "Activación de cuenta",
-      text: `Haz clic en el siguiente enlace para activar tu cuenta: ${activationLink}`,
+      html: `Haz clic en el siguiente enlace para activar tu cuenta: ${activationLink} o bien: \n ${link2} `,
     };
 
     await transporter.sendMail(mailOptions);

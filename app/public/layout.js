@@ -266,12 +266,6 @@ document.addEventListener('click', (event) => {
   }
 });
 
-/*data.carrito.forEach(objeto => {
-  let valor = objeto.valTot;
-  console.log("valor:"+valor);
-  document.getElementById('total').textContent = valor;
-});*/
-
 document.getElementById('pagar').addEventListener('click',async ()=> {
   const response = await fetch("api/sendMailPay",{
     method: "POST",
@@ -283,6 +277,9 @@ document.getElementById('pagar').addEventListener('click',async ()=> {
   const res = await response.json();
   //->Sin importar la respuestas ,enviamos un mensaje al usuario:
   alert(res.message);
+  //->Sin importar la respuesta cerramos el popup:
+  carritoPopup.style.display = 'none';
+  //->Si el status es 200 reseteamos el ammount del carrito:
   if(res.status == 200){
     document.getElementById('cantidadProductosEnCarrito').textContent = 0;
   }

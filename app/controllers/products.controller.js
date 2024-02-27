@@ -265,7 +265,7 @@ async function deleteProduct(req,res,next){
      const count = totalCountResult[0][0].total;
      if (parseInt(count) >= 1){
       //->Retorna una respuesta diferente
-      return res.status(300).send({status:409,message:"El producto está en una orden y/o pedido",redirect:"/admin"});
+      return res.status(409).send({status:409,message:"El producto está en una orden y/o pedido",redirect:"/admin"});
      }else{
     //console.log("result:"+count)
     //console.log("id"+id);
@@ -314,11 +314,11 @@ async function verifyProductCant(cantTalla,idProducto){
   try{
   //console.log("cant in controller: "+cantTalla)
   const sql = await connection.query(`SELECT ${cantTalla} FROM producto WHERE pdc_id=${idProducto}`);
-  let cantidadxTalla = sql[0][0];
+  let cantidadxTalla = sql[0][0][cantTalla];
+  //console.log("cantidadxTalla: "+cantidadxTalla)
   //console.log(cantidadxTalla)
   //->retornar solo la cantidad de esta talla:
-  let cantidadTallaProducto = (cantidadxTalla.cant_s);
-  return cantidadTallaProducto;
+  return cantidadxTalla;
   }catch(err){
     console.log(err)
   }
@@ -372,6 +372,7 @@ async function verifyValueIntegrity(carrito){
   }
 }
 
+
 // Función para insertar productos en la tabla 'detalle_orden'
 async function insertProductsInDetalleOrden(carrito, ordenId) {
   const {connection,pool} = await getConnection();
@@ -383,6 +384,15 @@ async function insertProductsInDetalleOrden(carrito, ordenId) {
       det_talla: producto.talla,
       det_cantidad: producto.cantidad
     };
+    //->Descontar Stock en Db:
+    const talla = producto.talla;
+    const prodId = producto.id;
+    const cantidadEnDb = await connection.query(`SELECT cant_${talla} FROM producto WHERE pdc_id=${prodId}`);
+    const tallaT = (`cant_${talla}`);
+    //console.log("la talla:"+tallaT)
+    let newValue = parseInt(cantidadEnDb[0][0][tallaT]) -1;
+    //console.log("CDB:"+newValue); 
+    await connection.query(`UPDATE producto SET cant_${talla}=${newValue} WHERE pdc_id=${prodId}`)
     try{
     await connection.query('INSERT INTO detalle_orden SET ?', detalleData)
     }catch(err){

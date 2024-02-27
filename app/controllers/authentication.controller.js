@@ -53,9 +53,9 @@ async function register(req, res) {
     const result = await connection.query("INSERT INTO usuario SET ?", usuario);
 
     //usuarios.push(usuario);
-    //const link = "https://barbarian-web-koqc.vercel.app/" + result[0].insertId;
-    const link = "/" + result[0].insertId;
-    sendActivationEmail(usr_email, link);
+    const link2 = "https://barbarian-web-koqc.vercel.app/" + result[0].insertId;
+    const link = "http://localhost:8080/" + result[0].insertId;
+    sendActivationEmail(usr_email, link, link2);
     return res.status(201).send({
       status: "Ok",
       message: `Usuario agregado, revisa tu correo para activar tu cuenta`,

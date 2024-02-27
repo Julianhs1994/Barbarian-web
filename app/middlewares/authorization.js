@@ -164,11 +164,12 @@ function revisarCookie(req) {
   }
 }
 
-async function close(req, res, next) {
-  const cookieJWT = req.headers.cookie
-    .split("; ")
-    .find((cookie) => cookie.startsWith("jwt="))
-    .slice(4);
+/*async function close(req, res, next) {
+  const cookies = req.headers.cookie ? req.headers.cookie.split('; ') : []; // Dividir las cookies en un arreglo
+  const jwtCookie = cookies.find((cookie) => cookie.startsWith('jwt=')); // Buscar la cookie con el nombre 'jwt='
+  if (jwtCookie) {
+  const cookieJWT = jwtCookie.slice(4);
+    
   //*console.log(cookieJWT||"no cockie");//), cookieJWT)
   const decodificada = jsonwebtoken.verify(cookieJWT, process.env.JWT_SECRET);
   const usuario = decodificada.user;
@@ -179,6 +180,36 @@ async function close(req, res, next) {
       message: `Todo fino`,
       redirect: "/",
     });
+  }
+  }
+}*/
+
+async function close(req, res, next) {
+  const cookies = req.headers.cookie ? req.headers.cookie.split('; ') : []; // Dividir las cookies en un arreglo
+  const jwtCookie = cookies.find((cookie) => cookie.startsWith('jwt=')); // Buscar la cookie con el nombre 'jwt='
+  
+  if (jwtCookie) {
+    const cookieJWT = jwtCookie.slice(4);
+    const decodificada = jsonwebtoken.verify(cookieJWT, process.env.JWT_SECRET);
+    const usuario = decodificada.user;
+    const deleted = deleteUserActive(usuario);
+    
+    if (deleted === true) {
+      // Cerrar sesión de express-session
+      req.session.destroy((err) => {
+        if (err) {
+          console.error("Error al cerrar sesión:", err);
+          return res.status(500).send("Error al cerrar sesión");
+        }
+        
+        return res.status(201).send({
+          status: "Ok",
+          message: `Sesión cerrada correctamente`,
+          redirect: "/",
+        });
+      });
+      return;
+    }
   }
 }
 

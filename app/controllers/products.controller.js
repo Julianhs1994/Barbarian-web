@@ -372,6 +372,7 @@ async function verifyValueIntegrity(carrito){
   }
 }
 
+
 // Función para insertar productos en la tabla 'detalle_orden'
 async function insertProductsInDetalleOrden(carrito, ordenId) {
   const {connection,pool} = await getConnection();
@@ -383,6 +384,15 @@ async function insertProductsInDetalleOrden(carrito, ordenId) {
       det_talla: producto.talla,
       det_cantidad: producto.cantidad
     };
+    //->Descontar Stock en Db:
+    const talla = producto.talla;
+    const prodId = producto.id;
+    const cantidadEnDb = await connection.query(`SELECT cant_${talla} FROM producto WHERE pdc_id=${prodId}`);
+    const tallaT = (`cant_${talla}`);
+    console.log("la talla:"+tallaT)
+    let newValue = parseInt(cantidadEnDb[0][0][tallaT]) -1;
+    console.log("CDB:"+newValue); 
+    await connection.query(`UPDATE producto SET cant_${talla}=${newValue} WHERE pdc_id=${prodId}`)
     try{
     await connection.query('INSERT INTO detalle_orden SET ?', detalleData)
     }catch(err){

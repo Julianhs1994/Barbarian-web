@@ -1,10 +1,4 @@
-/*.container .hrPrincipal{
-    
-    border-top: 1px solid rgba(175, 2, 190, 0.438);
-    width: 90%;
-    background-image: linear-gradient(90deg, rgb(175, 2, 190), transparent);
-    height: 1px;
-}*/
+
 
 body {
     padding: 0;
@@ -225,7 +219,7 @@ h1{
 
 #sectionTwo .table1{
     margin-top:55px;
-    margin-left: 10%;
+    margin-left: 15%;
     color: #fff;
     font-size: 14px;
     table-layout: fixed;
@@ -254,17 +248,10 @@ h1{
     border: 1px solid rgba(83, 85, 164, 0.8);
 }
 
-/*.datatableShow2{
-    overflow: visible;
-    margin-top: 40px;
-    width: 100%;
-    height: 500px;
-}*/
 
 #sectionTwo .table2{
-    /*margin-top:55px;
-    */
-    margin-left: 11%;
+    
+    margin-left: 15%;
     color: #fff;
     font-size: 14px;
     table-layout: fixed;

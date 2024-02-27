@@ -389,8 +389,9 @@ async function insertProductsInDetalleOrden(carrito, ordenId) {
     const prodId = producto.id;
     const cantidadEnDb = await connection.query(`SELECT cant_${talla} FROM producto WHERE pdc_id=${prodId}`);
     const tallaT = (`cant_${talla}`);
+    const restar= (producto.cantidad);
     //console.log("la talla:"+tallaT)
-    let newValue = parseInt(cantidadEnDb[0][0][tallaT]) -1;
+    let newValue = parseInt(cantidadEnDb[0][0][tallaT]) -parseInt(restar);
     //console.log("CDB:"+newValue); 
     await connection.query(`UPDATE producto SET cant_${talla}=${newValue} WHERE pdc_id=${prodId}`)
     try{
@@ -471,37 +472,6 @@ async function insertDetOrd(req,res,carrito){
   }
 }
 
-
-
-
-
-/*connection.query('INSERT INTO orden SET ?', orderData, (err, result) => {
-  if (err) {
-    console.error('Error al insertar en la tabla orden:', err);
-    // Manejar el error de acuerdo a tus necesidades
-  } else {
-    const ordenId = result.insertId;
-    console.log('Orden insertada con ID: ', ordenId);
-    
-    // Luego, recorremos el carrito para insertar los productos en la tabla 'detalle_orden'
-    for (const producto of carrito) {
-      const detalleData = {
-        det_fk_orden: ordenId,
-        det_producto: producto.id,
-        det_cantidad: producto.cantidad
-      };
-      
-      connection.query('INSERT INTO detalle_orden SET ?', detalleData, (err, result) => {
-        if (err) {
-          console.error('Error al insertar en la tabla detalle_orden:', err);
-          // Manejar el error de acuerdo a tus necesidades
-        } else {
-          console.log('Producto insertado en detalle_orden');
-        }
-      });
-    }
-  }
-});*/
 
 export const methods ={
     InsertNewProduct,

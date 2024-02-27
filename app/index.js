@@ -425,7 +425,7 @@ app.post("/api/sendMailPay",async (req,res)=>{
 
 //Ruta solo admin
 //->Se pone solo publicopara fines de testing:
-app.get("/admin", authorizations.soloPublico/*soloAdmin*/, (req, res) => {
+app.get("/admin", authorizations.soloAdmin, (req, res) => {
   const isLoggedIn = req.session.usuario ? true:false;
   //
   var rol = "";

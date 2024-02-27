@@ -314,11 +314,11 @@ async function verifyProductCant(cantTalla,idProducto){
   try{
   //console.log("cant in controller: "+cantTalla)
   const sql = await connection.query(`SELECT ${cantTalla} FROM producto WHERE pdc_id=${idProducto}`);
-  let cantidadxTalla = sql[0][0];
+  let cantidadxTalla = sql[0][0][cantTalla];
+  //console.log("cantidadxTalla: "+cantidadxTalla)
   //console.log(cantidadxTalla)
   //->retornar solo la cantidad de esta talla:
-  let cantidadTallaProducto = (cantidadxTalla.cant_s);
-  return cantidadTallaProducto;
+  return cantidadxTalla;
   }catch(err){
     console.log(err)
   }
@@ -389,9 +389,9 @@ async function insertProductsInDetalleOrden(carrito, ordenId) {
     const prodId = producto.id;
     const cantidadEnDb = await connection.query(`SELECT cant_${talla} FROM producto WHERE pdc_id=${prodId}`);
     const tallaT = (`cant_${talla}`);
-    console.log("la talla:"+tallaT)
+    //console.log("la talla:"+tallaT)
     let newValue = parseInt(cantidadEnDb[0][0][tallaT]) -1;
-    console.log("CDB:"+newValue); 
+    //console.log("CDB:"+newValue); 
     await connection.query(`UPDATE producto SET cant_${talla}=${newValue} WHERE pdc_id=${prodId}`)
     try{
     await connection.query('INSERT INTO detalle_orden SET ?', detalleData)

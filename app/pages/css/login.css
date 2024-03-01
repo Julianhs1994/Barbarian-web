@@ -1,162 +1,111 @@
 body {
-    padding: 0;
-      margin: 0;
-      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
-  }
-  .container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100vh;
-    flex-direction: column;
-    flex-wrap: wrap;
-    background-image:url("https://b2cmattelsa.vtexassets.com/assets/vtex.file-manager-graphql/images/ae39bb89-0a9c-4364-8303-8050d597bc1f___484457618d70650a8e733283470e0a1b.jpg") ;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  
-  }
-  /*header {
-      width: 100%;
-      background-color: #050118;
-      color: #fff;
-      padding: 10px 0;
-  }
-  
-  .menu {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-  }
-  
-  .menu-list {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-  }
-  
-  .menu-list li {
-      margin-right: 20px;
-  }
-  
-  .menu-list a {
-      text-decoration: none;
-      color: #fff;
-      font-weight: bold;
-  }
-  
-  .search {
-      display: flex;
-      align-items: center;
-  }
-  
-  .search input[type="text"] {
-      padding: 5px;
-      border: none;
-      border-radius: 3px;
-      margin-right: 10px;
-  }
-  
-  .search button {
-      background-color: #5c5754;
-      color: #fff;
-      border: none;
-      border-radius: 3px;
-      padding: 5px 10px;
-      cursor: pointer;
-  }*/
-  
-  .login a {
-      text-decoration: none;
-      color:white;
-      font-weight: bold;
-      display: flex;
-      flex-wrap: wrap;
-  }
-  .login-form > h2{
-    color:white;
-  }
-  
-  
-  .menu-list i {
-      font-size: 24px; 
-      margin-right: 10px; 
-  }
-  .login-form {
-      display: flex;
-      flex-direction: column;
-      background-image: linear-gradient(135deg, #6b001d, #000000);
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      
-  }
-  
-  .login-form h2 {
-      text-align: center;
-      margin-bottom: 20px;
-  }
-  
-  .form-group {
-      display: flex;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-      
-      
-  }
-  #response-message {
-    color: rgb(252, 252, 252);
-  }
-  .btn{
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  label {
-      display: block;
-      font-weight: bold;
-      color: white;
-  }
-  
-  form input[type="text"],
-  input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-  }
-  
-  button {
-      background-color: #52504e;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      cursor: pointer;
-  }
-  
-  button:hover {
-      background-color: #0c0100;
-      color:#f8f8f8;
-  }
-  
-  p {
-      text-align: center;
-      margin-top: 10px;
-  }
-  
-  p a {
-      text-decoration: none;
-      color: #f8f8f8;
-      font-weight: bold;
-  }
-  
-  p a:hover {
-      text-decoration: underline;
-  }
+  padding: 0;
+  margin: 0;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  background-image: url("	https://cdn.pixabay.com/photo/2017/08/10/01/23/shopping-2616824_1280.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+}
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  flex-wrap: wrap;
+  /*background-image: url("https://b2cmattelsa.vtexassets.com/assets/vtex.file-manager-graphql/images/ae39bb89-0a9c-4364-8303-8050d597bc1f___484457618d70650a8e733283470e0a1b.jpg");*/
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.login a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  flex-wrap: wrap;
+}
+.login-form > h2 {
+  color: white;
+}
+
+.menu-list i {
+  font-size: 24px;
+  margin-right: 10px;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(135deg, #6b001d, #000000);
+  padding: 20px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+#response-message {
+  color: rgb(252, 252, 252);
+}
+.btn {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  color: white;
+}
+
+form input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #52504e;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0c0100;
+  color: #f8f8f8;
+}
+
+p {
+  text-align: center;
+  margin-top: 10px;
+}
+
+p a {
+  text-decoration: none;
+  color: #f8f8f8;
+  font-weight: bold;
+}
+
+p a:hover {
+  text-decoration: underline;
+}

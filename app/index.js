@@ -200,7 +200,7 @@ app.get("/addproduct", authorizations.soloPublico,async (req,res) => {
   res.render("addproduct", { isLoggedIn, arraySecciones, arrayMarcas, arrayColores });
 });
 
-app.get("/editproduct",authorizations.soloPublico,async (req,res)=>{
+app.get("/editproduct",authorizations.soloAdmin,async (req,res)=>{
   const isLoggedIn = req.session.usuario ? true : false;
   //
   var rol = "";
@@ -235,7 +235,7 @@ app.get("/editproduct",authorizations.soloPublico,async (req,res)=>{
   res.render('editproduct', {isLoggedIn,Seccion,arraySecciones,Nombre,Imagen,Descripcion,Marca,arrayMarcas,arrayColores,Color,Valor,Xs,S,M,L,Xl,idProduct})
 })
 
-app.get("/edituser",authorizations.soloPublico,async (req,res)=>{
+app.get("/edituser",authorizations.soloAdmin,async (req,res)=>{
   const isLoggedIn = req.session.usuario ? true : false;
   //
   var rol = "";
